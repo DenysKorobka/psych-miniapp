@@ -884,7 +884,7 @@ function AIScreen({ onNav }) {
     historyRef.current = [...historyRef.current, {role:'user', content:txt}];
     setLoading(true);
     try {
-      const res = await fetch(`${https://psych-proxy-production.up.railway.app}/chat`, {
+      const res = await fetch(`${PROXY_URL}/chat`, {
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({messages: historyRef.current}),
