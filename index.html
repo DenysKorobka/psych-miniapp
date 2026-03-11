@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Психолог Олена Коваленко</title>
+
+  <!-- Telegram Mini App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- React + Babel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --tg-bg: var(--tg-theme-bg-color, #f4f6fb);
+      --tg-text: var(--tg-theme-text-color, #1a1a2e);
+      --tg-hint: var(--tg-theme-hint-color, #8a8a9a);
+      --tg-link: var(--tg-theme-link-color, #4a7fff);
+      --tg-btn: var(--tg-theme-button-color, #4a7fff);
+      --tg-btn-text: var(--tg-theme-button-text-color, #ffffff);
+      --tg-secondary: var(--tg-theme-secondary-bg-color, #ffffff);
+      --accent: #4a7fff;
+      --accent2: #7c5cbf;
+      --green: #34c47c;
+      --red: #ff5c5c;
+      --yellow: #f5a623;
+      --card-bg: #ffffff;
+      --radius: 18px;
+      --radius-sm: 12px;
+    }
+
+    html, body, #root {
+      height: 100%;
+      font-family: 'Nunito', sans-serif;
+      background: var(--tg-bg);
+      color: var(--tg-text);
+      overflow-x: hidden;
+    }
+
+    .app {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Scrollable content area */
+    .screen {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 14px 90px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 12px rgba(74,127,255,0.07);
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; padding: 14px 18px;
+      border: none; border-radius: var(--radius-sm);
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.12s, opacity 0.12s;
+      text-decoration: none;
+      gap: 6px;
+    }
+    .btn:active { transform: scale(0.97); opacity: 0.85; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-secondary { background: #f0f3ff; color: var(--accent); }
+    .btn-green { background: var(--green); color: #fff; }
+    .btn-ghost { background: transparent; color: var(--accent); }
+    .btn-sm { padding: 9px 14px; font-size: 13px; width: auto; }
+
+    /* ── Bottom nav ── */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 100%; max-width: 480px;
+      background: var(--card-bg);
+      border-top: 1px solid rgba(74,127,255,0.1);
+      display: flex;
+      padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+      z-index: 100;
+      box-shadow: 0 -4px 20px rgba(74,127,255,0.08);
+    }
+    .nav-item {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; gap: 2px;
+      padding: 4px 0;
+      border: none; background: none; cursor: pointer;
+      transition: transform 0.12s;
+      font-family: 'Nunito', sans-serif;
+    }
+    .nav-item:active { transform: scale(0.9); }
+    .nav-icon { font-size: 22px; line-height: 1; }
+    .nav-label { font-size: 10px; font-weight: 600; color: var(--tg-hint); }
+    .nav-item.active .nav-label { color: var(--accent); }
+    .nav-item.active .nav-icon { filter: drop-shadow(0 0 4px rgba(74,127,255,0.5)); }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #4a7fff 0%, #7c5cbf 100%);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      color: white;
+      text-align: center;
+      margin-bottom: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -30px; right: -30px;
+      width: 120px; height: 120px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -20px; left: -20px;
+      width: 80px; height: 80px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+    .avatar {
+      width: 72px; height: 72px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%; margin: 0 auto 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+      border: 3px solid rgba(255,255,255,0.3);
+    }
+
+    /* ── Check-in ── */
+    .checkin-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+      margin-bottom: 10px;
+    }
+    .checkin-btn {
+      background: var(--card-bg);
+      border: 2px solid transparent;
+      border-radius: var(--radius-sm);
+      padding: 12px 8px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+      cursor: pointer; font-family: 'Nunito', sans-serif;
+      transition: all 0.15s;
+      box-shadow: 0 2px 8px rgba(74,127,255,0.06);
+    }
+    .checkin-btn:active { transform: scale(0.95); }
+    .checkin-btn .emoji { font-size: 26px; }
+    .checkin-btn .label { font-size: 11px; font-weight: 700; color: var(--tg-hint); }
+
+    /* ── Menu grid ── */
+    .menu-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+      margin-bottom: 10px;
+    }
+    .menu-item {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px 12px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 6px;
+      cursor: pointer; border: none;
+      font-family: 'Nunito', sans-serif;
+      box-shadow: 0 2px 10px rgba(74,127,255,0.06);
+      transition: all 0.15s;
+    }
+    .menu-item:active { transform: scale(0.96); background: #f0f3ff; }
+    .menu-item .icon { font-size: 28px; }
+    .menu-item .text { font-size: 12px; font-weight: 700; color: var(--tg-text); text-align: center; line-height: 1.3; }
+
+    /* ── List items ── */
+    .list-item {
+      background: var(--card-bg);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; border: none; width: 100%;
+      font-family: 'Nunito', sans-serif;
+      margin-bottom: 6px;
+      box-shadow: 0 2px 8px rgba(74,127,255,0.05);
+      transition: all 0.12s;
+    }
+    .list-item:active { background: #f0f3ff; transform: scale(0.99); }
+    .list-item-left { display: flex; align-items: center; gap: 10px; }
+    .list-item-emoji { font-size: 22px; }
+    .list-item-title { font-size: 14px; font-weight: 700; color: var(--tg-text); }
+    .list-item-sub { font-size: 12px; color: var(--tg-hint); }
+    .list-item-arrow { color: var(--tg-hint); font-size: 18px; }
+
+    /* ── Service card ── */
+    .service-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px;
+      cursor: pointer; border: 2px solid transparent;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 10px rgba(74,127,255,0.06);
+      transition: all 0.15s;
+    }
+    .service-card:active { border-color: var(--accent); background: #f8f9ff; }
+    .service-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .service-title { font-size: 15px; font-weight: 800; color: var(--tg-text); }
+    .service-price { font-size: 18px; font-weight: 800; color: var(--green); }
+    .tag { display: inline-block; background: #f0f3ff; color: var(--accent); border-radius: 8px; padding: 3px 10px; font-size: 12px; font-weight: 700; }
+
+    /* ── Test ── */
+    .progress-bar { height: 5px; background: #e8ecff; border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 10px; transition: width 0.4s ease; }
+    .test-option {
+      width: 100%; padding: 13px 16px;
+      background: #f8f9ff; border: 2px solid #e8ecff;
+      border-radius: var(--radius-sm);
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px; font-weight: 600; color: var(--tg-text);
+      text-align: left; cursor: pointer; margin-bottom: 8px;
+      transition: all 0.12s;
+    }
+    .test-option:active { border-color: var(--accent); background: #f0f3ff; transform: scale(0.99); }
+
+    /* ── Booking steps ── */
+    .step-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 20px; }
+    .step-dot { width: 8px; height: 8px; border-radius: 50%; background: #e0e4f5; transition: all 0.2s; }
+    .step-dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
+    .step-dot.done { background: var(--green); }
+
+    input, textarea {
+      width: 100%; padding: 13px 15px;
+      border: 2px solid #e8ecff; border-radius: var(--radius-sm);
+      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600;
+      background: #f8f9ff; color: var(--tg-text);
+      outline: none; transition: border 0.15s;
+      -webkit-appearance: none;
+    }
+    input:focus, textarea:focus { border-color: var(--accent); background: white; }
+    textarea { resize: none; }
+    label { display: block; font-size: 13px; font-weight: 700; color: var(--tg-hint); margin-bottom: 6px; margin-top: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* ── Chat ── */
+    .chat-area { overflow-y: auto; padding: 4px 0 12px; max-height: 340px; }
+    .bubble { max-width: 82%; border-radius: 18px; padding: 11px 14px; font-size: 14px; font-weight: 500; line-height: 1.5; margin-bottom: 6px; }
+    .bubble-bot { background: white; border-bottom-left-radius: 5px; color: var(--tg-text); box-shadow: 0 2px 8px rgba(74,127,255,0.08); align-self: flex-start; }
+    .bubble-user { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; border-bottom-right-radius: 5px; align-self: flex-end; margin-left: auto; }
+    .chat-input-row { display: flex; gap: 8px; padding-top: 10px; border-top: 1px solid #eef0f8; }
+    .chat-input-row input { flex: 1; }
+    .send-btn {
+      width: 46px; height: 46px; flex-shrink: 0;
+      background: var(--accent); color: white; border: none;
+      border-radius: var(--radius-sm); cursor: pointer;
+      font-size: 20px; display: flex; align-items: center; justify-content: center;
+      transition: transform 0.12s;
+    }
+    .send-btn:active { transform: scale(0.92); }
+
+    /* ── Testimonial ── */
+    .stars { color: #f5a623; font-size: 14px; margin-bottom: 6px; }
+    .testimonial-text { font-size: 14px; font-style: italic; color: var(--tg-text); line-height: 1.6; margin-bottom: 6px; }
+    .testimonial-author { font-size: 12px; font-weight: 700; color: var(--tg-hint); }
+
+    /* ── Back button ── */
+    .back-btn {
+      display: flex; align-items: center; gap-4px;
+      background: none; border: none; cursor: pointer;
+      color: var(--accent); font-family: 'Nunito', sans-serif;
+      font-size: 14px; font-weight: 700; padding: 0 0 12px 0;
+    }
+
+    /* ── Result ── */
+    .result-card { text-align: center; padding: 24px 16px; }
+    .result-level { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+    .result-text { font-size: 14px; color: var(--tg-hint); line-height: 1.7; }
+
+    /* ── Booking confirm ── */
+    .confirm-row { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #f0f3ff; }
+    .confirm-label { font-size: 12px; color: var(--tg-hint); font-weight: 700; width: 70px; flex-shrink: 0; padding-top: 2px; }
+    .confirm-value { font-size: 14px; font-weight: 700; color: var(--tg-text); line-height: 1.4; }
+
+    /* ── Typing dots ── */
+    @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+    .dot { width: 7px; height: 7px; background: var(--tg-hint); border-radius: 50%; display: inline-block; margin: 0 2px; animation: bounce 1.2s infinite; }
+    .dot:nth-child(2){animation-delay:.2s} .dot:nth-child(3){animation-delay:.4s}
+
+    /* ── Utils ── */
+    .mt-8 { margin-top: 8px; }
+    .mt-12 { margin-top: 12px; }
+    .mb-6 { margin-bottom: 6px; }
+    .mb-10 { margin-bottom: 10px; }
+    .text-hint { color: var(--tg-hint); font-size: 13px; }
+    .text-sm { font-size: 13px; }
+    .fw-800 { font-weight: 800; }
+    .fw-700 { font-weight: 700; }
+    .center { text-align: center; }
+    .flex-row { display: flex; gap: 8px; }
+    .flex-1 { flex: 1; }
+    .accent { color: var(--accent); }
+    .green { color: var(--green); }
+    .pre { white-space: pre-line; line-height: 1.65; font-size: 14px; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useRef, useEffect } = React;
+
+// ── Ініціалізація Telegram WebApp ─────────────────────────────────────────
+const tg = window.Telegram?.WebApp;
+if (tg) {
+  tg.ready();
+  tg.expand();
+}
+
+// ── Дані ─────────────────────────────────────────────────────────────────
+const TOPICS = [
+  { id: "anxiety", label: "Тривожність", emoji: "😰", text: "Я допомагаю клієнтам, які відчувають постійне внутрішнє напруження, страх майбутнього, нав'язливі тривожні думки та панічні атаки.\n\nНа консультації знайдемо корінь тривоги та опрацюємо конкретні інструменти для стабілізації." },
+  { id: "relations", label: "Стосунки", emoji: "💔", text: "Допомагаю коли конфлікти повторюються по колу, важко встановити кордони або є токсична прив'язаність.\n\nРозбираємо патерни з дитинства і вчимося будувати стосунки по-новому." },
+  { id: "selfesteem", label: "Самооцінка", emoji: "🪞", text: "Допомагаю при синдромі самозванця, хронічному порівнянні з іншими та труднощах відстоювати себе.\n\nРазом знаходимо глибинні переконання і замінюємо на ті, що підтримують." },
+  { id: "burnout", label: "Вигорання", emoji: "🔥", text: "Допомагаю коли немає сил навіть для улюблених речей, є відчуття порожнечі та хронічна апатія.\n\nВідновимо ресурс і знайдемо причину виснаження." },
+  { id: "identity", label: "Пошук себе", emoji: "🔍", text: "Допомагаю коли відчуття що живете не своє життя або страх змін паралізує.\n\nРазом дослідимо вашу ідентичність і знайдемо напрямок що резонує." },
+  { id: "other", label: "Інша тема", emoji: "💬", text: "Кожна ситуація унікальна. Якщо ваш запит не вписується в категорії — це не означає, що я не зможу допомогти.\n\nНапишіть мені напряму — разом визначимо підхід." },
+];
+
+const SERVICES = [
+  { id: "individual", emoji: "💬", title: "Індивідуальна консультація", price: "70$", duration: "60 хвилин", desc: "Розбір ситуації, індивідуальні рекомендації, практичні інструменти та план роботи." },
+  { id: "coaching", emoji: "🌱", title: "Коучинг-програма", price: "240$", duration: "4 зустрічі / місяць", desc: "Глибока робота над запитом, підтримка між сесіями, домашні практики та трекер прогресу." },
+  { id: "emergency", emoji: "🆘", title: "Екстрена підтримка", price: "40$", duration: "30 хвилин", desc: "Для гострої тривоги або кризи. Відповідь протягом 2 годин у робочий час." },
+];
+
+const TESTIMONIALS = [
+  { text: "Після трьох місяців роботи з Оленою я нарешті навчилась говорити «ні» без почуття провини.", author: "Марія, 31 рік" },
+  { text: "Прийшов із панічними атаками по кілька разів на тиждень. Через 2 місяці — жодної.", author: "Андрій, 28 років" },
+  { text: "Олена допомогла вийти з токсичних стосунків. Не просто підтримала — дала інструменти.", author: "Катерина, 35 років" },
+  { text: "Була скептиком щодо психологів. Після першої сесії зрозуміла — це те, чого не вистачало роками.", author: "Юля, 26 років" },
+];
+
+const MATERIALS = [
+  { id: 1, emoji: "😮‍💨", title: "5 способів заспокоїти тривогу", sub: "за 10 хвилин" },
+  { id: 2, emoji: "✅", title: "Чеклист особистих кордонів", sub: "15 запитань" },
+  { id: 3, emoji: "🔋", title: "Тест на вигорання", sub: "+ план відновлення" },
+];
+
+const TEST_QUESTIONS = [
+  { q: "Як часто відчуваєте тривогу або внутрішнє напруження?", opts: ["Рідко або ніколи", "Іноді, але минає", "Досить часто", "Майже постійно"] },
+  { q: "Як у вас зі сном?", opts: ["Сплю добре", "Іноді важко заснути", "Часто погано сплю", "Постійні проблеми"] },
+  { q: "Чи відчуваєте емоційне виснаження або порожнечу?", opts: ["Ні, почуваюсь наповненим(ою)", "Іноді відчуваю втому", "Часто виснажений(а)", "Постійна порожнеча"] },
+  { q: "Як складаються ваші стосунки з близькими?", opts: ["Все добре", "Є непорозуміння", "Часті конфлікти", "Дуже напружені"] },
+  { q: "Чи є відчуття сенсу та мотивації?", opts: ["Так, знаю навіщо прокидаюсь", "Іноді втрачаю напрямок", "Часто відчуваю безглуздість", "Живу на автопілоті"] },
+  { q: "Як реагуєте на стрес?", opts: ["Справляюсь спокійно", "Іноді гостро, але відновлююсь", "Стрес довго не відпускає", "Навіть дрібниці виводять"] },
+  { q: "Чи задоволені собою та своїм життям?", opts: ["Так, все добре", "Є що покращити, але ok", "Часто незадоволений(а)", "Постійне «щось не так»"] },
+];
+
+function getResult(score) {
+  if (score <= 4) return { level: "🟢 Стабільний стан", color: "#34c47c", text: "Ваш емоційний стан загалом стабільний. Навіть у стабільному стані робота з психологом допомагає глибше пізнати себе та розкрити потенціал.\n\nПрофілактична робота — найефективніша." };
+  if (score <= 10) return { level: "🟡 Є зони для уваги", color: "#f5a623", text: "Є кілька зон, які потребують уваги. Це хороший момент для початку роботи — поки ситуація не поглибилась.\n\nКраще почати зараз, ніж чекати поки стане важче." };
+  if (score <= 16) return { level: "🟠 Потрібна підтримка", color: "#ff8c42", text: "Значний рівень емоційного навантаження. Ви, мабуть, давно несете це в собі. Підтримка психолога може суттєво змінити якість вашого повсякденного життя.\n\nПерший крок — найважчий. Але ви вже зробили його." };
+  return { level: "🔴 Рекомендую звернутись", color: "#ff5c5c", text: "Зараз вам справді важко. Будь ласка, не відкладайте — зверніться до фахівця.\n\nЗвернутись по допомогу — це сміливість, а не слабкість." };
+}
+
+const AI_REPLIES = [
+  "Дякую, що поділились. Це важливо — дозволити собі говорити про це. Розкажіть більше — коли ви вперше помітили цей стан?",
+  "Я чую вас. Це справді непросто нести в собі. Як довго ви вже відчуваєте подібне?",
+  "Це дуже важливе усвідомлення. Що зараз допомагає вам трохи полегшити це відчуття?",
+  "Ваші переживання абсолютно зрозумілі. Чи є поряд хтось, з ким ви можете поговорити про це?",
+  "Дуже цінно, що ви звернули увагу на свій стан. Що для вас зараз найважливіше у цій ситуації?",
+  "Я розумію. Часто за цим стоїть щось глибше. Як ви думаєте, звідки це може йти?",
+];
+
+// ── Компоненти ────────────────────────────────────────────────────────────
+
+function BackBtn({ onClick }) {
+  return (
+    <button className="back-btn" onClick={onClick}>
+      ← Назад
+    </button>
+  );
+}
+
+// ── Головний екран ────────────────────────────────────────────────────────
+function HomeScreen({ onNav }) {
+  const firstName = tg?.initDataUnsafe?.user?.first_name || "друже";
+  return (
+    <div>
+      <div className="hero">
+        <div className="avatar">🧑‍💼</div>
+        <div style={{fontSize:20,fontWeight:800,marginBottom:4}}>Олена Коваленко</div>
+        <div style={{fontSize:13,opacity:.85,marginBottom:6}}>Психолог · Коуч · 5 років практики</div>
+        <div style={{fontSize:13,opacity:.75,fontStyle:'italic'}}>Простір для самопізнання та змін 💚</div>
+      </div>
+
+      <div className="card" style={{marginBottom:10}}>
+        <div className="text-sm fw-700 mb-6" style={{color:'var(--tg-hint)'}}>☀️ Привіт, {firstName}! Як сьогодні?</div>
+        <div className="checkin-row">
+          {[["🙂","Добре","good"],["😐","Нормально","ok"],["😔","Важко","hard"]].map(([e,l,k])=>(
+            <button key={k} className="checkin-btn" onClick={()=>onNav("checkin",{mood:k})}>
+              <span className="emoji">{e}</span>
+              <span className="label">{l}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="menu-grid">
+        {[
+          ["🧑‍💼","Про психолога","about"],
+          ["💭","Чим допоможу","topics"],
+          ["📋","Пройти тест","test"],
+          ["💼","Послуги","services"],
+          ["📅","Записатись","booking"],
+          ["🎁","Матеріали","materials"],
+          ["⭐️","Відгуки","testimonials"],
+          ["🤖","AI-помічник","ai"],
+        ].map(([icon,label,screen])=>(
+          <button key={screen} className="menu-item" onClick={()=>onNav(screen)}>
+            <span className="icon">{icon}</span>
+            <span className="text">{label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Про психолога ────────────────────────────────────────────────────────
+function AboutScreen({ onNav }) {
+  const [tab, setTab] = useState(0);
+  const tabs = ["Про мене","Підхід","Освіта"];
+  const content = [
+    {emoji:"👩‍💼", text:"Мене звати Олена. Я практикуючий психолог та коуч.\n\n🔹 5 років практики\n🔹 300+ проведених сесій\n🔹 Клієнти з 7 країн\n\nЯ допомагаю людям:\n• зрозуміти себе та свої реакції\n• впоратися з тривожністю та вигоранням\n• налагодити стосунки з собою та іншими\n• знайти внутрішню опору в складні моменти"},
+    {emoji:"🧠", text:"Я працюю в інтегративному підході:\n\n🔸 КПТ — змінюємо думки, що заважають жити\n\n🔸 Схема-терапія — працюємо з глибинними переконаннями\n\n🔸 Mindfulness — вчимося бути тут і зараз\n\nМи не копаємось у минулому заради болю — ми шукаємо там ресурс для теперішнього."},
+    {emoji:"🎓", text:"• Київський університет ім. Шевченка\n  Факультет психології, магістр\n\n• Сертифікат КПТ\n  Інститут когнітивної терапії\n\n• Навчання схема-терапії (ISST)\n\n• Регулярна супервізія та особиста терапія"},
+  ];
+  return (
+    <div>
+      <BackBtn onClick={()=>onNav("home")} />
+      <div style={{display:'flex',gap:6,background:'#f0f3ff',borderRadius:12,padding:4,marginBottom:12}}>
+        {tabs.map((t,i)=>(
+          <button key={i} onClick={()=>setTab(i)} style={{flex:1,padding:'8px 0',border:'none',borderRadius:9,fontFamily:'Nunito',fontSize:13,fontWeight:700,cursor:'pointer',transition:'all .15s',background:tab===i?'white':'transparent',color:tab===i?'var(--accent)':'var(--tg-hint)',boxShadow:tab===i?'0 2px 8px rgba(74,127,255,.12)':'none'}}>
+            {t}
+          </button>
+        ))}
+      </div>
+      <div className="card">
+        <div style={{fontSize:40,textAlign:'center',marginBottom:12}}>{content[tab].emoji}</div>
+        <p className="pre">{content[tab].text}</p>
+      </div>
+      <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись на консультацію</button>
+    </div>
+  );
+}
+
+// ── Теми ─────────────────────────────────────────────────────────────────
+function TopicsScreen({ onNav }) {
+  const [sel, setSel] = useState(null);
+  if (sel) {
+    const t = TOPICS.find(x=>x.id===sel);
+    return (
+      <div>
+        <BackBtn onClick={()=>setSel(null)} />
+        <div className="card">
+          <div style={{fontSize:32,marginBottom:8}}>{t.emoji}</div>
+          <div style={{fontSize:17,fontWeight:800,marginBottom:12}}>{t.label}</div>
+          <p className="pre">{t.text}</p>
+        </div>
+        <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись</button>
+        <button className="btn btn-secondary mt-8" onClick={()=>onNav("test")}>📋 Пройти тест</button>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <BackBtn onClick={()=>onNav("home")} />
+      <div style={{fontSize:17,fontWeight:800,marginBottom:4}}>💭 Чим я можу допомогти</div>
+      <div className="text-hint mb-10">Оберіть тему, яка зараз відгукується:</div>
+      {TOPICS.map(t=>(
+        <button key={t.id} className="list-item" onClick={()=>setSel(t.id)}>
+          <div className="list-item-left">
+            <span className="list-item-emoji">{t.emoji}</span>
+            <span className="list-item-title">{t.label}</span>
+          </div>
+          <span className="list-item-arrow">›</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ── Послуги ───────────────────────────────────────────────────────────────
+function ServicesScreen({ onNav }) {
+  const [sel, setSel] = useState(null);
+  if (sel) {
+    const s = SERVICES.find(x=>x.id===sel);
+    return (
+      <div>
+        <BackBtn onClick={()=>setSel(null)} />
+        <div className="card">
+          <div style={{fontSize:36,marginBottom:10,textAlign:'center'}}>{s.emoji}</div>
+          <div style={{fontSize:18,fontWeight:800,textAlign:'center',marginBottom:6}}>{s.title}</div>
+          <div style={{display:'flex',gap:8,justifyContent:'center',marginBottom:14}}>
+            <span className="tag">{s.duration}</span>
+            <span style={{background:'#e8fff4',color:'var(--green)',borderRadius:8,padding:'3px 10px',fontSize:14,fontWeight:800}}>{s.price}</span>
+          </div>
+          <p style={{fontSize:14,color:'var(--tg-hint)',lineHeight:1.6,textAlign:'center'}}>{s.desc}</p>
+        </div>
+        <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись</button>
+        <button className="btn btn-secondary mt-8" onClick={()=>onNav("ask")}>❓ Поставити питання</button>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <BackBtn onClick={()=>onNav("home")} />
+      <div style={{fontSize:17,fontWeight:800,marginBottom:12}}>💼 Консультації та ціни</div>
+      {SERVICES.map(s=>(
+        <div key={s.id} className="service-card" onClick={()=>setSel(s.id)}>
+          <div className="service-header">
+            <div>
+              <div style={{fontSize:22,marginBottom:4}}>{s.emoji}</div>
+              <div className="service-title">{s.title}</div>
+            </div>
+            <div className="service-price">{s.price}</div>
+          </div>
+          <span className="tag">{s.duration}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Тест ──────────────────────────────────────────────────────────────────
+function TestScreen({ onNav }) {
+  const [step, setStep] = useState(-1);
+  const [answers, setAnswers] = useState([]);
+
+  if (step === -1) return (
+    <div>
+      <BackBtn onClick={()=>onNav("home")} />
+      <div className="card" style={{textAlign:'center',padding:'28px 20px'}}>
+        <div style={{fontSize:52,marginBottom:12}}>📋</div>
+        <div style={{fontSize:20,fontWeight:800,marginBottom:6}}>Тест самодіагностики</div>
+        <div className="text-hint" style={{marginBottom:8}}>7 питань · ~2 хвилини</div>
+        <div style={{fontSize:13,color:'var(--tg-hint)'}}>Відповідай чесно — результат лише для тебе 🔒</div>
+      </div>
+      <button className="btn btn-primary mt-8" onClick={()=>setStep(0)}>▶️ Почати тест</button>
+    </div>
+  );
+
+  if (step >= TEST_QUESTIONS.length) {
+    const score = answers.reduce((a,b)=>a+b,0);
+    const r = getResult(score);
+    return (
+      <div>
+        <div className="card result-card">
+          <div style={{fontSize:48,marginBottom:12}}>📊</div>
+          <div className="result-level" style={{color:r.color}}>{r.level}</div>
+          <p className="result-text pre">{r.text}</p>
+        </div>
+        <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись на консультацію</button>
+        <button className="btn btn-secondary mt-8" onClick={()=>onNav("ai")}>🤖 Поговорити з AI</button>
+        <button className="btn btn-ghost mt-8" onClick={()=>{setStep(-1);setAnswers([])}}>↺ Пройти знову</button>
+      </div>
+    );
+  }
+
+  const q = TEST_QUESTIONS[step];
+  const pct = (step/TEST_QUESTIONS.length)*100;
+
+  return (
+    <div>
+      <div className="progress-bar"><div className="progress-fill" style={{width:`${pct}%`}}/></div>
+      <div style={{fontSize:12,color:'var(--tg-hint)',fontWeight:700,marginBottom:12,textAlign:'right'}}>{step+1} / {TEST_QUESTIONS.length}</div>
+      <div className="card">
+        <div style={{fontSize:15,fontWeight:800,marginBottom:16,lineHeight:1.4}}>{q.q}</div>
+        {q.opts.map((opt,i)=>(
+          <button key={i} className="test-option" onClick={()=>{setAnswers([...answers,i]);setStep(step+1)}}>
+            {opt}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Календар — вільні слоти ──────────────────────────────────────────────
+// Психолог налаштовує свій розклад тут:
+const SCHEDULE = {
+  // день тижня (0=нд,1=пн...6=сб): [години]
+  1: ['10:00','11:00','13:00','15:00','17:00','19:00'],
+  2: ['10:00','12:00','14:00','16:00','18:00'],
+  3: ['10:00','11:00','13:00','15:00','17:00','19:00'],
+  4: ['10:00','12:00','14:00','16:00'],
+  5: ['10:00','11:00','13:00','15:00'],
+};
+// Зайняті слоти (формат "YYYY-MM-DD HH:MM") — психолог додає вручну або через API
+const BOOKED = ['2026-03-12 10:00','2026-03-13 14:00','2026-03-14 11:00'];
+
+function CalendarPicker({ onSelect }) {
+  const today = new Date();
+  const [month, setMonth] = useState(today.getMonth());
+  const [year, setYear] = useState(today.getFullYear());
+  const [selDate, setSelDate] = useState(null);
+  const [selTime, setSelTime] = useState(null);
+
+  const MONTHS = ['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
+  const DAYS = ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'];
+
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  // перший день тижня (0=пн)
+  let firstDay = new Date(year, month, 1).getDay();
+  firstDay = firstDay === 0 ? 6 : firstDay - 1;
+
+  const prevMonth = () => { if(month===0){setMonth(11);setYear(y=>y-1);}else setMonth(m=>m-1); setSelDate(null); setSelTime(null); };
+  const nextMonth = () => { if(month===11){setMonth(0);setYear(y=>y+1);}else setMonth(m=>m+1); setSelDate(null); setSelTime(null); };
+
+  const fmt = (d) => {
+    const dd = String(d).padStart(2,'0');
+    const mm = String(month+1).padStart(2,'0');
+    return `${year}-${mm}-${dd}`;
+  };
+
+  const hasSlots = (d) => {
+    const date = new Date(year, month, d);
+    const dow = date.getDay() === 0 ? 7 : date.getDay(); // 1=пн..7=нд
+    const slots = SCHEDULE[dow] || [];
+    if (!slots.length) return false;
+    const dateStr = fmt(d);
+    // хоча б один не зайнятий
+    return slots.some(t => !BOOKED.includes(`${dateStr} ${t}`));
+  };
+
+  const isPast = (d) => new Date(year, month, d) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+  const getSlots = (d) => {
+    const date = new Date(year, month, d);
+    const dow = date.getDay() === 0 ? 7 : date.getDay();
+    const slots = SCHEDULE[dow] || [];
+    const dateStr = fmt(d);
+    return slots.filter(t => !BOOKED.includes(`${dateStr} ${t}`));
+  };
+
+  const cells = [];
+  for(let i=0;i<firstDay;i++) cells.push(null);
+  for(let d=1;d<=daysInMonth;d++) cells.push(d);
+
+  return (
+    <div>
+      {/* Навігація по місяцях */}
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}}>
+        <button onClick={prevMonth} style={{background:'#f0f3ff',border:'none',borderRadius:9,width:34,height:34,cursor:'pointer',fontSize:16,color:'var(--accent)'}}>‹</button>
+        <span style={{fontWeight:800,fontSize:15}}>{MONTHS[month]} {year}</span>
+        <button onClick={nextMonth} style={{background:'#f0f3ff',border:'none',borderRadius:9,width:34,height:34,cursor:'pointer',fontSize:16,color:'var(--accent)'}}>›</button>
+      </div>
+
+      {/* Дні тижня */}
+      <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:2,marginBottom:4}}>
+        {DAYS.map(d=>(
+          <div key={d} style={{textAlign:'center',fontSize:11,fontWeight:700,color:'var(--tg-hint)',padding:'4px 0'}}>{d}</div>
+        ))}
+      </div>
+
+      {/* Клітинки */}
+      <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:3}}>
+        {cells.map((d,i)=>{
+          if (!d) return <div key={i}/>;
+          const past = isPast(d);
+          const slots = hasSlots(d);
+          const selected = selDate===d;
+          return (
+            <button key={i} onClick={()=>{ if(!past&&slots){setSelDate(d);setSelTime(null);} }}
+              style={{
+                aspectRatio:'1',
+                border:'none',
+                borderRadius:9,
+                fontSize:13,
+                fontWeight:700,
+                cursor: past||!slots ? 'default' : 'pointer',
+                background: selected ? 'var(--accent)' : past ? 'transparent' : slots ? '#f0f3ff' : 'transparent',
+                color: selected ? 'white' : past ? '#ccc' : slots ? 'var(--accent)' : '#ccc',
+                position:'relative',
+                transition:'all .12s',
+              }}>
+              {d}
+              {!past && slots && !selected && <span style={{position:'absolute',bottom:3,left:'50%',transform:'translateX(-50%)',width:4,height:4,borderRadius:'50%',background:'var(--accent)',display:'block'}}/>}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Вільні слоти */}
+      {selDate && (
+        <div style={{marginTop:14}}>
+          <div style={{fontSize:13,fontWeight:700,color:'var(--tg-hint)',marginBottom:8}}>
+            Вільний час {String(selDate).padStart(2,'0')}.{String(month+1).padStart(2,'0')}:
+          </div>
+          <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+            {getSlots(selDate).map(t=>(
+              <button key={t} onClick={()=>setSelTime(t)}
+                style={{
+                  padding:'8px 14px',
+                  border:`2px solid ${selTime===t?'var(--accent)':'#e0e6ff'}`,
+                  borderRadius:10,
+                  background: selTime===t ? 'var(--accent)' : 'white',
+                  color: selTime===t ? 'white' : 'var(--accent)',
+                  fontWeight:700, fontSize:14, cursor:'pointer',
+                  transition:'all .12s',
+                }}>
+                {t}
+              </button>
+            ))}
+          </div>
+          {selTime && (
+            <button className="btn btn-primary" style={{marginTop:12}}
+              onClick={()=>onSelect(`${String(selDate).padStart(2,'0')}.${String(month+1).padStart(2,'0')}.${year}`, selTime)}>
+              ✅ Обрати {String(selDate).padStart(2,'0')}.{String(month+1).padStart(2,'0')} о {selTime}
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Запис ─────────────────────────────────────────────────────────────────
+function BookingScreen({ onNav }) {
+  const [step, setStep] = useState(0);
+  const [data, setData] = useState({format:'',date:'',time:'',name:'',contact:'',request:''});
+
+  // steps: 0=format, 1=calendar, 2=name+contact, 3=done
+  if (step === 3) return (
+    <div>
+      <div className="card" style={{textAlign:'center',padding:'28px 20px'}}>
+        <div style={{fontSize:52,marginBottom:12}}>✅</div>
+        <div style={{fontSize:20,fontWeight:800,marginBottom:6}}>Заявку прийнято!</div>
+        <div style={{fontSize:13,color:'var(--tg-hint)',marginBottom:20}}>Олена зв'яжеться з вами для підтвердження 💚</div>
+        <div style={{background:'#f8f9ff',borderRadius:14,padding:'14px 16px',textAlign:'left'}}>
+          <div className="confirm-row"><span className="confirm-label">Ім'я</span><span className="confirm-value">{data.name}</span></div>
+          <div className="confirm-row"><span className="confirm-label">Контакт</span><span className="confirm-value">{data.contact}</span></div>
+          <div className="confirm-row"><span className="confirm-label">Формат</span><span className="confirm-value">{data.format}</span></div>
+          <div className="confirm-row"><span className="confirm-label">Дата</span><span className="confirm-value">{data.date} о {data.time}</span></div>
+          <div className="confirm-row" style={{borderBottom:'none'}}><span className="confirm-label">Запит</span><span className="confirm-value">{data.request||'не вказано'}</span></div>
+        </div>
+      </div>
+      <button className="btn btn-primary mt-8" onClick={()=>onNav("home")}>🏠 На головну</button>
+    </div>
+  );
+
+  return (
+    <div>
+      <BackBtn onClick={()=>step===0?onNav("home"):setStep(step-1)} />
+      <div className="step-dots">
+        {[0,1,2].map(i=>(
+          <div key={i} className={`step-dot ${i===step?'active':i<step?'done':''}`}/>
+        ))}
+      </div>
+
+      {step===0 && (
+        <>
+          <div style={{fontSize:17,fontWeight:800,marginBottom:4}}>📅 Записатись</div>
+          <div className="text-hint mb-10">Оберіть зручний формат:</div>
+          {[["🌐","Онлайн","Zoom / Google Meet"],["🏢","Офлайн","Київ, вул. Хрещатик 1"]].map(([e,t,s])=>(
+            <button key={t} className="list-item" style={{marginBottom:8,flexDirection:'column',alignItems:'flex-start',gap:4}}
+              onClick={()=>{setData({...data,format:`${e} ${t}`});setStep(1)}}>
+              <div style={{fontWeight:800,fontSize:15}}>{e} {t}</div>
+              <div style={{fontSize:12,color:'var(--tg-hint)'}}>{s}</div>
+            </button>
+          ))}
+        </>
+      )}
+
+      {step===1 && (
+        <div className="card">
+          <div style={{fontSize:15,fontWeight:800,marginBottom:14}}>🗓 Оберіть дату та час</div>
+          <CalendarPicker onSelect={(date,time)=>{ setData({...data,date,time}); setStep(2); }} />
+        </div>
+      )}
+
+      {step===2 && (
+        <>
+          <div className="card">
+            <div style={{fontSize:15,fontWeight:800,marginBottom:4}}>Ваші дані</div>
+            <div style={{background:'#f0f3ff',borderRadius:10,padding:'8px 12px',marginBottom:14,fontSize:13,fontWeight:700,color:'var(--accent)'}}>
+              📅 {data.format} · {data.date} о {data.time}
+            </div>
+            <input autoFocus value={data.name} onChange={e=>setData({...data,name:e.target.value})} placeholder="Ваше ім'я" style={{marginBottom:8}}/>
+            <input value={data.contact} onChange={e=>setData({...data,contact:e.target.value})} placeholder="@username або +380..." style={{marginBottom:8}}/>
+            <label>Ваш запит (необов'язково)</label>
+            <textarea value={data.request} onChange={e=>setData({...data,request:e.target.value})} placeholder="З чим хочете попрацювати?" rows={3}/>
+          </div>
+          <button className="btn btn-green mt-8"
+            disabled={!data.name.trim()||!data.contact.trim()}
+            style={{opacity:data.name.trim()&&data.contact.trim()?1:.4}}
+            onClick={()=>setStep(3)}>
+            ✅ Підтвердити запис
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+// ── Матеріали ─────────────────────────────────────────────────────────────
+function MaterialsScreen({ onNav }) {
+  const [received, setReceived] = useState([]);
+  return (
+    <div>
+      <BackBtn onClick={()=>onNav("home")} />
+      <div style={{fontSize:17,fontWeight:800,marginBottom:12}}>🎁 Безкоштовні матеріали</div>
+      {MATERIALS.map(m=>(
+        <div key={m.id} className="card">
+          <div style={{display:'flex',gap:12,alignItems:'center',marginBottom:12}}>
+            <span style={{fontSize:36}}>{m.emoji}</span>
+            <div>
+              <div style={{fontSize:14,fontWeight:800,lineHeight:1.3}}>{m.title}</div>
+              <div style={{fontSize:12,color:'var(--tg-hint)',marginTop:2}}>{m.sub}</div>
+            </div>
+          </div>
+          {received.includes(m.id)
+            ? <div style={{textAlign:'center',color:'var(--green)',fontWeight:700,fontSize:13}}>✅ Надіслано на ваш акаунт</div>
+            : <button className="btn btn-secondary btn-sm" style={{width:'100%'}} onClick={()=>setReceived([...received,m.id])}>📩 Отримати безкоштовно</button>
+          }
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Відгуки ───────────────────────────────────────────────────────────────
+function TestimonialsScreen({ onNav }) {
+  return (
+    <div>
+      <BackBtn onClick={()=>onNav("home")} />
+      <div style={{fontSize:17,fontWeight:800,marginBottom:12}}>⭐️ Відгуки клієнтів</div>
+      {TESTIMONIALS.map((t,i)=>(
+        <div key={i} className="card">
+          <div className="stars">★★★★★</div>
+          <p className="testimonial-text">«{t.text}»</p>
+          <div className="testimonial-author">— {t.author}</div>
+        </div>
+      ))}
+      <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись</button>
+    </div>
+  );
+}
+
+// ── AI-чат (реальний Claude через Railway proxy) ──────────────────────────
+// 🔧 ЗАМІНИ на свій URL після деплою proxy на Railway:
+const PROXY_URL = "https://YOUR-PROXY.railway.app";
+
+function AIScreen({ onNav }) {
+  const [msgs, setMsgs] = useState([{role:'bot',text:'Привіт! Я AI-асистент психолога Олени 💚\n\nМожу вислухати та підтримати, допомогти розібратись у своєму стані.\n\nПро що хочеш поговорити?'}]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const historyRef = useRef([]);
+  const endRef = useRef(null);
+
+  useEffect(()=>{ endRef.current?.scrollIntoView({behavior:'smooth'}); },[msgs,loading]);
+
+  const send = async () => {
+    if (!input.trim()||loading) return;
+    const txt = input.trim();
+    setInput('');
+    setError('');
+    setMsgs(prev=>[...prev,{role:'user',text:txt}]);
+    historyRef.current = [...historyRef.current, {role:'user', content:txt}];
+    setLoading(true);
+    try {
+      const res = await fetch(`${PROXY_URL}/chat`, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({messages: historyRef.current}),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      historyRef.current = [...historyRef.current, {role:'assistant', content:data.reply}];
+      setMsgs(prev=>[...prev,{role:'bot',text:data.reply}]);
+    } catch(e) {
+      historyRef.current = historyRef.current.slice(0,-1);
+      setError("⚠️ Помилка зв'язку. Спробуйте ще раз.");
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%'}}>
+      <BackBtn onClick={()=>onNav("home")} />
+      <div style={{background:'linear-gradient(135deg,#f0f3ff,#e8f0ff)',borderRadius:14,padding:'10px 14px',marginBottom:12,fontSize:12,color:'var(--tg-hint)',fontWeight:600}}>
+        🤖 AI-помічник · Не замінює живого психолога
+      </div>
+      <div className="chat-area" style={{flex:1}}>
+        <div style={{display:'flex',flexDirection:'column'}}>
+          {msgs.map((m,i)=>(
+            <div key={i} style={{display:'flex',justifyContent:m.role==='user'?'flex-end':'flex-start',marginBottom:6}}>
+              <div className={`bubble ${m.role==='bot'?'bubble-bot':'bubble-user'}`} style={{whiteSpace:'pre-line'}}>{m.text}</div>
+            </div>
+          ))}
+          {loading && (
+            <div style={{display:'flex',justifyContent:'flex-start',marginBottom:6}}>
+              <div className="bubble bubble-bot"><span className="dot"/><span className="dot"/><span className="dot"/></div>
+            </div>
+          )}
+          {error && <div style={{fontSize:12,color:'var(--red)',textAlign:'center',padding:'6px 0'}}>{error}</div>}
+          <div ref={endRef}/>
+        </div>
+      </div>
+      <div className="chat-input-row">
+        <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&send()} placeholder="Напишіть повідомлення..." />
+        <button className="send-btn" onClick={send} disabled={!input.trim()||loading}>›</button>
+      </div>
+      <button className="btn btn-secondary" style={{marginTop:8,fontSize:13}} onClick={()=>onNav("booking")}>📅 Записатись до Олени</button>
+    </div>
+  );
+}
+// ── Check-in ─────────────────────────────────────────────────────────────
+function CheckinScreen({ onNav, mood }) {
+  const map = {
+    good:{emoji:"😊",title:"Радий(а) чути!",color:"var(--green)",text:"Підтримуй себе і сьогодні:\n• зроби щось маленьке для себе\n• зверни увагу на гарне"},
+    ok:{emoji:"😐",title:"Нормально — теж добре",color:"var(--yellow)",text:"Що могло б зробити сьогоднішній день трохи кращим?\n\nМожу запропонувати поговорити з AI-помічником 💬"},
+    hard:{emoji:"😔",title:"Дякую, що поділились",color:"var(--red)",text:"Важкі дні бувають у всіх. Ви не самотні.\n\nМожу запропонувати підтримку або запис до Олени 💚"},
+  };
+  const c = map[mood]||map.ok;
+  return (
+    <div>
+      <div className="card result-card">
+        <div style={{fontSize:52,marginBottom:12}}>{c.emoji}</div>
+        <div style={{fontSize:20,fontWeight:800,color:c.color,marginBottom:12}}>{c.title}</div>
+        <p className="pre" style={{color:'var(--tg-hint)'}}>{c.text}</p>
+      </div>
+      {mood==='hard' && <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись до Олени</button>}
+      <button className="btn btn-secondary mt-8" onClick={()=>onNav("ai")}>🤖 Поговорити з AI</button>
+      <button className="btn btn-ghost mt-8" onClick={()=>onNav("home")}>🏠 На головну</button>
+    </div>
+  );
+}
+
+// ── Головний App ──────────────────────────────────────────────────────────
+const NAV_ITEMS = [
+  {screen:"home",icon:"🏠",label:"Головна"},
+  {screen:"test",icon:"📋",label:"Тест"},
+  {screen:"booking",icon:"📅",label:"Записатись"},
+  {screen:"ai",icon:"🤖",label:"AI-чат"},
+];
+
+function App() {
+  const [screen, setScreen] = useState("home");
+  const [params, setParams] = useState({});
+  const scrollRef = useRef(null);
+
+  const nav = (s, p={}) => {
+    setScreen(s);
+    setParams(p);
+    scrollRef.current?.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  const screens = {
+    home: <HomeScreen onNav={nav} />,
+    about: <AboutScreen onNav={nav} />,
+    topics: <TopicsScreen onNav={nav} />,
+    test: <TestScreen onNav={nav} />,
+    services: <ServicesScreen onNav={nav} />,
+    booking: <BookingScreen onNav={nav} />,
+    materials: <MaterialsScreen onNav={nav} />,
+    testimonials: <TestimonialsScreen onNav={nav} />,
+    ai: <AIScreen onNav={nav} />,
+    checkin: <CheckinScreen onNav={nav} mood={params.mood} />,
+  };
+
+  return (
+    <div className="app">
+      <div className="screen" ref={scrollRef}>
+        {screens[screen] || screens.home}
+      </div>
+      <nav className="bottom-nav">
+        {NAV_ITEMS.map(({screen:s,icon,label})=>(
+          <button key={s} className={`nav-item ${screen===s?'active':''}`} onClick={()=>nav(s)}>
+            <span className="nav-icon">{icon}</span>
+            <span className="nav-label">{label}</span>
+          </button>
+        ))}
+      </nav>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
