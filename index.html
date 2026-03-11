@@ -1,599 +1,767 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
   <title>Психолог Олена Коваленко</title>
-
-  <!-- Telegram Mini App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <!-- React + Babel -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-    :root {
-      --tg-bg: var(--tg-theme-bg-color, #f4f6fb);
-      --tg-text: var(--tg-theme-text-color, #1a1a2e);
-      --tg-hint: var(--tg-theme-hint-color, #8a8a9a);
-      --tg-link: var(--tg-theme-link-color, #4a7fff);
-      --tg-btn: var(--tg-theme-button-color, #4a7fff);
-      --tg-btn-text: var(--tg-theme-button-text-color, #ffffff);
-      --tg-secondary: var(--tg-theme-secondary-bg-color, #ffffff);
-      --accent: #4a7fff;
-      --accent2: #7c5cbf;
-      --green: #34c47c;
-      --red: #ff5c5c;
-      --yellow: #f5a623;
-      --card-bg: #ffffff;
-      --radius: 18px;
-      --radius-sm: 12px;
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    :root{
+      --blue:#1A56DB;--blue2:#1447CC;--violet:#6D28D9;
+      --blue-soft:#EBF0FF;--blue-mid:#DBEAFE;
+      --bg:#F2F5FB;--white:#FFFFFF;
+      --text:#0A0F1E;--text2:#4B5675;--text3:#9BA3BB;
+      --green:#059669;--red:#DC2626;--yellow:#D97706;
+      --grad:linear-gradient(135deg,#1A56DB,#6D28D9);
+      --grad-soft:linear-gradient(135deg,#EBF0FF,#EDE9FE);
+      --shadow:0 2px 16px rgba(10,15,30,.07);
+      --shadow-md:0 4px 24px rgba(10,15,30,.10);
+      --shadow-blue:0 6px 28px rgba(26,86,219,.28);
+      --r:20px;--r-sm:14px;--r-xs:9px;
     }
+    html,body,#root{height:100%;font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+    .app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+    .screen{flex:1;overflow-y:auto;padding:0 12px 96px;-webkit-overflow-scrolling:touch}
+    .screen-inner{padding-top:14px}
 
-    html, body, #root {
-      height: 100%;
-      font-family: 'Nunito', sans-serif;
-      background: var(--tg-bg);
-      color: var(--tg-text);
-      overflow-x: hidden;
-    }
+    /* ── BOTTOM NAV ── */
+    .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--white);border-top:1px solid rgba(26,86,219,.08);display:flex;padding:8px 4px max(10px,env(safe-area-inset-bottom));z-index:100;box-shadow:0 -4px 32px rgba(26,86,219,.10)}
+    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0;border:none;background:none;cursor:pointer;font-family:'Manrope',sans-serif;transition:transform .1s}
+    .nav-item:active{transform:scale(.85)}
+    .nav-label{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.2px}
+    .nav-item.active .nav-label{color:var(--blue)}
+    .nav-dot{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+    .nav-item.active .nav-dot{background:var(--blue-soft)}
 
-    .app {
-      max-width: 480px;
-      margin: 0 auto;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    /* ── CARDS ── */
+    .card{background:var(--white);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
+    .card-grad{background:var(--grad);border-radius:var(--r);padding:20px;margin-bottom:12px}
 
-    /* Scrollable content area */
-    .screen {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px 14px 90px;
-      -webkit-overflow-scrolling: touch;
-    }
+    /* ── HERO ── */
+    .hero{background:var(--grad);border-radius:var(--r);margin-bottom:12px;position:relative;overflow:hidden}
+    .hero-inner{padding:22px 18px 20px;position:relative;z-index:1}
+    .hero-orb1{position:absolute;width:240px;height:240px;background:rgba(255,255,255,.06);border-radius:50%;top:-80px;right:-70px;pointer-events:none}
+    .hero-orb2{position:absolute;width:160px;height:160px;background:rgba(255,255,255,.04);border-radius:50%;bottom:-60px;left:-40px;pointer-events:none}
 
-    /* ── Cards ── */
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 10px;
-      box-shadow: 0 2px 12px rgba(74,127,255,0.07);
-    }
+    /* ── BUTTONS ── */
+    .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px 20px;border:none;border-radius:var(--r-sm);font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s,opacity .12s;text-decoration:none;letter-spacing:.1px}
+    .btn:active{transform:scale(.97)}
+    .btn-primary{background:var(--grad);color:#fff;box-shadow:var(--shadow-blue)}
+    .btn-secondary{background:var(--blue-soft);color:var(--blue)}
+    .btn-ghost{background:transparent;color:var(--text2);font-weight:600}
+    .btn-white{background:var(--white);color:var(--blue);box-shadow:var(--shadow)}
+    .btn:disabled{opacity:.4;pointer-events:none}
 
-    /* ── Buttons ── */
-    .btn {
-      display: flex; align-items: center; justify-content: center;
-      width: 100%; padding: 14px 18px;
-      border: none; border-radius: var(--radius-sm);
-      font-family: 'Nunito', sans-serif;
-      font-size: 15px; font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.12s, opacity 0.12s;
-      text-decoration: none;
-      gap: 6px;
-    }
-    .btn:active { transform: scale(0.97); opacity: 0.85; }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-secondary { background: #f0f3ff; color: var(--accent); }
-    .btn-green { background: var(--green); color: #fff; }
-    .btn-ghost { background: transparent; color: var(--accent); }
-    .btn-sm { padding: 9px 14px; font-size: 13px; width: auto; }
+    /* ── STATS ── */
+    .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+    .stat-card{background:var(--white);border-radius:var(--r-sm);padding:14px 10px;text-align:center;box-shadow:var(--shadow)}
+    .stat-val{font-size:22px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .stat-lbl{font-size:11px;color:var(--text2);font-weight:600;margin-top:2px}
 
-    /* ── Bottom nav ── */
-    .bottom-nav {
-      position: fixed; bottom: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 100%; max-width: 480px;
-      background: var(--card-bg);
-      border-top: 1px solid rgba(74,127,255,0.1);
-      display: flex;
-      padding: 6px 0 max(6px, env(safe-area-inset-bottom));
-      z-index: 100;
-      box-shadow: 0 -4px 20px rgba(74,127,255,0.08);
-    }
-    .nav-item {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; gap: 2px;
-      padding: 4px 0;
-      border: none; background: none; cursor: pointer;
-      transition: transform 0.12s;
-      font-family: 'Nunito', sans-serif;
-    }
-    .nav-item:active { transform: scale(0.9); }
-    .nav-icon { font-size: 22px; line-height: 1; }
-    .nav-label { font-size: 10px; font-weight: 600; color: var(--tg-hint); }
-    .nav-item.active .nav-label { color: var(--accent); }
-    .nav-item.active .nav-icon { filter: drop-shadow(0 0 4px rgba(74,127,255,0.5)); }
+    /* ── CHIPS ── */
+    .chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;color:rgba(255,255,255,.95);backdrop-filter:blur(4px)}
+    .chip-blue{background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+    .chip-green{background:#D1FAE5;color:var(--green);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
 
-    /* ── Hero ── */
-    .hero {
-      background: linear-gradient(135deg, #4a7fff 0%, #7c5cbf 100%);
-      border-radius: var(--radius);
-      padding: 24px 20px;
-      color: white;
-      text-align: center;
-      margin-bottom: 10px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute; top: -30px; right: -30px;
-      width: 120px; height: 120px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 50%;
-    }
-    .hero::after {
-      content: '';
-      position: absolute; bottom: -20px; left: -20px;
-      width: 80px; height: 80px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 50%;
-    }
-    .avatar {
-      width: 72px; height: 72px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 50%; margin: 0 auto 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 36px;
-      border: 3px solid rgba(255,255,255,0.3);
-    }
+    /* ── ICON BOX ── */
+    .icon-box{border-radius:13px;background:var(--grad);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .icon-box-soft{border-radius:13px;background:var(--grad-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
-    /* ── Check-in ── */
-    .checkin-row {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-      margin-bottom: 10px;
-    }
-    .checkin-btn {
-      background: var(--card-bg);
-      border: 2px solid transparent;
-      border-radius: var(--radius-sm);
-      padding: 12px 8px;
-      display: flex; flex-direction: column;
-      align-items: center; gap: 4px;
-      cursor: pointer; font-family: 'Nunito', sans-serif;
-      transition: all 0.15s;
-      box-shadow: 0 2px 8px rgba(74,127,255,0.06);
-    }
-    .checkin-btn:active { transform: scale(0.95); }
-    .checkin-btn .emoji { font-size: 26px; }
-    .checkin-btn .label { font-size: 11px; font-weight: 700; color: var(--tg-hint); }
+    /* ── SECTION HEADER ── */
+    .sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .sec-title{font-size:17px;font-weight:800;color:var(--text)}
+    .sec-link{background:none;border:none;cursor:pointer;font-family:'Manrope';font-size:13px;font-weight:700;color:var(--blue);padding:0}
 
-    /* ── Menu grid ── */
-    .menu-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
-      margin-bottom: 10px;
-    }
-    .menu-item {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 16px 12px;
-      display: flex; flex-direction: column;
-      align-items: center; gap: 6px;
-      cursor: pointer; border: none;
-      font-family: 'Nunito', sans-serif;
-      box-shadow: 0 2px 10px rgba(74,127,255,0.06);
-      transition: all 0.15s;
-    }
-    .menu-item:active { transform: scale(0.96); background: #f0f3ff; }
-    .menu-item .icon { font-size: 28px; }
-    .menu-item .text { font-size: 12px; font-weight: 700; color: var(--tg-text); text-align: center; line-height: 1.3; }
+    /* ── NUMBERED LIST ITEMS (reference style) ── */
+    .num-list{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:12px}
+    .num-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid #F0F4FF;cursor:pointer;transition:background .12s}
+    .num-item:last-child{border-bottom:none}
+    .num-item:active{background:var(--blue-soft)}
+    .num-badge{width:32px;height:32px;border-radius:10px;background:var(--blue-soft);color:var(--blue);font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .num-badge-grad{background:var(--grad);color:#fff}
+    .num-item-title{font-size:14px;font-weight:700;color:var(--text);flex:1}
+    .num-item-sub{font-size:12px;color:var(--text2);margin-top:1px}
 
-    /* ── List items ── */
-    .list-item {
-      background: var(--card-bg);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      display: flex; align-items: center; justify-content: space-between;
-      cursor: pointer; border: none; width: 100%;
-      font-family: 'Nunito', sans-serif;
-      margin-bottom: 6px;
-      box-shadow: 0 2px 8px rgba(74,127,255,0.05);
-      transition: all 0.12s;
-    }
-    .list-item:active { background: #f0f3ff; transform: scale(0.99); }
-    .list-item-left { display: flex; align-items: center; gap: 10px; }
-    .list-item-emoji { font-size: 22px; }
-    .list-item-title { font-size: 14px; font-weight: 700; color: var(--tg-text); }
-    .list-item-sub { font-size: 12px; color: var(--tg-hint); }
-    .list-item-arrow { color: var(--tg-hint); font-size: 18px; }
+    /* ── ARROW LINK ITEMS (reference style) ── */
+    .arrow-item{display:flex;align-items:center;padding:16px;border-bottom:1px solid #F0F4FF;cursor:pointer;transition:background .12s;background:var(--white)}
+    .arrow-item:first-child{border-radius:var(--r) var(--r) 0 0}
+    .arrow-item:last-child{border-bottom:none;border-radius:0 0 var(--r) var(--r)}
+    .arrow-item:only-child{border-radius:var(--r)}
+    .arrow-item:active{background:var(--blue-soft)}
+    .arrow-body{flex:1;min-width:0}
+    .arrow-title{font-size:15px;font-weight:700;color:var(--text)}
+    .arrow-sub{font-size:12px;color:var(--text2);margin-top:2px}
+    .arrow-icon{width:32px;height:32px;background:var(--blue-soft);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
-    /* ── Service card ── */
-    .service-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 16px;
-      cursor: pointer; border: 2px solid transparent;
-      margin-bottom: 8px;
-      box-shadow: 0 2px 10px rgba(74,127,255,0.06);
-      transition: all 0.15s;
-    }
-    .service-card:active { border-color: var(--accent); background: #f8f9ff; }
-    .service-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-    .service-title { font-size: 15px; font-weight: 800; color: var(--tg-text); }
-    .service-price { font-size: 18px; font-weight: 800; color: var(--green); }
-    .tag { display: inline-block; background: #f0f3ff; color: var(--accent); border-radius: 8px; padding: 3px 10px; font-size: 12px; font-weight: 700; }
+    /* ── BANNER CARD (reference image card) ── */
+    .banner-card{border-radius:var(--r);overflow:hidden;margin-bottom:12px;cursor:pointer;box-shadow:var(--shadow-md);position:relative}
+    .banner-card-inner{background:var(--grad);padding:22px 18px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+    .banner-card-orb{position:absolute;width:180px;height:180px;background:rgba(255,255,255,.08);border-radius:50%;right:-40px;bottom:-60px;pointer-events:none}
+    .bc-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#fff;width:fit-content}
+    .bc-title{font-size:20px;font-weight:800;color:#fff;line-height:1.2;position:relative;z-index:1}
+    .bc-sub{font-size:13px;color:rgba(255,255,255,.8);position:relative;z-index:1}
+    .bc-progress{height:6px;background:rgba(255,255,255,.25);border-radius:10px;overflow:hidden;position:relative;z-index:1}
+    .bc-progress-fill{height:100%;background:#fff;border-radius:10px}
+    .bc-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:10px 16px;font-family:'Manrope';font-size:13px;font-weight:700;color:#fff;cursor:pointer;width:fit-content;position:relative;z-index:1;backdrop-filter:blur(4px)}
 
-    /* ── Test ── */
-    .progress-bar { height: 5px; background: #e8ecff; border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 10px; transition: width 0.4s ease; }
-    .test-option {
-      width: 100%; padding: 13px 16px;
-      background: #f8f9ff; border: 2px solid #e8ecff;
-      border-radius: var(--radius-sm);
-      font-family: 'Nunito', sans-serif;
-      font-size: 14px; font-weight: 600; color: var(--tg-text);
-      text-align: left; cursor: pointer; margin-bottom: 8px;
-      transition: all 0.12s;
-    }
-    .test-option:active { border-color: var(--accent); background: #f0f3ff; transform: scale(0.99); }
+    /* ── CHECKIN ── */
+    .checkin-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+    .checkin-btn{background:var(--bg);border:2px solid transparent;border-radius:var(--r-sm);padding:14px 6px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;transition:all .15s}
+    .checkin-btn:active,.checkin-btn.sel{border-color:var(--blue);background:var(--blue-soft);transform:scale(.96)}
+    .c-emoji{font-size:26px}
+    .c-label{font-size:11px;font-weight:700;color:var(--text2)}
 
-    /* ── Booking steps ── */
-    .step-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 20px; }
-    .step-dot { width: 8px; height: 8px; border-radius: 50%; background: #e0e4f5; transition: all 0.2s; }
-    .step-dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
-    .step-dot.done { background: var(--green); }
+    /* ── PROGRESS ── */
+    .progress-bar{height:5px;background:#E2E8F0;border-radius:10px;margin-bottom:20px;overflow:hidden}
+    .progress-fill{height:100%;background:var(--grad);border-radius:10px;transition:width .4s ease}
+    .test-option{width:100%;padding:14px 16px;background:var(--white);border:2px solid #E2E8F0;border-radius:var(--r-sm);font-family:'Manrope';font-size:14px;font-weight:600;color:var(--text);text-align:left;cursor:pointer;margin-bottom:8px;transition:all .12s;display:flex;align-items:center;gap:12px}
+    .test-option:active,.test-option.selected{border-color:var(--blue);background:var(--blue-soft)}
+    .opt-circle{width:34px;height:34px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
 
-    input, textarea {
-      width: 100%; padding: 13px 15px;
-      border: 2px solid #e8ecff; border-radius: var(--radius-sm);
-      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600;
-      background: #f8f9ff; color: var(--tg-text);
-      outline: none; transition: border 0.15s;
-      -webkit-appearance: none;
-    }
-    input:focus, textarea:focus { border-color: var(--accent); background: white; }
-    textarea { resize: none; }
-    label { display: block; font-size: 13px; font-weight: 700; color: var(--tg-hint); margin-bottom: 6px; margin-top: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+    /* ── BOOKING ── */
+    .step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:24px}
+    .step-dot{width:6px;height:6px;border-radius:50%;background:#E2E8F0;transition:all .2s}
+    .step-dot.active{background:var(--blue);width:24px;border-radius:3px}
+    .step-dot.done{background:var(--green)}
 
-    /* ── Chat ── */
-    .chat-area { overflow-y: auto; padding: 4px 0 12px; max-height: 340px; }
-    .bubble { max-width: 82%; border-radius: 18px; padding: 11px 14px; font-size: 14px; font-weight: 500; line-height: 1.5; margin-bottom: 6px; }
-    .bubble-bot { background: white; border-bottom-left-radius: 5px; color: var(--tg-text); box-shadow: 0 2px 8px rgba(74,127,255,0.08); align-self: flex-start; }
-    .bubble-user { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; border-bottom-right-radius: 5px; align-self: flex-end; margin-left: auto; }
-    .chat-input-row { display: flex; gap: 8px; padding-top: 10px; border-top: 1px solid #eef0f8; }
-    .chat-input-row input { flex: 1; }
-    .send-btn {
-      width: 46px; height: 46px; flex-shrink: 0;
-      background: var(--accent); color: white; border: none;
-      border-radius: var(--radius-sm); cursor: pointer;
-      font-size: 20px; display: flex; align-items: center; justify-content: center;
-      transition: transform 0.12s;
-    }
-    .send-btn:active { transform: scale(0.92); }
+    input,textarea{width:100%;padding:13px 15px;border:2px solid #E2E8F0;border-radius:var(--r-sm);font-family:'Manrope';font-size:15px;font-weight:600;background:var(--white);color:var(--text);outline:none;transition:border .15s;-webkit-appearance:none}
+    input:focus,textarea:focus{border-color:var(--blue)}
+    input::placeholder,textarea::placeholder{color:var(--text3);font-weight:500}
+    textarea{resize:none}
+    label{display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:5px;margin-top:14px;text-transform:uppercase;letter-spacing:.6px}
 
-    /* ── Testimonial ── */
-    .stars { color: #f5a623; font-size: 14px; margin-bottom: 6px; }
-    .testimonial-text { font-size: 14px; font-style: italic; color: var(--tg-text); line-height: 1.6; margin-bottom: 6px; }
-    .testimonial-author { font-size: 12px; font-weight: 700; color: var(--tg-hint); }
+    /* ── CONFIRM ── */
+    .confirm-row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #F1F5F9}
+    .confirm-label{font-size:11px;color:var(--text2);font-weight:700;width:70px;flex-shrink:0;padding-top:2px;text-transform:uppercase;letter-spacing:.4px}
+    .confirm-value{font-size:14px;font-weight:600;color:var(--text);line-height:1.4}
 
-    /* ── Back button ── */
-    .back-btn {
-      display: flex; align-items: center; gap-4px;
-      background: none; border: none; cursor: pointer;
-      color: var(--accent); font-family: 'Nunito', sans-serif;
-      font-size: 14px; font-weight: 700; padding: 0 0 12px 0;
-    }
+    /* ── CHAT ── */
+    .chat-input-row{display:flex;gap:8px;padding-top:10px;border-top:1px solid #EEF2FF}
+    .chat-input-row input{flex:1}
+    .send-btn{width:48px;height:48px;flex-shrink:0;background:var(--grad);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-blue);transition:opacity .12s}
+    .send-btn:active{opacity:.7}
+    .send-btn:disabled{opacity:.35}
+    .chat-messages{overflow-y:auto;flex:1;padding:4px 0 8px;display:flex;flex-direction:column;gap:6px}
+    .bubble{max-width:82%;border-radius:18px;padding:11px 14px;font-size:14px;font-weight:500;line-height:1.65}
+    .bubble-bot{background:var(--white);border-bottom-left-radius:4px;color:var(--text);box-shadow:var(--shadow)}
+    .bubble-user{background:var(--grad);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+    .chat-session{background:var(--white);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:8px;cursor:pointer;box-shadow:var(--shadow);border:2px solid transparent;transition:all .12s}
+    .chat-session:active,.chat-session.active{border-color:var(--blue)}
+    .cs-title{font-size:14px;font-weight:700;color:var(--text)}
+    .cs-preview{font-size:12px;color:var(--text2);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .cs-date{font-size:11px;color:var(--text3);margin-top:3px}
 
-    /* ── Result ── */
-    .result-card { text-align: center; padding: 24px 16px; }
-    .result-level { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
-    .result-text { font-size: 14px; color: var(--tg-hint); line-height: 1.7; }
+    /* ── TABS ── */
+    .tabs{display:flex;background:#EEF2FF;border-radius:var(--r-sm);padding:3px;margin-bottom:14px}
+    .tab-btn{flex:1;padding:9px 0;border:none;border-radius:10px;font-family:'Manrope';font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;background:transparent;color:var(--text2)}
+    .tab-btn.active{background:var(--white);color:var(--blue);box-shadow:0 2px 8px rgba(10,15,30,.08)}
 
-    /* ── Booking confirm ── */
-    .confirm-row { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #f0f3ff; }
-    .confirm-label { font-size: 12px; color: var(--tg-hint); font-weight: 700; width: 70px; flex-shrink: 0; padding-top: 2px; }
-    .confirm-value { font-size: 14px; font-weight: 700; color: var(--tg-text); line-height: 1.4; }
+    /* ── BACK BTN ── */
+    .back-btn{display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;color:var(--blue);font-family:'Manrope';font-size:14px;font-weight:700;padding:0 0 14px}
 
-    /* ── Typing dots ── */
-    @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
-    .dot { width: 7px; height: 7px; background: var(--tg-hint); border-radius: 50%; display: inline-block; margin: 0 2px; animation: bounce 1.2s infinite; }
-    .dot:nth-child(2){animation-delay:.2s} .dot:nth-child(3){animation-delay:.4s}
+    /* ── SERVICE CARD ── */
+    .svc-card{background:var(--white);border-radius:var(--r);padding:18px;margin-bottom:10px;cursor:pointer;box-shadow:var(--shadow);transition:all .15s;border:2px solid transparent}
+    .svc-card:active{border-color:var(--blue)}
+    .svc-price{font-size:22px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .tag{display:inline-flex;align-items:center;background:var(--blue-soft);color:var(--blue);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700}
 
-    /* ── Utils ── */
-    .mt-8 { margin-top: 8px; }
-    .mt-12 { margin-top: 12px; }
-    .mb-6 { margin-bottom: 6px; }
-    .mb-10 { margin-bottom: 10px; }
-    .text-hint { color: var(--tg-hint); font-size: 13px; }
-    .text-sm { font-size: 13px; }
-    .fw-800 { font-weight: 800; }
-    .fw-700 { font-weight: 700; }
-    .center { text-align: center; }
-    .flex-row { display: flex; gap: 8px; }
-    .flex-1 { flex: 1; }
-    .accent { color: var(--accent); }
-    .green { color: var(--green); }
-    .pre { white-space: pre-line; line-height: 1.65; font-size: 14px; }
+    /* ── DOTS ANIM ── */
+    @keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+    .dot{width:7px;height:7px;background:var(--text3);border-radius:50%;display:inline-block;margin:0 2px;animation:bounce 1.2s infinite}
+    .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+
+    /* ── UTILS ── */
+    .mt-8{margin-top:8px}.mt-12{margin-top:12px}.mb-10{margin-bottom:10px}
+    .pre{white-space:pre-line;line-height:1.75;font-size:14px;color:var(--text2)}
+    .divider{height:1px;background:#F1F5F9;margin:12px 0}
+    .grad-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .info-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #F8F9FF}
+    .info-row:last-child{border-bottom:none}
+    .section-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:14px}
+
+    /* ── TESTIMONIAL ── */
+    .quote-card{background:var(--white);border-radius:var(--r);padding:20px;margin-bottom:10px;box-shadow:var(--shadow);position:relative}
+    .quote-mark{font-size:48px;line-height:1;color:var(--blue-soft);font-weight:800;position:absolute;top:10px;left:16px;opacity:.6}
+
+    /* ── MATERIAL CARD ── */
+    .mat-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:12px}
+    .mat-header{display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid #F0F4FF}
+    .mat-body{padding:14px 18px}
   </style>
 </head>
 <body>
 <div id="root"></div>
-
 <script type="text/babel">
-const { useState, useRef, useEffect } = React;
-
-// ── Ініціалізація Telegram WebApp ─────────────────────────────────────────
+const {useState,useRef,useEffect,useCallback} = React;
 const tg = window.Telegram?.WebApp;
-if (tg) {
-  tg.ready();
-  tg.expand();
+if(tg){tg.ready();tg.expand();}
+
+const PROXY_URL = "https://psych-proxy-production.up.railway.app";
+const CHAT_ID = "-5200875067";
+const PHOTO = "data:image/jpeg;base64,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";
+
+// ── SVG Icons ──────────────────────────────────────────────────────────
+const Icon = ({name,size=20,color="currentColor"}) => {
+  const p = {
+    user: <><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></>,
+    heart: <><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></>,
+    brain: <><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.44-4.14z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.44-4.14z"/></>,
+    clipboard: <><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></>,
+    calendar: <><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></>,
+    gift: <><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></>,
+    star: <><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></>,
+    bot: <><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><circle cx="8.5" cy="16" r="1" fill="currentColor"/><circle cx="15.5" cy="16" r="1" fill="currentColor"/></>,
+    chat: <><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></>,
+    home: <><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>,
+    layers: <><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></>,
+    briefcase: <><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></>,
+    chevron: <><polyline points="9 18 15 12 9 6"/></>,
+    send: <><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></>,
+    check: <><polyline points="20 6 9 17 4 12"/></>,
+    back: <><polyline points="15 18 9 12 15 6"/></>,
+    fire: <><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></>,
+    search: <><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></>,
+    book: <><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></>,
+    plus: <><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></>,
+    trash: <><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></>,
+    mirror: <><path d="M12 3v18"/><path d="M5.636 5.636a9 9 0 0 0 0 12.728"/><path d="M18.364 5.636a9 9 0 0 1 0 12.728"/></>,
+    dot_circle: <><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></>,
+    sparkle: <><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5Z"/><path d="M5 3L5.75 5.25L8 6L5.75 6.75L5 9L4.25 6.75L2 6L4.25 5.25Z"/><path d="M19 14L19.75 16.25L22 17L19.75 17.75L19 20L18.25 17.75L16 17L18.25 16.25Z"/></>,
+    arrow_up_right: <><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></>,
+    shield: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></>,
+    zap: <><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></>,
+  };
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      {p[name]}
+    </svg>
+  );
+};
+
+// ── Notify via proxy ───────────────────────────────────────────────────
+async function sendNotify(text) {
+  try {
+    const res = await fetch(`${PROXY_URL}/notify`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({chat_id: CHAT_ID, text})
+    });
+    return res.ok;
+  } catch(e) { console.error('notify error', e); return false; }
 }
 
-// ── Дані ─────────────────────────────────────────────────────────────────
+// ── TOPICS DATA ───────────────────────────────────────────────────────
 const TOPICS = [
-  { id: "anxiety", label: "Тривожність", emoji: "😰", text: "Я допомагаю клієнтам, які відчувають постійне внутрішнє напруження, страх майбутнього, нав'язливі тривожні думки та панічні атаки.\n\nНа консультації знайдемо корінь тривоги та опрацюємо конкретні інструменти для стабілізації." },
-  { id: "relations", label: "Стосунки", emoji: "💔", text: "Допомагаю коли конфлікти повторюються по колу, важко встановити кордони або є токсична прив'язаність.\n\nРозбираємо патерни з дитинства і вчимося будувати стосунки по-новому." },
-  { id: "selfesteem", label: "Самооцінка", emoji: "🪞", text: "Допомагаю при синдромі самозванця, хронічному порівнянні з іншими та труднощах відстоювати себе.\n\nРазом знаходимо глибинні переконання і замінюємо на ті, що підтримують." },
-  { id: "burnout", label: "Вигорання", emoji: "🔥", text: "Допомагаю коли немає сил навіть для улюблених речей, є відчуття порожнечі та хронічна апатія.\n\nВідновимо ресурс і знайдемо причину виснаження." },
-  { id: "identity", label: "Пошук себе", emoji: "🔍", text: "Допомагаю коли відчуття що живете не своє життя або страх змін паралізує.\n\nРазом дослідимо вашу ідентичність і знайдемо напрямок що резонує." },
-  { id: "other", label: "Інша тема", emoji: "💬", text: "Кожна ситуація унікальна. Якщо ваш запит не вписується в категорії — це не означає, що я не зможу допомогти.\n\nНапишіть мені напряму — разом визначимо підхід." },
+  {id:"anxiety", label:"Тривожність", icon:"heart", emoji:"💙",
+    test:[
+      {q:"Як часто ви відчуваєте раптове серцебиття або задуху без фізичної причини?", opts:["Ніколи","Рідко","Кілька разів на тиждень","Майже щодня"]},
+      {q:"Чи уникаєте певних місць або ситуацій через страх?", opts:["Ні","Іноді","Часто","Постійно"]},
+      {q:"Наскільки важко вам зупинити тривожні думки?", opts:["Легко","Намагаюсь і виходить","Важко","Практично неможливо"]},
+      {q:"Чи впливає тривога на вашу роботу або навчання?", opts:["Не впливає","Мінімально","Помітно","Значно заважає"]},
+      {q:"Як ви спите в тривожний час?", opts:["Добре","Іноді важко заснути","Часто погано","Майже не сплю"]},
+    ],
+    text:"Тривожність — це не слабкість. Це сигнал нервової системи, яка намагається вас захистити. Але іноді цей сигнал стає хибним і заважає жити.\n\nЯ допомагаю розібратись з корінням тривоги та дати вашій нервовій системі відчуття безпеки.\n\nМетоди: дихальні практики, КПТ-техніки, соматична робота з тілом."},
+  {id:"relations", label:"Стосунки", icon:"chat", emoji:"❤️",
+    test:[
+      {q:"Чи помічаєте що конфлікти з близькими повторюються по одному сценарію?", opts:["Ні","Іноді","Часто","Завжди"]},
+      {q:"Наскільки легко вам говорити про свої потреби партнеру / близьким?", opts:["Легко","Намагаюсь","Важко","Не можу взагалі"]},
+      {q:"Чи відчуваєте провину після встановлення особистих кордонів?", opts:["Ні","Рідко","Часто","Завжди"]},
+      {q:"Чи є у вас зараз стосунки де вам некомфортно але ви не можете вийти?", opts:["Ні","Є але несуттєво","Є і турбує","Є і дуже важко"]},
+      {q:"Як ви реагуєте на критику від близьких?", opts:["Спокійно","Злегка засмучуюсь","Гостро реагую","Довго переживаю"]},
+    ],
+    text:"Стосунки — це дзеркало нашого внутрішнього світу. Часто проблеми в стосунках пов\'язані зі старими патернами, які сформувались ще в дитинстві.\n\nЯ допомагаю зрозуміти чому стосунки не виходять такими як хочеться і як змінити ці патерни.\n\nМетоди: робота з прив\'язаністю, комунікативні техніки, схема-терапія."},
+  {id:"selfesteem", label:"Самооцінка", icon:"mirror", emoji:"🌟",
+    test:[
+      {q:"Чи часто ви порівнюєте себе з іншими не на свою користь?", opts:["Рідко","Іноді","Часто","Майже завжди"]},
+      {q:"Наскільки важко вам приймати компліменти щиро?", opts:["Легко","Трохи ніяково","Важко","Не вірю їм"]},
+      {q:"Чи відчуваєте що ваші досягнення — це випадковість або везіння?", opts:["Ні","Іноді","Часто","Постійно"]},
+      {q:"Як ви почуваєтесь коли робите помилку?", opts:["Нормально, буває","Засмучуюсь але відпускаю","Довго картаю себе","Відчуваю сором"]},
+      {q:"Чи важко вам просити про допомогу оточуючих?", opts:["Ні","Іноді","Часто","Ніколи не прошу"]},
+    ],
+    text:"Низька самооцінка — не вирок, а засвоєна модель сприйняття себе. Вона формувалась роками і може бути переписана.\n\nРазом ми знайдемо де вона виникла і побудуємо нове, реалістичне ставлення до себе.\n\nМетоди: когнітивна реструктуризація, робота з внутрішнім критиком, вправи на самоприйняття."},
+  {id:"burnout", label:"Вигорання", icon:"fire", emoji:"🔥",
+    test:[
+      {q:"Чи є відчуття що прокидаєтесь втомленим навіть після нормального сну?", opts:["Ні","Іноді","Часто","Майже щодня"]},
+      {q:"Наскільки цікавою зараз є ваша робота або справа?", opts:["Дуже цікава","Нормально","Нудно","Байдуже"]},
+      {q:"Чи є відчуття що ваші зусилля не мають значення?", opts:["Ні","Іноді","Часто","Постійно"]},
+      {q:"Як давно ви робили щось тільки для себе і з задоволенням?", opts:["Нещодавно","Кілька тижнів","Місяць і більше","Не пам\'ятаю"]},
+      {q:"Чи дратують вас люди більше ніж зазвичай?", opts:["Ні","Трохи","Помітно","Дуже сильно"]},
+    ],
+    text:"Вигорання — це не лінь. Це виснаження ресурсів які довго не поповнювались.\n\nЯ допомагаю знайти де саме відбувається витік енергії і відновити внутрішній ресурс.\n\nМетоди: відновлення меж, робота з перфекціонізмом, практики самопідтримки."},
+  {id:"identity", label:"Пошук себе", icon:"search", emoji:"🧭",
+    test:[
+      {q:"Чи відчуваєте що живете не своє життя?", opts:["Ні","Іноді таке відчуття","Часто","Постійно"]},
+      {q:"Наскільки чітко ви розумієте чого хочете від свого життя?", opts:["Дуже чітко","Приблизно","Не дуже","Зовсім не розумію"]},
+      {q:"Чи приймаєте важливі рішення спираючись на очікування інших?", opts:["Ні","Іноді","Часто","Майже завжди"]},
+      {q:"Як ви ставитесь до змін у своєму житті?", opts:["З інтересом","Нейтрально","З тривогою","Паралізуючий страх"]},
+      {q:"Чи є відчуття що втратили себе?", opts:["Ні","Трохи","Досить сильно","Повністю"]},
+    ],
+    text:"Відчуття що ти не знаєш хто ти є — один з найважчих внутрішніх станів. Але саме ця точка може стати початком справжнього знайомства з собою.\n\nЯ допомагаю дослідити свої цінності, бажання і знайти власний напрямок.\n\nМетоди: нарративна терапія, робота з цінностями, техніки самопізнання."},
+  {id:"other", label:"Інша тема", icon:"dot_circle", emoji:"💬",
+    test:[
+      {q:"Як часто ви почуваєтесь емоційно виснаженим?", opts:["Рідко","Іноді","Часто","Майже завжди"]},
+      {q:"Чи є у вашому житті хтось з ким можна відверто поговорити?", opts:["Так","Скоріше так","Скоріше ні","Ні"]},
+      {q:"Наскільки ви задоволені своїм психологічним станом зараз?", opts:["Задоволений","Є що покращити","Незадоволений","Дуже погано"]},
+      {q:"Як давно ви помічаєте те що вас турбує?", opts:["Нещодавно","Кілька місяців","Рік і більше","Все життя"]},
+      {q:"Чи пробували ви раніше звертатись по психологічну допомогу?", opts:["Ні","Так, допомогло","Так, не допомогло","Хотів але не наважився"]},
+    ],
+    text:"Кожна ситуація унікальна. Якщо ваш запит не вписується в категорії — це не означає що я не можу допомогти.\n\nНапишіть мені особисто і разом визначимо підхід.\n\nЯ відкрита до роботи з будь-якими темами що хвилюють вас."},
 ];
 
 const SERVICES = [
-  { id: "individual", emoji: "💬", title: "Індивідуальна консультація", price: "70$", duration: "60 хвилин", desc: "Розбір ситуації, індивідуальні рекомендації, практичні інструменти та план роботи." },
-  { id: "coaching", emoji: "🌱", title: "Коучинг-програма", price: "240$", duration: "4 зустрічі / місяць", desc: "Глибока робота над запитом, підтримка між сесіями, домашні практики та трекер прогресу." },
-  { id: "emergency", emoji: "🆘", title: "Екстрена підтримка", price: "40$", duration: "30 хвилин", desc: "Для гострої тривоги або кризи. Відповідь протягом 2 годин у робочий час." },
+  {id:"individual", icon:"chat", title:"Індивідуальна консультація", price:"70$", duration:"60 хвилин", desc:"Розбір вашої ситуації, індивідуальні рекомендації та конкретний план роботи."},
+  {id:"coaching", icon:"layers", title:"Коучинг-програма", price:"240$", duration:"4 зустрічі / місяць", desc:"Глибока робота над запитом, підтримка між сесіями та трекер прогресу."},
+  {id:"emergency", icon:"heart", title:"Екстрена підтримка", price:"40$", duration:"30 хвилин", desc:"Для гострої тривоги або кризи. Відповідь протягом 2 годин у робочий час."},
 ];
 
 const TESTIMONIALS = [
-  { text: "Після трьох місяців роботи з Оленою я нарешті навчилась говорити «ні» без почуття провини.", author: "Марія, 31 рік" },
-  { text: "Прийшов із панічними атаками по кілька разів на тиждень. Через 2 місяці — жодної.", author: "Андрій, 28 років" },
-  { text: "Олена допомогла вийти з токсичних стосунків. Не просто підтримала — дала інструменти.", author: "Катерина, 35 років" },
-  { text: "Була скептиком щодо психологів. Після першої сесії зрозуміла — це те, чого не вистачало роками.", author: "Юля, 26 років" },
+  {text:"Після трьох місяців роботи з Оленою я нарешті навчилась говорити «ні» без почуття провини.", author:"Марія, 31 рік"},
+  {text:"Прийшов із панічними атаками по кілька разів на тиждень. Через 2 місяці — жодної.", author:"Андрій, 28 років"},
+  {text:"Олена допомогла вийти з токсичних стосунків. Не просто підтримала — дала інструменти.", author:"Катерина, 35 років"},
+  {text:"Була скептиком щодо психологів. Після першої сесії зрозуміла — це те, чого не вистачало роками.", author:"Юля, 26 років"},
 ];
 
 const MATERIALS = [
-  { id: 1, emoji: "😮‍💨", title: "5 способів заспокоїти тривогу", sub: "за 10 хвилин" },
-  { id: 2, emoji: "✅", title: "Чеклист особистих кордонів", sub: "15 запитань" },
-  { id: 3, emoji: "🔋", title: "Тест на вигорання", sub: "+ план відновлення" },
+  {id:1, icon:"heart", title:"5 способів заспокоїти тривогу за 10 хвилин", sub:"Практичний гайд · PDF", content:"📋 *5 способів заспокоїти тривогу за 10 хвилин*\n\n1️⃣ *Техніка 4-7-8*\nВдих 4с → затримка 7с → видих 8с. Повтори 4 рази.\n\n2️⃣ *Заземлення 5-4-3-2-1*\n5 речей що бачиш → 4 що відчуваєш дотиком → 3 що чуєш → 2 що нюхаєш → 1 що смакуєш.\n\n3️⃣ *Холодна вода на зап\'ястя*\nАктивує парасимпатику і знижує реакцію стресу.\n\n4️⃣ *Запиши тривожну думку*\nЗапитай себе: «Чи точно це станеться? Чи є докази?»\n\n5️⃣ *5 хвилин фізичного руху*\nБудь-якого — прогулянка, стрибки, розтяжка.\n\n💙 З турботою, Олена Коваленко"},
+  {id:2, icon:"check", title:"Чеклист особистих кордонів", sub:"15 запитань для рефлексії · PDF", content:"📋 *Чеклист особистих кордонів*\n\nВідповідай чесно — так/ні:\n\n1. Я можу сказати \"ні\" без пояснень?\n2. Я виражаю своє невдоволення?\n3. Я прошу про допомогу коли потрібно?\n4. Мої потреби важливі для мене?\n5. Я не беру відповідальність за почуття інших?\n6. Я маю час тільки для себе?\n7. Я відмовляю коли не хочу щось робити?\n8. Моя думка важлива для мене?\n9. Я не вибачаюсь за своє існування?\n10. Я можу завершити стосунки що мені шкодять?\n\n✅ 8-10 «так» — кордони здорові\n⚠️ 4-7 — є зони для роботи\n🔴 0-3 — рекомендую консультацію\n\n💙 Олена"},
+  {id:3, icon:"clipboard", title:"Тест на вигорання + план відновлення", sub:"Самодіагностика + рекомендації · PDF", content:"📋 *Тест на вигорання*\n\nОціни від 1 до 5 (1=низький, 5=нормальний):\n\n• Рівень енергії вранці\n• Інтерес до роботи\n• Відчуття сенсу\n• Якість сну\n• Бажання спілкуватись\n\n📊 *Результат:*\n< 10 — 🔴 Є ознаки вигорання. Рекомендую звернутись.\n10-18 — 🟡 Варто звернути увагу на відновлення.\n> 18 — 🟢 Ресурс є — підтримуй його!\n\n💡 *3 кроки для відновлення:*\n1. Відновити сон і режим\n2. Знайти одну маленьку радість щодня\n3. Зменшити кількість «треба» і збільшити «хочу»\n\n💙 Олена"},
 ];
 
-const TEST_QUESTIONS = [
-  { q: "Як часто відчуваєте тривогу або внутрішнє напруження?", opts: ["Рідко або ніколи", "Іноді, але минає", "Досить часто", "Майже постійно"] },
-  { q: "Як у вас зі сном?", opts: ["Сплю добре", "Іноді важко заснути", "Часто погано сплю", "Постійні проблеми"] },
-  { q: "Чи відчуваєте емоційне виснаження або порожнечу?", opts: ["Ні, почуваюсь наповненим(ою)", "Іноді відчуваю втому", "Часто виснажений(а)", "Постійна порожнеча"] },
-  { q: "Як складаються ваші стосунки з близькими?", opts: ["Все добре", "Є непорозуміння", "Часті конфлікти", "Дуже напружені"] },
-  { q: "Чи є відчуття сенсу та мотивації?", opts: ["Так, знаю навіщо прокидаюсь", "Іноді втрачаю напрямок", "Часто відчуваю безглуздість", "Живу на автопілоті"] },
-  { q: "Як реагуєте на стрес?", opts: ["Справляюсь спокійно", "Іноді гостро, але відновлююсь", "Стрес довго не відпускає", "Навіть дрібниці виводять"] },
-  { q: "Чи задоволені собою та своїм життям?", opts: ["Так, все добре", "Є що покращити, але ok", "Часто незадоволений(а)", "Постійне «щось не так»"] },
+// ── Daily tests (7 sets) ───────────────────────────────────────────────
+const DAILY_TESTS = [
+  {title:"Тест понеділка: Енергія та мотивація", qs:[
+    {q:"Як ви почуваєтесь на початку нового тижня?", opts:["Є сили і бажання","Нормально","Втомлений","Не хочу нічого"]},
+    {q:"Чи є у вас мета або фокус на цей тиждень?", opts:["Так, чітка","Приблизно","Не маю","Не думав(ла)"]},
+    {q:"Як ваш сон минулої ночі?", opts:["Чудово","Нормально","Погано","Не спав(ла)"]},
+    {q:"Що вас надихає зараз найбільше?", opts:["Є що надихає","Трохи є","Важко знайти","Нічого"]},
+    {q:"Як ваш рівень стресу зараз?", opts:["Низький","Помірний","Відчутний","Дуже високий"]},
+  ]},
+  {title:"Тест вівторка: Стосунки та зв\'язки", qs:[
+    {q:"Чи є поруч людина якій ви можете довіритись?", opts:["Так","Скоріше так","Скоріше ні","Ні"]},
+    {q:"Як ви почуваєтесь у своєму соціальному оточенні?", opts:["Добре і комфортно","Нормально","Трохи самотньо","Дуже самотньо"]},
+    {q:"Чи виникали конфлікти з близькими минулого тижня?", opts:["Ні","Незначні","Помітні","Серйозні"]},
+    {q:"Наскільки легко вам просити про допомогу?", opts:["Легко","Трохи складно","Важко","Ніколи не прошу"]},
+    {q:"Як ви почуваєтесь після спілкування з людьми?", opts:["Наповненим","Нормально","Іноді спустошеним","Завжди спустошеним"]},
+  ]},
+  {title:"Тест середи: Внутрішній стан", qs:[
+    {q:"Які емоції переважають у вас цього тижня?", opts:["Позитивні","Нейтральні","Тривога/смуток","Пустота"]},
+    {q:"Наскільки ви задоволені собою зараз?", opts:["Задоволений","В цілому так","Не дуже","Незадоволений"]},
+    {q:"Як давно ви робили щось тільки для себе?", opts:["Нещодавно","Тиждень тому","Місяць тому","Дуже давно"]},
+    {q:"Чи помічаєте ви хороші речі у своєму житті?", opts:["Так часто","Іноді","Рідко","Не можу знайти"]},
+    {q:"Як ви справляєтесь зі стресом цього тижня?", opts:["Добре","Нормально","Важко","Не справляюсь"]},
+  ]},
+  {title:"Тест четверга: Тіло та енергія", qs:[
+    {q:"Як ваше тіло почувається фізично зараз?", opts:["Добре і бадьоро","Нормально","Є втома","Дуже втомлене"]},
+    {q:"Чи є напруга або біль у тілі через стрес?", opts:["Ні","Легка","Помітна","Сильна"]},
+    {q:"Як ваш апетит останніх кількох днів?", opts:["Нормальний","Трохи змінений","Значно змінений","Майже немає"]},
+    {q:"Чи займаєтесь будь-яким рухом або спортом?", opts:["Регулярно","Іноді","Рідко","Ні"]},
+    {q:"Як швидко ви відновлюєтесь після навантаження?", opts:["Швидко","Нормально","Повільно","Не відновлююсь"]},
+  ]},
+  {title:"Тест п\'ятниці: Підсумок тижня", qs:[
+    {q:"Яким був цей тиждень загалом?", opts:["Продуктивним","Нормальним","Важким","Дуже важким"]},
+    {q:"Чи досягли ви чогось за цей тиждень?", opts:["Так, багато","Трохи","Майже ні","Ні"]},
+    {q:"Як ви почуваєтесь перед вихідними?", opts:["Радію","Нормально","Втомлений","Виснажений"]},
+    {q:"Чи є щось що вас турбує і не відпускає?", opts:["Ні","Є але дрібне","Є і відчутне","Є і дуже важке"]},
+    {q:"Що хотіли б відпустити з цього тижня?", opts:["Нічого особливого","Трохи стресу","Певну ситуацію","Накопичену втому"]},
+  ]},
+  {title:"Тест суботи: Відпочинок та ресурс", qs:[
+    {q:"Як ви проводите свій відпочинок сьогодні?", opts:["Повноцінно відпочиваю","Більш-менш","Важко розслабитись","Не можу відпочити"]},
+    {q:"Чи відчуваєте ви провину коли нічого не робите?", opts:["Ні","Іноді","Часто","Завжди"]},
+    {q:"Що приносить вам радість прямо зараз?", opts:["Є багато","Є щось","Важко знайти","Нічого"]},
+    {q:"Наскільки ви вмієте бути в теперішньому моменті?", opts:["Добре","Намагаюсь","Важко","Не вмію"]},
+    {q:"Як ви ставитесь до себе в цей час?", opts:["З турботою","Нормально","З вимогливістю","З критикою"]},
+  ]},
+  {title:"Тест неділі: Рефлексія та плани", qs:[
+    {q:"Як ви почуваєтесь перед новим тижнем?", opts:["З нетерпінням","Нейтрально","З тривогою","З важкістю"]},
+    {q:"Чи є у вашому житті зараз те що хочеться змінити?", opts:["Ні всім задоволений","Є дрібниці","Є важливе","Хочу змінити все"]},
+    {q:"Наскільки ви задоволені своїм життям прямо зараз?", opts:["Дуже","В цілому так","Не дуже","Незадоволений"]},
+    {q:"Чи є людина яка розуміє вас?", opts:["Так","Скоріше так","Не впевнений","Ні"]},
+    {q:"Що б ви сказали собі минулому на цьому тижні?", opts:["Молодець","Ти намагався","Можна краще","Не знаю"]},
+  ]},
 ];
 
-function getResult(score) {
-  if (score <= 4) return { level: "🟢 Стабільний стан", color: "#34c47c", text: "Ваш емоційний стан загалом стабільний. Навіть у стабільному стані робота з психологом допомагає глибше пізнати себе та розкрити потенціал.\n\nПрофілактична робота — найефективніша." };
-  if (score <= 10) return { level: "🟡 Є зони для уваги", color: "#f5a623", text: "Є кілька зон, які потребують уваги. Це хороший момент для початку роботи — поки ситуація не поглибилась.\n\nКраще почати зараз, ніж чекати поки стане важче." };
-  if (score <= 16) return { level: "🟠 Потрібна підтримка", color: "#ff8c42", text: "Значний рівень емоційного навантаження. Ви, мабуть, давно несете це в собі. Підтримка психолога може суттєво змінити якість вашого повсякденного життя.\n\nПерший крок — найважчий. Але ви вже зробили його." };
-  return { level: "🔴 Рекомендую звернутись", color: "#ff5c5c", text: "Зараз вам справді важко. Будь ласка, не відкладайте — зверніться до фахівця.\n\nЗвернутись по допомогу — це сміливість, а не слабкість." };
+const SCHEDULE = {1:["10:00","11:00","13:00","15:00","17:00","19:00"],2:["10:00","12:00","14:00","16:00","18:00"],3:["10:00","11:00","13:00","15:00","17:00","19:00"],4:["10:00","12:00","14:00","16:00"],5:["10:00","11:00","13:00","15:00"]};
+const BOOKED = ["2026-03-12 10:00","2026-03-13 14:00","2026-03-14 11:00"];
+
+function getResult(score, total) {
+  const pct = score / (total * 3) * 100;
+  if(pct < 25) return {level:"Стабільний стан", color:"var(--green)", text:"Ваш стан загалом добрий. Профілактична робота з психологом допоможе глибше пізнати себе і розкрити потенціал."};
+  if(pct < 50) return {level:"Є зони для уваги", color:"var(--yellow)", text:"Є кілька зон що потребують уваги. Хороший момент для початку роботи — поки ситуація не поглибилась."};
+  if(pct < 75) return {level:"Потрібна підтримка", color:"#F97316", text:"Значне навантаження. Підтримка психолога може суттєво змінити якість вашого повсякденного життя."};
+  return {level:"Рекомендую звернутись", color:"var(--red)", text:"Зараз вам справді важко. Будь ласка не відкладайте — зверніться до фахівця."};
 }
 
-const AI_REPLIES = [
-  "Дякую, що поділились. Це важливо — дозволити собі говорити про це. Розкажіть більше — коли ви вперше помітили цей стан?",
-  "Я чую вас. Це справді непросто нести в собі. Як довго ви вже відчуваєте подібне?",
-  "Це дуже важливе усвідомлення. Що зараз допомагає вам трохи полегшити це відчуття?",
-  "Ваші переживання абсолютно зрозумілі. Чи є поряд хтось, з ким ви можете поговорити про це?",
-  "Дуже цінно, що ви звернули увагу на свій стан. Що для вас зараз найважливіше у цій ситуації?",
-  "Я розумію. Часто за цим стоїть щось глибше. Як ви думаєте, звідки це може йти?",
-];
+function getDailyTest() {
+  const dow = new Date().getDay();
+  const idx = dow === 0 ? 6 : dow - 1;
+  return DAILY_TESTS[Math.min(idx, DAILY_TESTS.length - 1)];
+}
 
-// ── Компоненти ────────────────────────────────────────────────────────────
-
-function BackBtn({ onClick }) {
+// ── SHARED COMPONENTS ─────────────────────────────────────────────────
+function BackBtn({onClick, label="Назад"}) {
   return (
-    <button className="back-btn" onClick={onClick}>
-      ← Назад
+    <button className="back-btn" style={{paddingTop:14}} onClick={onClick}>
+      <Icon name="back" size={18} color="var(--blue)"/>{label}
     </button>
   );
 }
 
-// ── Головний екран ────────────────────────────────────────────────────────
-function HomeScreen({ onNav }) {
-  const firstName = tg?.initDataUnsafe?.user?.first_name || "друже";
-  return (
-    <div>
-      <div className="hero">
-        <div className="avatar">🧑‍💼</div>
-        <div style={{fontSize:20,fontWeight:800,marginBottom:4}}>Олена Коваленко</div>
-        <div style={{fontSize:13,opacity:.85,marginBottom:6}}>Психолог · Коуч · 5 років практики</div>
-        <div style={{fontSize:13,opacity:.75,fontStyle:'italic'}}>Простір для самопізнання та змін 💚</div>
+// ── HOME ──────────────────────────────────────────────────────────────
+function HomeScreen({onNav}) {
+  const user = tg?.initDataUnsafe?.user;
+  const firstName = user?.first_name || "друже";
+
+  const menuItems = [
+    {label:"Про мене",   icon:"user",      screen:"about",       bg:"#E8EEFF", ic:"#1A56DB"},
+    {label:"Допомога",   icon:"heart",     screen:"topics",      bg:"#FFE8EF", ic:"#E0185C"},
+    {label:"Послуги",    icon:"briefcase", screen:"services",    bg:"#E8F7F0", ic:"#059669"},
+    {label:"Матеріали",  icon:"gift",      screen:"materials",   bg:"#FFF4E0", ic:"#D97706"},
+    {label:"Відгуки",    icon:"star",      screen:"testimonials",bg:"#F3E8FF", ic:"#7C3AED"},
+    {label:"AI-чат",     icon:"bot",       screen:"ai",          bg:"#E0F2FE", ic:"#0369A1"},
+  ];
+
+  return(
+    <div style={{display:"flex",flexDirection:"column",minHeight:"calc(100vh - 96px)"}}>
+
+      {/* ── HEADER BLOCK (темно-синій як у референсі) ── */}
+      <div style={{
+        background:"linear-gradient(160deg,#0F1F5C 0%,#1A3A8F 55%,#1A56DB 100%)",
+        borderRadius:"0 0 32px 32px",
+        padding:"20px 18px 28px",
+        marginLeft:-12,marginRight:-12,marginTop:-12,
+        position:"relative",overflow:"hidden",
+        boxShadow:"0 8px 32px rgba(15,31,92,.35)"
+      }}>
+        {/* декоративні кола */}
+        <div style={{position:"absolute",width:200,height:200,background:"rgba(255,255,255,.04)",borderRadius:"50%",top:-60,right:-60,pointerEvents:"none"}}/>
+        <div style={{position:"absolute",width:120,height:120,background:"rgba(255,255,255,.03)",borderRadius:"50%",bottom:-30,left:20,pointerEvents:"none"}}/>
+
+        {/* топ рядок */}
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20,position:"relative",zIndex:1}}>
+          <div>
+            <div style={{fontSize:13,color:"rgba(255,255,255,.55)",fontWeight:600,marginBottom:2}}>Вітаємо 👋</div>
+            <div style={{fontSize:22,fontWeight:800,color:"#fff",lineHeight:1.1}}>Привіт, {firstName}!</div>
+          </div>
+          {/* notification bell */}
+          <div style={{width:40,height:40,borderRadius:"50%",background:"rgba(255,255,255,.12)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",backdropFilter:"blur(4px)"}}
+            onClick={()=>onNav("booking")}>
+            <Icon name="calendar" size={20} color="#fff"/>
+          </div>
+        </div>
+
+        {/* профіль психолога */}
+        <div style={{display:"flex",alignItems:"center",gap:14,background:"rgba(255,255,255,.10)",borderRadius:18,padding:"14px 14px",backdropFilter:"blur(8px)",position:"relative",zIndex:1}}>
+          <div style={{width:56,height:56,borderRadius:"50%",overflow:"hidden",border:"2.5px solid rgba(255,255,255,.4)",flexShrink:0,boxShadow:"0 4px 16px rgba(0,0,0,.35)"}}>
+            <img src={PHOTO} style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+          </div>
+          <div style={{flex:1}}>
+            <div style={{fontSize:15,fontWeight:800,color:"#fff",marginBottom:2}}>Олена Коваленко</div>
+            <div style={{fontSize:12,color:"rgba(255,255,255,.65)",marginBottom:6}}>Психолог · Коуч · КПТ</div>
+            <div style={{display:"flex",gap:16}}>
+              {[["300+","сесій"],["5","років"],["7","країн"]].map(([v,l])=>(
+                <div key={l}>
+                  <div style={{fontSize:14,fontWeight:800,color:"#fff"}}>{v}</div>
+                  <div style={{fontSize:10,color:"rgba(255,255,255,.5)",fontWeight:600}}>{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="card" style={{marginBottom:10}}>
-        <div className="text-sm fw-700 mb-6" style={{color:'var(--tg-hint)'}}>☀️ Привіт, {firstName}! Як сьогодні?</div>
-        <div className="checkin-row">
-          {[["🙂","Добре","good"],["😐","Нормально","ok"],["😔","Важко","hard"]].map(([e,l,k])=>(
-            <button key={k} className="checkin-btn" onClick={()=>onNav("checkin",{mood:k})}>
-              <span className="emoji">{e}</span>
-              <span className="label">{l}</span>
+      {/* ── CHECK-IN ── */}
+      <div style={{padding:"18px 0 0"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
+          <div style={{fontSize:15,fontWeight:800,color:"var(--text)"}}>Як ти сьогодні?</div>
+          <div style={{fontSize:12,color:"var(--text3)",fontWeight:600}}>Обери настрій</div>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
+          {[["🙂","Добре","good","#E8F7F0","#059669"],["😐","Нормально","ok","#FFF4E0","#D97706"],["😔","Важко","hard","#FFE8EF","#E0185C"]].map(([e,l,k,bg,clr])=>(
+            <button key={k} onClick={()=>onNav("checkin",{mood:k})}
+              style={{background:"var(--white)",border:"none",borderRadius:14,padding:"12px 8px",display:"flex",flexDirection:"column",alignItems:"center",gap:5,cursor:"pointer",boxShadow:"var(--shadow)",fontFamily:"Manrope",transition:"transform .12s"}}
+              onMouseDown={e=>e.currentTarget.style.transform="scale(.95)"}
+              onMouseUp={e=>e.currentTarget.style.transform=""}
+              onTouchStart={e=>e.currentTarget.style.transform="scale(.95)"}
+              onTouchEnd={e=>e.currentTarget.style.transform=""}>
+              <div style={{width:38,height:38,borderRadius:12,background:bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{e}</div>
+              <div style={{fontSize:11,fontWeight:700,color:clr}}>{l}</div>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="menu-grid">
-        {[
-          ["🧑‍💼","Про психолога","about"],
-          ["💭","Чим допоможу","topics"],
-          ["📋","Пройти тест","test"],
-          ["💼","Послуги","services"],
-          ["📅","Записатись","booking"],
-          ["🎁","Матеріали","materials"],
-          ["⭐️","Відгуки","testimonials"],
-          ["🤖","AI-помічник","ai"],
-        ].map(([icon,label,screen])=>(
-          <button key={screen} className="menu-item" onClick={()=>onNav(screen)}>
-            <span className="icon">{icon}</span>
-            <span className="text">{label}</span>
-          </button>
-        ))}
+      {/* ── 2 QUICK-ACTION КАРТКИ ── */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:14}}>
+        <div onClick={()=>onNav("booking")} style={{background:"linear-gradient(135deg,#0F1F5C,#1A56DB)",borderRadius:18,padding:"16px 14px",cursor:"pointer",boxShadow:"0 6px 24px rgba(15,31,92,.3)",position:"relative",overflow:"hidden"}}>
+          <div style={{position:"absolute",width:70,height:70,background:"rgba(255,255,255,.08)",borderRadius:"50%",right:-15,bottom:-15,pointerEvents:"none"}}/>
+          <div style={{width:36,height:36,borderRadius:11,background:"rgba(255,255,255,.15)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:10}}>
+            <Icon name="calendar" size={18} color="#fff"/>
+          </div>
+          <div style={{fontSize:13,fontWeight:800,color:"#fff",marginBottom:2}}>Записатись</div>
+          <div style={{fontSize:11,color:"rgba(255,255,255,.65)"}}>Онлайн / офлайн</div>
+        </div>
+        <div onClick={()=>onNav("test")} style={{background:"linear-gradient(135deg,#2D1B69,#7C3AED)",borderRadius:18,padding:"16px 14px",cursor:"pointer",boxShadow:"0 6px 24px rgba(45,27,105,.3)",position:"relative",overflow:"hidden"}}>
+          <div style={{position:"absolute",width:70,height:70,background:"rgba(255,255,255,.08)",borderRadius:"50%",right:-15,bottom:-15,pointerEvents:"none"}}/>
+          <div style={{width:36,height:36,borderRadius:11,background:"rgba(255,255,255,.15)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:10}}>
+            <Icon name="clipboard" size={18} color="#fff"/>
+          </div>
+          <div style={{fontSize:13,fontWeight:800,color:"#fff",marginBottom:2}}>Тест дня</div>
+          <div style={{fontSize:11,color:"rgba(255,255,255,.65)"}}>Змінюється щодня</div>
+        </div>
       </div>
+
+      {/* ── МЕНЮ 3×2 з кольоровими іконками ── */}
+      <div style={{marginTop:16}}>
+        <div style={{fontSize:15,fontWeight:800,color:"var(--text)",marginBottom:12}}>Меню</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10}}>
+          {menuItems.map(({label,icon,screen,bg,ic})=>(
+            <button key={screen} onClick={()=>onNav(screen)}
+              style={{background:"var(--white)",borderRadius:18,padding:"14px 8px 12px",display:"flex",flexDirection:"column",alignItems:"center",gap:8,cursor:"pointer",border:"none",boxShadow:"0 2px 12px rgba(10,15,30,.07)",fontFamily:"Manrope",transition:"transform .12s"}}
+              onMouseDown={e=>e.currentTarget.style.transform="scale(.94)"}
+              onMouseUp={e=>e.currentTarget.style.transform=""}
+              onTouchStart={e=>e.currentTarget.style.transform="scale(.94)"}
+              onTouchEnd={e=>e.currentTarget.style.transform=""}>
+              <div style={{width:44,height:44,borderRadius:14,background:bg,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <Icon name={icon} size={22} color={ic}/>
+              </div>
+              <div style={{fontSize:11,fontWeight:700,color:"var(--text)",textAlign:"center",lineHeight:1.2}}>{label}</div>
+            </button>
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 }
 
-// ── Про психолога ────────────────────────────────────────────────────────
-function AboutScreen({ onNav }) {
-  const [tab, setTab] = useState(0);
-  const tabs = ["Про мене","Підхід","Освіта"];
-  const content = [
-    {emoji:"👩‍💼", text:"Мене звати Олена. Я практикуючий психолог та коуч.\n\n🔹 5 років практики\n🔹 300+ проведених сесій\n🔹 Клієнти з 7 країн\n\nЯ допомагаю людям:\n• зрозуміти себе та свої реакції\n• впоратися з тривожністю та вигоранням\n• налагодити стосунки з собою та іншими\n• знайти внутрішню опору в складні моменти"},
-    {emoji:"🧠", text:"Я працюю в інтегративному підході:\n\n🔸 КПТ — змінюємо думки, що заважають жити\n\n🔸 Схема-терапія — працюємо з глибинними переконаннями\n\n🔸 Mindfulness — вчимося бути тут і зараз\n\nМи не копаємось у минулому заради болю — ми шукаємо там ресурс для теперішнього."},
-    {emoji:"🎓", text:"• Київський університет ім. Шевченка\n  Факультет психології, магістр\n\n• Сертифікат КПТ\n  Інститут когнітивної терапії\n\n• Навчання схема-терапії (ISST)\n\n• Регулярна супервізія та особиста терапія"},
+// ── ABOUT ─────────────────────────────────────────────────────────────
+function AboutScreen({onNav}) {
+  const [tab,setTab]=useState(0);
+  const tabs=["Про мене","Підхід","Освіта"];
+  const content=[
+    "Мене звати Олена. Я практикуючий психолог та коуч.\n\n🔹 5 років практики\n🔹 300+ проведених сесій\n🔹 Клієнти з 7 країн\n\nЯ допомагаю людям:\n• зрозуміти себе та свої реакції\n• впоратися з тривожністю та вигоранням\n• налагодити стосунки з собою та іншими\n• знайти внутрішню опору в складні моменти",
+    "Я працюю в інтегративному підході:\n\n🔸 КПТ — змінюємо думки що заважають жити\n\n🔸 Схема-терапія — працюємо з глибинними переконаннями\n\n🔸 Mindfulness — вчимося бути тут і зараз\n\nМи не копаємось у минулому заради болю — ми шукаємо там ресурс для теперішнього.",
+    "• Київський університет ім. Шевченка\n  Факультет психології, магістр\n\n• Сертифікат КПТ\n  Інститут когнітивної терапії\n\n• Навчання схема-терапії (ISST)\n\n• Регулярна супервізія та особиста терапія",
   ];
-  return (
+  return(
     <div>
-      <BackBtn onClick={()=>onNav("home")} />
-      <div style={{display:'flex',gap:6,background:'#f0f3ff',borderRadius:12,padding:4,marginBottom:12}}>
-        {tabs.map((t,i)=>(
-          <button key={i} onClick={()=>setTab(i)} style={{flex:1,padding:'8px 0',border:'none',borderRadius:9,fontFamily:'Nunito',fontSize:13,fontWeight:700,cursor:'pointer',transition:'all .15s',background:tab===i?'white':'transparent',color:tab===i?'var(--accent)':'var(--tg-hint)',boxShadow:tab===i?'0 2px 8px rgba(74,127,255,.12)':'none'}}>
-            {t}
+      <BackBtn onClick={()=>onNav("home")}/>
+      <div className="card" style={{padding:0,overflow:"hidden",marginBottom:12}}>
+        <div style={{background:"var(--grad)",padding:"20px 18px",display:"flex",gap:14,alignItems:"center"}}>
+          <div style={{width:64,height:64,borderRadius:"50%",overflow:"hidden",border:"3px solid rgba(255,255,255,.35)",flexShrink:0}}>
+            <img src={PHOTO} style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+          </div>
+          <div style={{color:"#fff"}}>
+            <div style={{fontSize:18,fontWeight:800}}>Олена Коваленко</div>
+            <div style={{fontSize:13,opacity:.75,marginBottom:6}}>Психолог · Коуч · 5 років</div>
+            <div style={{display:"flex",gap:6}}>
+              <span className="chip">✅ КПТ</span>
+              <span className="chip">🧠 Схема-терапія</span>
+            </div>
+          </div>
+        </div>
+        <div style={{padding:"14px 18px"}}>
+          <div className="tabs">{tabs.map((t,i)=><button key={i} className={`tab-btn ${tab===i?"active":""}`} onClick={()=>setTab(i)}>{t}</button>)}</div>
+          <p className="pre">{content[tab]}</p>
+        </div>
+      </div>
+      <button className="btn btn-primary" onClick={()=>onNav("booking")}>
+        <Icon name="calendar" size={18} color="#fff"/>Записатись на консультацію
+      </button>
+    </div>
+  );
+}
+
+// ── TOPICS ────────────────────────────────────────────────────────────
+function TopicsScreen({onNav, initialSel}) {
+  const [sel,setSel]=useState(initialSel||null);
+  const [testStep,setTestStep]=useState(-1);
+  const [answers,setAnswers]=useState([]);
+
+  if(sel && testStep >= 0) {
+    const t = TOPICS.find(x=>x.id===sel);
+    if(testStep >= t.test.length) {
+      const score = answers.reduce((a,b)=>a+b,0);
+      const r = getResult(score, t.test.length);
+      return(
+        <div>
+          <BackBtn onClick={()=>{setTestStep(-1);setAnswers([]);}}/>
+          <div className="card" style={{textAlign:"center",padding:"24px 20px"}}>
+            <div style={{fontSize:12,fontWeight:700,color:r.color,textTransform:"uppercase",letterSpacing:".5px",marginBottom:6}}>Результат тесту</div>
+            <div style={{fontSize:24,fontWeight:800,color:r.color,marginBottom:14}}>{r.level}</div>
+            <div className="divider"/>
+            <p className="pre" style={{textAlign:"left",marginTop:12}}>{r.text}</p>
+          </div>
+          <button className="btn btn-primary mt-8" onClick={async ()=>{
+            const user = tg?.initDataUnsafe?.user;
+            const userInfo = user ? `@${user.username||"—"} (${user.first_name||""})` : "користувач";
+            await sendNotify(`📊 *РЕЗУЛЬТАТ ТЕМАТИЧНОГО ТЕСТУ*
+
+👤 ${userInfo}
+📋 Тема: ${t.label}
+📈 Результат: ${r.level}
+
+Людина переходить до запису.`);
+            onNav("booking");
+          }}>
+            <Icon name="calendar" size={18} color="#fff"/>Записатись до Олени
+          </button>
+          <button className="btn btn-secondary mt-8" onClick={()=>{setTestStep(-1);setAnswers([]);}}>
+            <Icon name="back" size={18} color="var(--blue)"/>До теми
+          </button>
+        </div>
+      );
+    }
+    const q = t.test[testStep];
+    return(
+      <div>
+        <BackBtn onClick={()=>{setTestStep(-1);setAnswers([]);}}/>
+        <div className="progress-bar"><div className="progress-fill" style={{width:`${(testStep/t.test.length)*100}%`}}/></div>
+        <div style={{fontSize:12,color:"var(--text3)",fontWeight:700,marginBottom:12,textAlign:"right"}}>{testStep+1} / {t.test.length}</div>
+        <div style={{fontSize:12,color:"var(--blue)",fontWeight:700,marginBottom:8}}>{t.emoji} {t.label}</div>
+        <div className="card">
+          <div style={{fontSize:15,fontWeight:700,marginBottom:16,lineHeight:1.5}}>{q.q}</div>
+          {q.opts.map((opt,i)=>(
+            <button key={i} className="test-option" onClick={()=>{setAnswers([...answers,i]);setTestStep(testStep+1)}}>
+              <div className="opt-circle">{i+1}</div>{opt}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if(sel) {
+    const t = TOPICS.find(x=>x.id===sel);
+    return(
+      <div>
+        <BackBtn onClick={()=>setSel(null)}/>
+        {/* Banner card for topic */}
+        <div className="banner-card" style={{marginBottom:12}}>
+          <div className="banner-card-inner" style={{padding:"20px 18px"}}>
+            <div className="banner-card-orb"/>
+            <span className="bc-badge">{t.emoji} {t.label}</span>
+            <div className="bc-title">Як я можу допомогти</div>
+            <div className="bc-sub" style={{fontSize:14,lineHeight:1.6}}>{t.text.split("\n\n")[0]}</div>
+          </div>
+        </div>
+        <div className="card">
+          <p className="pre">{t.text.split("\n\n").slice(1).join("\n\n")}</p>
+        </div>
+        <button className="btn btn-primary mt-8" onClick={()=>{setTestStep(0);setAnswers([]);}}>
+          <Icon name="clipboard" size={18} color="#fff"/>Пройти тест «{t.label}»
+        </button>
+        <button className="btn btn-secondary mt-8" onClick={()=>onNav("booking")}>
+          <Icon name="calendar" size={18} color="var(--blue)"/>Записатись
+        </button>
+      </div>
+    );
+  }
+
+  return(
+    <div>
+      <BackBtn onClick={()=>onNav("home")}/>
+      <div className="section-title">Чим я можу допомогти</div>
+      <div className="num-list">
+        {TOPICS.map((t,i)=>(
+          <button key={t.id} className="num-item" style={{width:"100%",background:"none",border:"none",textAlign:"left"}} onClick={()=>setSel(t.id)}>
+            <div style={{fontSize:24,width:40,textAlign:"center",flexShrink:0}}>{t.emoji}</div>
+            <div style={{flex:1}}>
+              <div className="num-item-title">{t.label}</div>
+              <div className="num-item-sub">Тест · Детальніше</div>
+            </div>
+            <div style={{width:28,height:28,background:"var(--blue-soft)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+              <Icon name="arrow_up_right" size={14} color="var(--blue)"/>
+            </div>
           </button>
         ))}
       </div>
+    </div>
+  );
+}
+
+// ── DAILY TEST ────────────────────────────────────────────────────────
+function TestScreen({onNav}) {
+  const daily = getDailyTest();
+  const [step,setStep]=useState(-1);
+  const [answers,setAnswers]=useState([]);
+
+  if(step===-1) return(
+    <div>
+      <BackBtn onClick={()=>onNav("home")}/>
+      <div className="banner-card" style={{marginBottom:12}}>
+        <div className="banner-card-inner">
+          <div className="banner-card-orb"/>
+          <span className="bc-badge">📅 Тест дня</span>
+          <div className="bc-title">{daily.title}</div>
+          <div className="bc-sub">5 питань · ~2 хвилини · змінюється щодня</div>
+          <div className="bc-progress"><div className="bc-progress-fill" style={{width:"0%"}}/></div>
+        </div>
+      </div>
       <div className="card">
-        <div style={{fontSize:40,textAlign:'center',marginBottom:12}}>{content[tab].emoji}</div>
-        <p className="pre">{content[tab].text}</p>
+        <p style={{fontSize:13,color:"var(--text2)",lineHeight:1.65}}>Короткий щоденний тест допоможе краще розуміти свій емоційний стан і відстежувати зміни щотижня.</p>
       </div>
-      <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись на консультацію</button>
-    </div>
-  );
-}
-
-// ── Теми ─────────────────────────────────────────────────────────────────
-function TopicsScreen({ onNav }) {
-  const [sel, setSel] = useState(null);
-  if (sel) {
-    const t = TOPICS.find(x=>x.id===sel);
-    return (
-      <div>
-        <BackBtn onClick={()=>setSel(null)} />
-        <div className="card">
-          <div style={{fontSize:32,marginBottom:8}}>{t.emoji}</div>
-          <div style={{fontSize:17,fontWeight:800,marginBottom:12}}>{t.label}</div>
-          <p className="pre">{t.text}</p>
-        </div>
-        <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись</button>
-        <button className="btn btn-secondary mt-8" onClick={()=>onNav("test")}>📋 Пройти тест</button>
-      </div>
-    );
-  }
-  return (
-    <div>
-      <BackBtn onClick={()=>onNav("home")} />
-      <div style={{fontSize:17,fontWeight:800,marginBottom:4}}>💭 Чим я можу допомогти</div>
-      <div className="text-hint mb-10">Оберіть тему, яка зараз відгукується:</div>
-      {TOPICS.map(t=>(
-        <button key={t.id} className="list-item" onClick={()=>setSel(t.id)}>
-          <div className="list-item-left">
-            <span className="list-item-emoji">{t.emoji}</span>
-            <span className="list-item-title">{t.label}</span>
-          </div>
-          <span className="list-item-arrow">›</span>
-        </button>
-      ))}
-    </div>
-  );
-}
-
-// ── Послуги ───────────────────────────────────────────────────────────────
-function ServicesScreen({ onNav }) {
-  const [sel, setSel] = useState(null);
-  if (sel) {
-    const s = SERVICES.find(x=>x.id===sel);
-    return (
-      <div>
-        <BackBtn onClick={()=>setSel(null)} />
-        <div className="card">
-          <div style={{fontSize:36,marginBottom:10,textAlign:'center'}}>{s.emoji}</div>
-          <div style={{fontSize:18,fontWeight:800,textAlign:'center',marginBottom:6}}>{s.title}</div>
-          <div style={{display:'flex',gap:8,justifyContent:'center',marginBottom:14}}>
-            <span className="tag">{s.duration}</span>
-            <span style={{background:'#e8fff4',color:'var(--green)',borderRadius:8,padding:'3px 10px',fontSize:14,fontWeight:800}}>{s.price}</span>
-          </div>
-          <p style={{fontSize:14,color:'var(--tg-hint)',lineHeight:1.6,textAlign:'center'}}>{s.desc}</p>
-        </div>
-        <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись</button>
-        <button className="btn btn-secondary mt-8" onClick={()=>onNav("ask")}>❓ Поставити питання</button>
-      </div>
-    );
-  }
-  return (
-    <div>
-      <BackBtn onClick={()=>onNav("home")} />
-      <div style={{fontSize:17,fontWeight:800,marginBottom:12}}>💼 Консультації та ціни</div>
-      {SERVICES.map(s=>(
-        <div key={s.id} className="service-card" onClick={()=>setSel(s.id)}>
-          <div className="service-header">
-            <div>
-              <div style={{fontSize:22,marginBottom:4}}>{s.emoji}</div>
-              <div className="service-title">{s.title}</div>
-            </div>
-            <div className="service-price">{s.price}</div>
-          </div>
-          <span className="tag">{s.duration}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-// ── Тест ──────────────────────────────────────────────────────────────────
-function TestScreen({ onNav }) {
-  const [step, setStep] = useState(-1);
-  const [answers, setAnswers] = useState([]);
-
-  if (step === -1) return (
-    <div>
-      <BackBtn onClick={()=>onNav("home")} />
-      <div className="card" style={{textAlign:'center',padding:'28px 20px'}}>
-        <div style={{fontSize:52,marginBottom:12}}>📋</div>
-        <div style={{fontSize:20,fontWeight:800,marginBottom:6}}>Тест самодіагностики</div>
-        <div className="text-hint" style={{marginBottom:8}}>7 питань · ~2 хвилини</div>
-        <div style={{fontSize:13,color:'var(--tg-hint)'}}>Відповідай чесно — результат лише для тебе 🔒</div>
-      </div>
-      <button className="btn btn-primary mt-8" onClick={()=>setStep(0)}>▶️ Почати тест</button>
+      <button className="btn btn-primary mt-8" onClick={()=>setStep(0)}>
+        <Icon name="sparkle" size={18} color="#fff"/>Почати тест
+      </button>
     </div>
   );
 
-  if (step >= TEST_QUESTIONS.length) {
+  if(step >= daily.qs.length) {
     const score = answers.reduce((a,b)=>a+b,0);
-    const r = getResult(score);
-    return (
+    const r = getResult(score, daily.qs.length);
+    return(
       <div>
-        <div className="card result-card">
-          <div style={{fontSize:48,marginBottom:12}}>📊</div>
-          <div className="result-level" style={{color:r.color}}>{r.level}</div>
-          <p className="result-text pre">{r.text}</p>
+        <div className="card" style={{textAlign:"center",padding:"28px 20px"}}>
+          <div style={{width:64,height:64,borderRadius:18,background:r.color.startsWith("var")?"var(--grad)":`linear-gradient(135deg,${r.color},${r.color})`,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 14px"}}>
+            <Icon name="sparkle" size={32} color="#fff"/>
+          </div>
+          <div style={{fontSize:12,fontWeight:700,color:r.color,textTransform:"uppercase",letterSpacing:".5px",marginBottom:4}}>Результат</div>
+          <div style={{fontSize:22,fontWeight:800,color:r.color,marginBottom:14}}>{r.level}</div>
+          <div className="divider"/>
+          <p className="pre" style={{textAlign:"left",marginTop:10}}>{r.text}</p>
         </div>
-        <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись на консультацію</button>
-        <button className="btn btn-secondary mt-8" onClick={()=>onNav("ai")}>🤖 Поговорити з AI</button>
-        <button className="btn btn-ghost mt-8" onClick={()=>{setStep(-1);setAnswers([])}}>↺ Пройти знову</button>
+        <button className="btn btn-primary mt-8" onClick={async()=>{
+          const user = tg?.initDataUnsafe?.user;
+          const userInfo = user ? `@${user.username||"—"} (${user.first_name||""})` : "користувач";
+          await sendNotify(`📊 *РЕЗУЛЬТАТ ТЕСТУ ДНЯ*
+
+👤 ${userInfo}
+📋 ${daily.title}
+📈 Результат: ${r.level}
+
+Людина переходить до запису.`);
+          onNav("booking");
+        }}>
+          <Icon name="calendar" size={18} color="#fff"/>Записатись на консультацію
+        </button>
+        <button className="btn btn-secondary mt-8" onClick={()=>onNav("ai")}>
+          <Icon name="bot" size={18} color="var(--blue)"/>Поговорити з AI
+        </button>
+        <button className="btn btn-ghost mt-8" onClick={()=>{setStep(-1);setAnswers([]);}}>
+          <Icon name="back" size={16} color="var(--text2)"/>Пройти знову
+        </button>
       </div>
     );
   }
 
-  const q = TEST_QUESTIONS[step];
-  const pct = (step/TEST_QUESTIONS.length)*100;
-
-  return (
+  const q = daily.qs[step];
+  return(
     <div>
-      <div className="progress-bar"><div className="progress-fill" style={{width:`${pct}%`}}/></div>
-      <div style={{fontSize:12,color:'var(--tg-hint)',fontWeight:700,marginBottom:12,textAlign:'right'}}>{step+1} / {TEST_QUESTIONS.length}</div>
+      <BackBtn onClick={()=>step===0?setStep(-1):setStep(s=>s-1)}/>
+      <div className="progress-bar"><div className="progress-fill" style={{width:`${(step/daily.qs.length)*100}%`}}/></div>
+      <div style={{fontSize:12,color:"var(--text3)",fontWeight:700,marginBottom:12,textAlign:"right"}}>{step+1} / {daily.qs.length}</div>
       <div className="card">
-        <div style={{fontSize:15,fontWeight:800,marginBottom:16,lineHeight:1.4}}>{q.q}</div>
+        <div style={{fontSize:15,fontWeight:700,marginBottom:16,lineHeight:1.5}}>{q.q}</div>
         {q.opts.map((opt,i)=>(
           <button key={i} className="test-option" onClick={()=>{setAnswers([...answers,i]);setStep(step+1)}}>
-            {opt}
+            <div className="opt-circle">{i+1}</div>{opt}
           </button>
         ))}
       </div>
@@ -601,137 +769,104 @@ function TestScreen({ onNav }) {
   );
 }
 
-// ── Календар — вільні слоти ──────────────────────────────────────────────
-// Психолог налаштовує свій розклад тут:
-const SCHEDULE = {
-  // день тижня (0=нд,1=пн...6=сб): [години]
-  1: ['10:00','11:00','13:00','15:00','17:00','19:00'],
-  2: ['10:00','12:00','14:00','16:00','18:00'],
-  3: ['10:00','11:00','13:00','15:00','17:00','19:00'],
-  4: ['10:00','12:00','14:00','16:00'],
-  5: ['10:00','11:00','13:00','15:00'],
-};
-// Зайняті слоти (формат "YYYY-MM-DD HH:MM") — психолог додає вручну або через API
-const BOOKED = ['2026-03-12 10:00','2026-03-13 14:00','2026-03-14 11:00'];
-
-function CalendarPicker({ onSelect }) {
-  const today = new Date();
-  const [month, setMonth] = useState(today.getMonth());
-  const [year, setYear] = useState(today.getFullYear());
-  const [selDate, setSelDate] = useState(null);
-  const [selTime, setSelTime] = useState(null);
-
-  const MONTHS = ['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
-  const DAYS = ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'];
-
-  const daysInMonth = new Date(year, month+1, 0).getDate();
-  // перший день тижня (0=пн)
-  let firstDay = new Date(year, month, 1).getDay();
-  firstDay = firstDay === 0 ? 6 : firstDay - 1;
-
-  const prevMonth = () => { if(month===0){setMonth(11);setYear(y=>y-1);}else setMonth(m=>m-1); setSelDate(null); setSelTime(null); };
-  const nextMonth = () => { if(month===11){setMonth(0);setYear(y=>y+1);}else setMonth(m=>m+1); setSelDate(null); setSelTime(null); };
-
-  const fmt = (d) => {
-    const dd = String(d).padStart(2,'0');
-    const mm = String(month+1).padStart(2,'0');
-    return `${year}-${mm}-${dd}`;
-  };
-
-  const hasSlots = (d) => {
-    const date = new Date(year, month, d);
-    const dow = date.getDay() === 0 ? 7 : date.getDay(); // 1=пн..7=нд
-    const slots = SCHEDULE[dow] || [];
-    if (!slots.length) return false;
-    const dateStr = fmt(d);
-    // хоча б один не зайнятий
-    return slots.some(t => !BOOKED.includes(`${dateStr} ${t}`));
-  };
-
-  const isPast = (d) => new Date(year, month, d) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-  const getSlots = (d) => {
-    const date = new Date(year, month, d);
-    const dow = date.getDay() === 0 ? 7 : date.getDay();
-    const slots = SCHEDULE[dow] || [];
-    const dateStr = fmt(d);
-    return slots.filter(t => !BOOKED.includes(`${dateStr} ${t}`));
-  };
-
-  const cells = [];
-  for(let i=0;i<firstDay;i++) cells.push(null);
-  for(let d=1;d<=daysInMonth;d++) cells.push(d);
-
-  return (
+// ── SERVICES ──────────────────────────────────────────────────────────
+function ServicesScreen({onNav}) {
+  const [sel,setSel]=useState(null);
+  if(sel) {
+    const s=SERVICES.find(x=>x.id===sel);
+    return(
+      <div>
+        <BackBtn onClick={()=>setSel(null)}/>
+        <div className="card" style={{textAlign:"center",padding:"24px 20px"}}>
+          <div className="icon-box" style={{width:64,height:64,margin:"0 auto 14px"}}><Icon name={s.icon} size={32} color="#fff"/></div>
+          <div style={{fontSize:18,fontWeight:800,marginBottom:8}}>{s.title}</div>
+          <div style={{display:"flex",gap:8,justifyContent:"center",marginBottom:14}}>
+            <span className="tag">{s.duration}</span>
+            <span className="chip-green"><Icon name="check" size={12} color="var(--green)"/>{s.price}</span>
+          </div>
+          <div className="divider"/>
+          <p style={{fontSize:14,color:"var(--text2)",lineHeight:1.65,textAlign:"left",marginTop:10}}>{s.desc}</p>
+        </div>
+        <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>
+          <Icon name="calendar" size={18} color="#fff"/>Записатись
+        </button>
+      </div>
+    );
+  }
+  return(
     <div>
-      {/* Навігація по місяцях */}
-      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}}>
-        <button onClick={prevMonth} style={{background:'#f0f3ff',border:'none',borderRadius:9,width:34,height:34,cursor:'pointer',fontSize:16,color:'var(--accent)'}}>‹</button>
+      <BackBtn onClick={()=>onNav("home")}/>
+      <div className="section-title">Послуги та ціни</div>
+      {SERVICES.map((s,i)=>(
+        <div key={s.id} className="svc-card" onClick={()=>setSel(s.id)}>
+          <div style={{display:"flex",gap:12,alignItems:"center",marginBottom:10}}>
+            <div className="icon-box" style={{width:50,height:50}}><Icon name={s.icon} size={25} color="#fff"/></div>
+            <div style={{flex:1}}>
+              <div style={{fontSize:15,fontWeight:800}}>{s.title}</div>
+              <span className="tag" style={{marginTop:5,display:"inline-flex"}}>{s.duration}</span>
+            </div>
+            <div className="svc-price">{s.price}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── CALENDAR ──────────────────────────────────────────────────────────
+function CalendarPicker({onSelect}) {
+  const today=new Date();
+  const [month,setMonth]=useState(today.getMonth());
+  const [year,setYear]=useState(today.getFullYear());
+  const [selDate,setSelDate]=useState(null);
+  const [selTime,setSelTime]=useState(null);
+  const MONTHS=["Січень","Лютий","Березень","Квітень","Травень","Червень","Липень","Серпень","Вересень","Жовтень","Листопад","Грудень"];
+  const DAYS=["Пн","Вт","Ср","Чт","Пт","Сб","Нд"];
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  let firstDay=new Date(year,month,1).getDay();firstDay=firstDay===0?6:firstDay-1;
+  const fmt=(d)=>`${year}-${String(month+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+  const isPast=(d)=>new Date(year,month,d)<new Date(today.getFullYear(),today.getMonth(),today.getDate());
+  const hasSlots=(d)=>{const dow=new Date(year,month,d).getDay()||7;return(SCHEDULE[dow]||[]).some(t=>!BOOKED.includes(`${fmt(d)} ${t}`));};
+  const getSlots=(d)=>{const dow=new Date(year,month,d).getDay()||7;return(SCHEDULE[dow]||[]).filter(t=>!BOOKED.includes(`${fmt(d)} ${t}`));};
+  const cells=[];for(let i=0;i<firstDay;i++)cells.push(null);for(let d=1;d<=daysInMonth;d++)cells.push(d);
+  const prevM=()=>{month===0?(setMonth(11),setYear(y=>y-1)):setMonth(m=>m-1);setSelDate(null);setSelTime(null);};
+  const nextM=()=>{month===11?(setMonth(0),setYear(y=>y+1)):setMonth(m=>m+1);setSelDate(null);setSelTime(null);};
+  return(
+    <div>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
+        <button onClick={prevM} style={{width:36,height:36,background:"var(--bg)",border:"none",borderRadius:10,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="back" size={16} color="var(--text2)"/></button>
         <span style={{fontWeight:800,fontSize:15}}>{MONTHS[month]} {year}</span>
-        <button onClick={nextMonth} style={{background:'#f0f3ff',border:'none',borderRadius:9,width:34,height:34,cursor:'pointer',fontSize:16,color:'var(--accent)'}}>›</button>
+        <button onClick={nextM} style={{width:36,height:36,background:"var(--bg)",border:"none",borderRadius:10,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transform:"rotate(180deg)"}}><Icon name="back" size={16} color="var(--text2)"/></button>
       </div>
-
-      {/* Дні тижня */}
-      <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:2,marginBottom:4}}>
-        {DAYS.map(d=>(
-          <div key={d} style={{textAlign:'center',fontSize:11,fontWeight:700,color:'var(--tg-hint)',padding:'4px 0'}}>{d}</div>
-        ))}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:2,marginBottom:8}}>
+        {DAYS.map(d=><div key={d} style={{textAlign:"center",fontSize:11,fontWeight:700,color:"var(--text3)",padding:"4px 0"}}>{d}</div>)}
       </div>
-
-      {/* Клітинки */}
-      <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:3}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:4}}>
         {cells.map((d,i)=>{
-          if (!d) return <div key={i}/>;
-          const past = isPast(d);
-          const slots = hasSlots(d);
-          const selected = selDate===d;
-          return (
-            <button key={i} onClick={()=>{ if(!past&&slots){setSelDate(d);setSelTime(null);} }}
-              style={{
-                aspectRatio:'1',
-                border:'none',
-                borderRadius:9,
-                fontSize:13,
-                fontWeight:700,
-                cursor: past||!slots ? 'default' : 'pointer',
-                background: selected ? 'var(--accent)' : past ? 'transparent' : slots ? '#f0f3ff' : 'transparent',
-                color: selected ? 'white' : past ? '#ccc' : slots ? 'var(--accent)' : '#ccc',
-                position:'relative',
-                transition:'all .12s',
-              }}>
+          if(!d)return<div key={i}/>;
+          const past=isPast(d),slots=hasSlots(d),selected=selDate===d;
+          return(
+            <button key={i} onClick={()=>{if(!past&&slots){setSelDate(d);setSelTime(null);}}}
+              style={{aspectRatio:"1",border:"2px solid",borderColor:selected?"var(--blue)":"transparent",borderRadius:10,fontSize:13,fontWeight:700,cursor:past||!slots?"default":"pointer",background:selected?"var(--blue)":past?"transparent":slots?"var(--blue-soft)":"transparent",color:selected?"#fff":past?"var(--text3)":slots?"var(--blue)":"var(--text3)",transition:"all .12s",fontFamily:"Manrope"}}>
               {d}
-              {!past && slots && !selected && <span style={{position:'absolute',bottom:3,left:'50%',transform:'translateX(-50%)',width:4,height:4,borderRadius:'50%',background:'var(--accent)',display:'block'}}/>}
             </button>
           );
         })}
       </div>
-
-      {/* Вільні слоти */}
-      {selDate && (
-        <div style={{marginTop:14}}>
-          <div style={{fontSize:13,fontWeight:700,color:'var(--tg-hint)',marginBottom:8}}>
-            Вільний час {String(selDate).padStart(2,'0')}.{String(month+1).padStart(2,'0')}:
-          </div>
-          <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+      {selDate&&(
+        <div style={{marginTop:16}}>
+          <div style={{fontSize:12,fontWeight:700,color:"var(--text2)",marginBottom:10,textTransform:"uppercase",letterSpacing:".4px"}}>Вільний час {String(selDate).padStart(2,"0")}.{String(month+1).padStart(2,"0")}</div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
             {getSlots(selDate).map(t=>(
               <button key={t} onClick={()=>setSelTime(t)}
-                style={{
-                  padding:'8px 14px',
-                  border:`2px solid ${selTime===t?'var(--accent)':'#e0e6ff'}`,
-                  borderRadius:10,
-                  background: selTime===t ? 'var(--accent)' : 'white',
-                  color: selTime===t ? 'white' : 'var(--accent)',
-                  fontWeight:700, fontSize:14, cursor:'pointer',
-                  transition:'all .12s',
-                }}>
+                style={{padding:"9px 16px",border:"2px solid",borderColor:selTime===t?"var(--blue)":"#E2E8F0",borderRadius:10,background:selTime===t?"var(--grad)":"var(--white)",color:selTime===t?"#fff":"var(--text)",fontWeight:700,fontSize:14,cursor:"pointer",fontFamily:"Manrope",transition:"all .12s"}}>
                 {t}
               </button>
             ))}
           </div>
-          {selTime && (
-            <button className="btn btn-primary" style={{marginTop:12}}
-              onClick={()=>onSelect(`${String(selDate).padStart(2,'0')}.${String(month+1).padStart(2,'0')}.${year}`, selTime)}>
-              ✅ Обрати {String(selDate).padStart(2,'0')}.{String(month+1).padStart(2,'0')} о {selTime}
+          {selTime&&(
+            <button className="btn btn-primary" style={{marginTop:12}} onClick={()=>onSelect(`${String(selDate).padStart(2,"0")}.${String(month+1).padStart(2,"0")}.${year}`,selTime)}>
+              <Icon name="check" size={18} color="#fff"/>Обрати {String(selDate).padStart(2,"0")}.{String(month+1).padStart(2,"0")} о {selTime}
             </button>
           )}
         </div>
@@ -740,259 +875,412 @@ function CalendarPicker({ onSelect }) {
   );
 }
 
-// ── Запис ─────────────────────────────────────────────────────────────────
-function BookingScreen({ onNav }) {
-  const [step, setStep] = useState(0);
-  const [data, setData] = useState({format:'',date:'',time:'',name:'',contact:'',request:''});
+// ── BOOKING ───────────────────────────────────────────────────────────
+function BookingScreen({onNav}) {
+  const [step,setStep]=useState(0);
+  const [data,setData]=useState({format:"",date:"",time:"",name:"",contact:"",request:""});
+  const [sending,setSending]=useState(false);
 
-  // steps: 0=format, 1=calendar, 2=name+contact, 3=done
-  if (step === 3) return (
+  const confirm = async () => {
+    setSending(true);
+    const user = tg?.initDataUnsafe?.user;
+    const userInfo = user ? `@${user.username||"—"} (${user.first_name||""} ${user.last_name||""})` : "невідомий";
+    const text = `📅 *НОВА ЗАЯВКА НА КОНСУЛЬТАЦІЮ*
+
+👤 Ім\'я: ${data.name}
+📱 Контакт: ${data.contact}
+🔗 Telegram: ${userInfo}
+
+📋 Формат: ${data.format}
+🗓 Дата: ${data.date} о ${data.time}
+
+💬 Запит:
+${data.request || "не вказано"}`;
+    const ok = await sendNotify(text);
+    setSending(false);
+    setStep(3);
+  };
+
+  if(step===3) return(
     <div>
-      <div className="card" style={{textAlign:'center',padding:'28px 20px'}}>
-        <div style={{fontSize:52,marginBottom:12}}>✅</div>
-        <div style={{fontSize:20,fontWeight:800,marginBottom:6}}>Заявку прийнято!</div>
-        <div style={{fontSize:13,color:'var(--tg-hint)',marginBottom:20}}>Олена зв'яжеться з вами для підтвердження 💚</div>
-        <div style={{background:'#f8f9ff',borderRadius:14,padding:'14px 16px',textAlign:'left'}}>
-          <div className="confirm-row"><span className="confirm-label">Ім'я</span><span className="confirm-value">{data.name}</span></div>
-          <div className="confirm-row"><span className="confirm-label">Контакт</span><span className="confirm-value">{data.contact}</span></div>
-          <div className="confirm-row"><span className="confirm-label">Формат</span><span className="confirm-value">{data.format}</span></div>
-          <div className="confirm-row"><span className="confirm-label">Дата</span><span className="confirm-value">{data.date} о {data.time}</span></div>
-          <div className="confirm-row" style={{borderBottom:'none'}}><span className="confirm-label">Запит</span><span className="confirm-value">{data.request||'не вказано'}</span></div>
+      <div className="card" style={{textAlign:"center",padding:"28px 20px"}}>
+        <div style={{width:72,height:72,borderRadius:20,background:"linear-gradient(135deg,var(--green),#059669)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 14px",boxShadow:"0 6px 24px rgba(5,150,105,.3)"}}>
+          <Icon name="check" size={36} color="#fff"/>
+        </div>
+        <div style={{fontSize:20,fontWeight:800,marginBottom:4}}>Заявку прийнято! ✅</div>
+        <div style={{fontSize:13,color:"var(--text2)",marginBottom:20}}>Олена зв\'яжеться з вами для підтвердження</div>
+        <div style={{background:"var(--bg)",borderRadius:14,padding:"14px 16px",textAlign:"left"}}>
+          {[["Ім\'я",data.name],["Контакт",data.contact],["Формат",data.format],["Дата",`${data.date} о ${data.time}`],["Запит",data.request||"не вказано"]].map(([k,v],i,a)=>(
+            <div key={k} className="confirm-row" style={{...(i===a.length-1?{borderBottom:"none"}:{})}}><span className="confirm-label">{k}</span><span className="confirm-value">{v}</span></div>
+          ))}
         </div>
       </div>
-      <button className="btn btn-primary mt-8" onClick={()=>onNav("home")}>🏠 На головну</button>
+      <button className="btn btn-secondary mt-8" onClick={()=>onNav("home")}>
+        <Icon name="home" size={18} color="var(--blue)"/>На головну
+      </button>
     </div>
   );
 
-  return (
+  return(
     <div>
-      <BackBtn onClick={()=>step===0?onNav("home"):setStep(step-1)} />
-      <div className="step-dots">
-        {[0,1,2].map(i=>(
-          <div key={i} className={`step-dot ${i===step?'active':i<step?'done':''}`}/>
-        ))}
-      </div>
+      <BackBtn onClick={()=>step===0?onNav("home"):setStep(step-1)}/>
+      <div className="step-dots">{[0,1,2].map(i=><div key={i} className={`step-dot ${i===step?"active":i<step?"done":""}`}/>)}</div>
 
-      {step===0 && (
+      {step===0&&(
         <>
-          <div style={{fontSize:17,fontWeight:800,marginBottom:4}}>📅 Записатись</div>
-          <div className="text-hint mb-10">Оберіть зручний формат:</div>
-          {[["🌐","Онлайн","Zoom / Google Meet"],["🏢","Офлайн","Київ, вул. Хрещатик 1"]].map(([e,t,s])=>(
-            <button key={t} className="list-item" style={{marginBottom:8,flexDirection:'column',alignItems:'flex-start',gap:4}}
-              onClick={()=>{setData({...data,format:`${e} ${t}`});setStep(1)}}>
-              <div style={{fontWeight:800,fontSize:15}}>{e} {t}</div>
-              <div style={{fontSize:12,color:'var(--tg-hint)'}}>{s}</div>
-            </button>
-          ))}
+          <div className="section-title">Формат зустрічі</div>
+          <div className="num-list">
+            {[["🌐","Онлайн","Zoom / Google Meet","online"],["🏢","Офлайн","Київ, вул. Хрещатик 1","offline"]].map(([e,t,s,k])=>(
+              <button key={k} className="num-item" style={{width:"100%",background:"none",border:"none",textAlign:"left"}} onClick={()=>{setData({...data,format:`${e} ${t}`});setStep(1);}}>
+                <div style={{fontSize:28,width:40,textAlign:"center"}}>{e}</div>
+                <div style={{flex:1}}>
+                  <div className="num-item-title">{t}</div>
+                  <div className="num-item-sub">{s}</div>
+                </div>
+                <div style={{width:28,height:28,background:"var(--blue-soft)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <Icon name="chevron" size={14} color="var(--blue)"/>
+                </div>
+              </button>
+            ))}
+          </div>
         </>
       )}
 
-      {step===1 && (
+      {step===1&&(
         <div className="card">
-          <div style={{fontSize:15,fontWeight:800,marginBottom:14}}>🗓 Оберіть дату та час</div>
-          <CalendarPicker onSelect={(date,time)=>{ setData({...data,date,time}); setStep(2); }} />
+          <div style={{fontSize:15,fontWeight:800,marginBottom:16}}>Оберіть дату та час</div>
+          <CalendarPicker onSelect={(date,time)=>{setData({...data,date,time});setStep(2);}}/>
         </div>
       )}
 
-      {step===2 && (
+      {step===2&&(
         <>
           <div className="card">
-            <div style={{fontSize:15,fontWeight:800,marginBottom:4}}>Ваші дані</div>
-            <div style={{background:'#f0f3ff',borderRadius:10,padding:'8px 12px',marginBottom:14,fontSize:13,fontWeight:700,color:'var(--accent)'}}>
-              📅 {data.format} · {data.date} о {data.time}
+            <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"var(--blue-soft)",borderRadius:8,padding:"6px 12px",marginBottom:14,fontSize:13,fontWeight:700,color:"var(--blue)"}}>
+              <Icon name="calendar" size={14} color="var(--blue)"/>{data.format} · {data.date} о {data.time}
             </div>
-            <input autoFocus value={data.name} onChange={e=>setData({...data,name:e.target.value})} placeholder="Ваше ім'я" style={{marginBottom:8}}/>
-            <input value={data.contact} onChange={e=>setData({...data,contact:e.target.value})} placeholder="@username або +380..." style={{marginBottom:8}}/>
-            <label>Ваш запит (необов'язково)</label>
+            <input autoFocus value={data.name} onChange={e=>setData({...data,name:e.target.value})} placeholder="Ваше ім\'я"/>
+            <div style={{height:8}}/>
+            <input value={data.contact} onChange={e=>setData({...data,contact:e.target.value})} placeholder="@username або +380..."/>
+            <label>Ваш запит (необов\'язково)</label>
             <textarea value={data.request} onChange={e=>setData({...data,request:e.target.value})} placeholder="З чим хочете попрацювати?" rows={3}/>
           </div>
-          <button className="btn btn-green mt-8"
-            disabled={!data.name.trim()||!data.contact.trim()}
-            style={{opacity:data.name.trim()&&data.contact.trim()?1:.4}}
-            onClick={()=>setStep(3)}>
-            ✅ Підтвердити запис
+          <button className="btn btn-primary mt-8" disabled={!data.name.trim()||!data.contact.trim()||sending} onClick={confirm}>
+            {sending?"Надсилаємо...":<><Icon name="check" size={18} color="#fff"/>Підтвердити запис</>}
           </button>
         </>
       )}
     </div>
   );
 }
-// ── Матеріали ─────────────────────────────────────────────────────────────
-function MaterialsScreen({ onNav }) {
-  const [received, setReceived] = useState([]);
-  return (
+
+// ── MATERIALS ─────────────────────────────────────────────────────────
+function MaterialsScreen({onNav}) {
+  const [sent,setSent]=useState([]);
+  const [loading,setLoading]=useState([]);
+
+  const receive = async (m) => {
+    setLoading(l=>[...l,m.id]);
+    const user = tg?.initDataUnsafe?.user;
+    const userInfo = user ? `@${user.username||"—"} (${user.first_name||""})` : "користувач";
+    const text = `📚 *ЗАПИТ НА МАТЕРІАЛ*
+
+👤 ${userInfo}
+
+${m.content}`;
+    const ok = await sendNotify(text);
+    setLoading(l=>l.filter(x=>x!==m.id));
+    setSent(s=>[...s,m.id]);
+  };
+
+  return(
     <div>
-      <BackBtn onClick={()=>onNav("home")} />
-      <div style={{fontSize:17,fontWeight:800,marginBottom:12}}>🎁 Безкоштовні матеріали</div>
-      {MATERIALS.map(m=>(
-        <div key={m.id} className="card">
-          <div style={{display:'flex',gap:12,alignItems:'center',marginBottom:12}}>
-            <span style={{fontSize:36}}>{m.emoji}</span>
-            <div>
-              <div style={{fontSize:14,fontWeight:800,lineHeight:1.3}}>{m.title}</div>
-              <div style={{fontSize:12,color:'var(--tg-hint)',marginTop:2}}>{m.sub}</div>
+      <BackBtn onClick={()=>onNav("home")}/>
+      <div className="section-title">Безкоштовні матеріали</div>
+      <div style={{background:"var(--blue-soft)",borderRadius:12,padding:"10px 14px",marginBottom:14,fontSize:12,color:"var(--blue)",fontWeight:600,display:"flex",alignItems:"center",gap:6}}>
+        <Icon name="gift" size={14} color="var(--blue)"/>Матеріали надсилаються вам у Telegram-бот
+      </div>
+      {MATERIALS.map((m,i)=>(
+        <div key={m.id} className="mat-card">
+          <div className="mat-header">
+            <div className="icon-box" style={{width:48,height:48,flexShrink:0}}><Icon name={m.icon} size={24} color="#fff"/></div>
+            <div style={{flex:1}}>
+              <div style={{fontSize:14,fontWeight:700,lineHeight:1.3}}>{m.title}</div>
+              <div style={{fontSize:12,color:"var(--text2)",marginTop:2}}>{m.sub}</div>
+            </div>
+            <div style={{width:28,height:28,background:"var(--blue-soft)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:13,fontWeight:800,color:"var(--blue)"}}>
+              {i+1}
             </div>
           </div>
-          {received.includes(m.id)
-            ? <div style={{textAlign:'center',color:'var(--green)',fontWeight:700,fontSize:13}}>✅ Надіслано на ваш акаунт</div>
-            : <button className="btn btn-secondary btn-sm" style={{width:'100%'}} onClick={()=>setReceived([...received,m.id])}>📩 Отримати безкоштовно</button>
-          }
+          <div className="mat-body">
+            {sent.includes(m.id)
+              ? <div style={{display:"flex",alignItems:"center",gap:8,fontSize:13,color:"var(--green)",fontWeight:700,padding:"4px 0"}}>
+                  <div style={{width:28,height:28,borderRadius:8,background:"#D1FAE5",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <Icon name="check" size={16} color="var(--green)"/>
+                  </div>
+                  Надіслано вам у Telegram ✅
+                </div>
+              : <button className="btn btn-primary" style={{opacity:loading.includes(m.id)?.6:1}} onClick={()=>receive(m)} disabled={loading.includes(m.id)}>
+                  {loading.includes(m.id) ? "Надсилаємо..." : <><Icon name="gift" size={18} color="#fff"/>Отримати безкоштовно</>}
+                </button>
+            }
+          </div>
         </div>
       ))}
     </div>
   );
 }
 
-// ── Відгуки ───────────────────────────────────────────────────────────────
-function TestimonialsScreen({ onNav }) {
-  return (
+// ── TESTIMONIALS ──────────────────────────────────────────────────────
+function TestimonialsScreen({onNav}) {
+  return(
     <div>
-      <BackBtn onClick={()=>onNav("home")} />
-      <div style={{fontSize:17,fontWeight:800,marginBottom:12}}>⭐️ Відгуки клієнтів</div>
+      <BackBtn onClick={()=>onNav("home")}/>
+      <div className="section-title">Відгуки клієнтів</div>
+      <div className="card" style={{padding:"14px 16px",marginBottom:12,display:"flex",gap:12,alignItems:"center"}}>
+        <div style={{flex:1}}>
+          <div style={{fontSize:28,fontWeight:800,background:"var(--grad)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>5.0</div>
+          <div style={{display:"flex",gap:2,margin:"4px 0"}}>
+            {[...Array(5)].map((_,j)=><Icon key={j} name="star" size={14} color="#FBBF24"/>)}
+          </div>
+          <div style={{fontSize:11,color:"var(--text2)",fontWeight:600}}>Середня оцінка</div>
+        </div>
+        <div style={{width:1,height:50,background:"#F1F5F9"}}/>
+        <div style={{flex:1,textAlign:"center"}}>
+          <div style={{fontSize:28,fontWeight:800,background:"var(--grad)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>300+</div>
+          <div style={{fontSize:11,color:"var(--text2)",fontWeight:600,marginTop:4}}>клієнтів</div>
+        </div>
+      </div>
       {TESTIMONIALS.map((t,i)=>(
-        <div key={i} className="card">
-          <div className="stars">★★★★★</div>
-          <p className="testimonial-text">«{t.text}»</p>
-          <div className="testimonial-author">— {t.author}</div>
+        <div key={i} className="quote-card">
+          <div className="quote-mark">❝</div>
+          <p style={{fontSize:14,color:"var(--text)",lineHeight:1.7,marginBottom:12,paddingTop:8,position:"relative",zIndex:1}}>{t.text}</p>
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <div style={{width:32,height:32,borderRadius:"50%",background:"var(--grad)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <Icon name="user" size={16} color="#fff"/>
+            </div>
+            <div style={{fontSize:12,fontWeight:700,color:"var(--text2)"}}>— {t.author}</div>
+          </div>
         </div>
       ))}
-      <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись</button>
+      <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>
+        <Icon name="calendar" size={18} color="#fff"/>Записатись
+      </button>
     </div>
   );
 }
 
-// ── AI-чат (реальний Claude через Railway proxy) ──────────────────────────
-// 🔧 ЗАМІНИ на свій URL після деплою proxy на Railway:
-const PROXY_URL = "https://psych-proxy-production.up.railway.app";
+// ── AI CHAT ───────────────────────────────────────────────────────────
+let _globalChats = [];
 
-function AIScreen({ onNav }) {
-  const [msgs, setMsgs] = useState([{role:'bot',text:'Привіт! Я AI-асистент психолога Олени 💚\n\nМожу вислухати та підтримати, допомогти розібратись у своєму стані.\n\nПро що хочеш поговорити?'}]);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const historyRef = useRef([]);
-  const endRef = useRef(null);
+function AIScreen({onNav}) {
+  const [chats,setChats]=useState(()=>[..._globalChats]);
+  const [activeId,setActiveId]=useState(null);
+  const [view,setView]=useState("list");
 
-  useEffect(()=>{ endRef.current?.scrollIntoView({behavior:'smooth'}); },[msgs,loading]);
+  const createChat = () => {
+    const id = Date.now().toString();
+    const newChat = {
+      id, title:"Новий чат",
+      created: new Date().toLocaleDateString("uk-UA"),
+      messages:[{role:"bot",text:"Привіт! Я AI-асистент психолога Олени.\n\nМожу вислухати, підтримати та допомогти розібратись у своєму стані. Про що хочеш поговорити?"}],
+      history:[],
+    };
+    const updated = [newChat, ...chats];
+    _globalChats = updated;
+    setChats(updated);
+    setActiveId(id);
+    setView("chat");
+  };
+
+  const updateChat = (id, messages, history, title) => {
+    const updated = chats.map(c => c.id===id ? {...c, messages, history, title:title||c.title} : c);
+    _globalChats = updated;
+    setChats(updated);
+  };
+
+  const deleteChat = (id) => {
+    const updated = chats.filter(c=>c.id!==id);
+    _globalChats = updated;
+    setChats(updated);
+    if(activeId===id) { setActiveId(null); setView("list"); }
+  };
+
+  if(view==="chat" && activeId) {
+    const chat = chats.find(c=>c.id===activeId);
+    if(!chat) { setView("list"); return null; }
+    return <ChatView chat={chat} onBack={()=>setView("list")} onUpdate={updateChat} onDelete={deleteChat}/>;
+  }
+
+  return(
+    <div>
+      <BackBtn onClick={()=>onNav("home")}/>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+        <div className="section-title" style={{marginBottom:0}}>AI-помічник</div>
+        <button className="btn btn-primary" style={{width:"auto",padding:"9px 16px",fontSize:13}} onClick={createChat}>
+          <Icon name="plus" size={16} color="#fff"/>Новий чат
+        </button>
+      </div>
+      <div style={{background:"var(--blue-soft)",borderRadius:10,padding:"10px 14px",marginBottom:14,fontSize:12,color:"var(--blue)",fontWeight:600,display:"flex",alignItems:"center",gap:6}}>
+        <Icon name="bot" size={14} color="var(--blue)"/>AI-помічник · Не замінює живого психолога
+      </div>
+      {chats.length===0?(
+        <div className="card" style={{textAlign:"center",padding:"32px 20px"}}>
+          <div className="icon-box" style={{width:60,height:60,margin:"0 auto 14px"}}><Icon name="bot" size={30} color="#fff"/></div>
+          <div style={{fontSize:15,fontWeight:700,marginBottom:6}}>Почніть розмову</div>
+          <div style={{fontSize:13,color:"var(--text2)",marginBottom:16}}>Підтримка 24/7 від AI-асистента</div>
+          <button className="btn btn-primary" onClick={createChat}><Icon name="plus" size={18} color="#fff"/>Новий чат</button>
+        </div>
+      ):(
+        chats.map(c=>(
+          <div key={c.id} className="chat-session" onClick={()=>{setActiveId(c.id);setView("chat");}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+              <div style={{flex:1,minWidth:0,display:"flex",gap:10,alignItems:"center"}}>
+                <div style={{width:40,height:40,borderRadius:12,background:"var(--grad)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                  <Icon name="bot" size={20} color="#fff"/>
+                </div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div className="cs-title">{c.title}</div>
+                  <div className="cs-preview">{c.messages[c.messages.length-1]?.text||""}</div>
+                  <div className="cs-date">{c.created}</div>
+                </div>
+              </div>
+              <button onClick={e=>{e.stopPropagation();deleteChat(c.id);}} style={{background:"none",border:"none",cursor:"pointer",padding:4,color:"var(--text3)",flexShrink:0,marginLeft:4}}>
+                <Icon name="trash" size={16} color="var(--text3)"/>
+              </button>
+            </div>
+          </div>
+        ))
+      )}
+    </div>
+  );
+}
+
+function ChatView({chat, onBack, onUpdate, onDelete}) {
+  const [msgs,setMsgs]=useState(chat.messages);
+  const [history,setHistory]=useState(chat.history);
+  const [input,setInput]=useState("");
+  const [loading,setLoading]=useState(false);
+  const [error,setError]=useState("");
+  const endRef=useRef(null);
+  useEffect(()=>{endRef.current?.scrollIntoView({behavior:"smooth"});},[msgs,loading]);
 
   const send = async () => {
-    if (!input.trim()||loading) return;
-    const txt = input.trim();
-    setInput('');
-    setError('');
-    setMsgs(prev=>[...prev,{role:'user',text:txt}]);
-    historyRef.current = [...historyRef.current, {role:'user', content:txt}];
+    if(!input.trim()||loading)return;
+    const txt=input.trim(); setInput(""); setError("");
+    const newMsgs=[...msgs,{role:"user",text:txt}];
+    const newHist=[...history,{role:"user",content:txt}];
+    setMsgs(newMsgs); setHistory(newHist);
     setLoading(true);
     try {
-      const res = await fetch(`${PROXY_URL}/chat`, {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({messages: historyRef.current}),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      historyRef.current = [...historyRef.current, {role:'assistant', content:data.reply}];
-      setMsgs(prev=>[...prev,{role:'bot',text:data.reply}]);
+      const res=await fetch(`${PROXY_URL}/chat`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:newHist.slice(-10)})});
+      if(!res.ok)throw new Error(`HTTP ${res.status}`);
+      const data=await res.json();
+      const finalMsgs=[...newMsgs,{role:"bot",text:data.reply}];
+      const finalHist=[...newHist,{role:"assistant",content:data.reply}];
+      setMsgs(finalMsgs); setHistory(finalHist);
+      const title = chat.title==="Новий чат" ? txt.slice(0,30)+(txt.length>30?"...":"") : chat.title;
+      onUpdate(chat.id, finalMsgs, finalHist, title);
     } catch(e) {
-      historyRef.current = historyRef.current.slice(0,-1);
-      setError("⚠️ Помилка зв'язку. Спробуйте ще раз.");
+      setError("Помилка з\'єднання. Спробуй ще раз.");
+      setMsgs(newMsgs.slice(0,-1)); setHistory(newHist.slice(0,-1));
     }
     setLoading(false);
   };
 
-  return (
-    <div style={{display:'flex',flexDirection:'column',height:'100%'}}>
-      <BackBtn onClick={()=>onNav("home")} />
-      <div style={{background:'linear-gradient(135deg,#f0f3ff,#e8f0ff)',borderRadius:14,padding:'10px 14px',marginBottom:12,fontSize:12,color:'var(--tg-hint)',fontWeight:600}}>
-        🤖 AI-помічник · Не замінює живого психолога
-      </div>
-      <div className="chat-area" style={{flex:1}}>
-        <div style={{display:'flex',flexDirection:'column'}}>
-          {msgs.map((m,i)=>(
-            <div key={i} style={{display:'flex',justifyContent:m.role==='user'?'flex-end':'flex-start',marginBottom:6}}>
-              <div className={`bubble ${m.role==='bot'?'bubble-bot':'bubble-user'}`} style={{whiteSpace:'pre-line'}}>{m.text}</div>
-            </div>
-          ))}
-          {loading && (
-            <div style={{display:'flex',justifyContent:'flex-start',marginBottom:6}}>
-              <div className="bubble bubble-bot"><span className="dot"/><span className="dot"/><span className="dot"/></div>
-            </div>
-          )}
-          {error && <div style={{fontSize:12,color:'var(--red)',textAlign:'center',padding:'6px 0'}}>{error}</div>}
-          <div ref={endRef}/>
-        </div>
+  return(
+    <div style={{display:"flex",flexDirection:"column",height:"calc(100vh - 96px)"}}>
+      <button className="back-btn" onClick={onBack}><Icon name="back" size={18} color="var(--blue)"/>Усі чати</button>
+      <div className="chat-messages">
+        {msgs.map((m,i)=>(
+          <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start"}}>
+            <div className={`bubble ${m.role==="bot"?"bubble-bot":"bubble-user"}`} style={{whiteSpace:"pre-line"}}>{m.text}</div>
+          </div>
+        ))}
+        {loading&&<div style={{display:"flex",justifyContent:"flex-start"}}><div className="bubble bubble-bot"><span className="dot"/><span className="dot"/><span className="dot"/></div></div>}
+        {error&&<div style={{fontSize:12,color:"var(--red)",textAlign:"center",padding:"6px 0"}}>{error}</div>}
+        <div ref={endRef}/>
       </div>
       <div className="chat-input-row">
-        <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&send()} placeholder="Напишіть повідомлення..." />
-        <button className="send-btn" onClick={send} disabled={!input.trim()||loading}>›</button>
+        <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Напишіть повідомлення..."/>
+        <button className="send-btn" onClick={send} disabled={!input.trim()||loading}><Icon name="send" size={18} color="#fff"/></button>
       </div>
-      <button className="btn btn-secondary" style={{marginTop:8,fontSize:13}} onClick={()=>onNav("booking")}>📅 Записатись до Олени</button>
-    </div>
-  );
-}
-// ── Check-in ─────────────────────────────────────────────────────────────
-function CheckinScreen({ onNav, mood }) {
-  const map = {
-    good:{emoji:"😊",title:"Радий(а) чути!",color:"var(--green)",text:"Підтримуй себе і сьогодні:\n• зроби щось маленьке для себе\n• зверни увагу на гарне"},
-    ok:{emoji:"😐",title:"Нормально — теж добре",color:"var(--yellow)",text:"Що могло б зробити сьогоднішній день трохи кращим?\n\nМожу запропонувати поговорити з AI-помічником 💬"},
-    hard:{emoji:"😔",title:"Дякую, що поділились",color:"var(--red)",text:"Важкі дні бувають у всіх. Ви не самотні.\n\nМожу запропонувати підтримку або запис до Олени 💚"},
-  };
-  const c = map[mood]||map.ok;
-  return (
-    <div>
-      <div className="card result-card">
-        <div style={{fontSize:52,marginBottom:12}}>{c.emoji}</div>
-        <div style={{fontSize:20,fontWeight:800,color:c.color,marginBottom:12}}>{c.title}</div>
-        <p className="pre" style={{color:'var(--tg-hint)'}}>{c.text}</p>
-      </div>
-      {mood==='hard' && <button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}>📅 Записатись до Олени</button>}
-      <button className="btn btn-secondary mt-8" onClick={()=>onNav("ai")}>🤖 Поговорити з AI</button>
-      <button className="btn btn-ghost mt-8" onClick={()=>onNav("home")}>🏠 На головну</button>
     </div>
   );
 }
 
-// ── Головний App ──────────────────────────────────────────────────────────
-const NAV_ITEMS = [
-  {screen:"home",icon:"🏠",label:"Головна"},
-  {screen:"test",icon:"📋",label:"Тест"},
-  {screen:"booking",icon:"📅",label:"Записатись"},
-  {screen:"ai",icon:"🤖",label:"AI-чат"},
+// ── CHECKIN ───────────────────────────────────────────────────────────
+function CheckinScreen({onNav, mood}) {
+  const map={
+    good:{icon:"heart",title:"Радий чути!",grad:"linear-gradient(135deg,var(--green),#059669)",text:"Підтримуй себе сьогодні:\n• зроби щось маленьке для себе\n• зверни увагу на гарне поруч\n• подякуй собі за сьогоднішній день"},
+    ok:{icon:"dot_circle",title:"Нормально — теж добре",grad:"linear-gradient(135deg,#D97706,#B45309)",text:"Що могло б зробити сьогоднішній день трохи кращим?\n\nМожна поговорити з AI-помічником або почитати матеріали."},
+    hard:{icon:"brain",title:"Дякую що поділився",grad:"var(--grad)",text:"Важкі дні бувають у всіх. Ти не самотній.\n\nМоя підтримка доступна — через AI-чат або живу консультацію."},
+  };
+  const c=map[mood]||map.ok;
+
+  useEffect(()=>{
+    if(mood==="hard"){
+      const user = tg?.initDataUnsafe?.user;
+      const userInfo = user ? `@${user.username||"—"} (${user.first_name||""})` : "користувач";
+      sendNotify(`🆘 *СТАН «ВАЖКО»*
+
+👤 ${userInfo}
+
+Людина відмітила що їй важко сьогодні. Можливо варто написати.`);
+    }
+  },[]);
+
+  return(
+    <div>
+      <div className="card" style={{textAlign:"center",padding:"28px 20px"}}>
+        <div style={{width:64,height:64,borderRadius:18,background:c.grad,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 14px",boxShadow:"0 6px 24px rgba(26,86,219,.25)"}}>
+          <Icon name={c.icon} size={32} color="#fff"/>
+        </div>
+        <div style={{fontSize:18,fontWeight:800,marginBottom:14}}>{c.title}</div>
+        <div className="divider"/>
+        <p className="pre" style={{textAlign:"left",marginTop:12}}>{c.text}</p>
+      </div>
+      {mood==="hard"&&<button className="btn btn-primary mt-8" onClick={()=>onNav("booking")}><Icon name="calendar" size={18} color="#fff"/>Записатись до Олени</button>}
+      <button className="btn btn-secondary mt-8" onClick={()=>onNav("ai")}><Icon name="bot" size={18} color="var(--blue)"/>Поговорити з AI</button>
+      <button className="btn btn-ghost mt-8" onClick={()=>onNav("home")}><Icon name="home" size={16} color="var(--text2)"/>На головну</button>
+    </div>
+  );
+}
+
+// ── NAV ───────────────────────────────────────────────────────────────
+const NAV=[
+  {screen:"home",icon:"home",label:"Головна"},
+  {screen:"test",icon:"clipboard",label:"Тест дня"},
+  {screen:"booking",icon:"calendar",label:"Запис"},
+  {screen:"ai",icon:"bot",label:"AI-чат"},
 ];
 
 function App() {
-  const [screen, setScreen] = useState("home");
-  const [params, setParams] = useState({});
-  const scrollRef = useRef(null);
-
-  const nav = (s, p={}) => {
-    setScreen(s);
-    setParams(p);
-    scrollRef.current?.scrollTo({top:0,behavior:'smooth'});
+  const [screen,setScreen]=useState("home");
+  const [params,setParams]=useState({});
+  const scrollRef=useRef(null);
+  const nav=(s,p={})=>{setScreen(s);setParams(p);scrollRef.current?.scrollTo({top:0,behavior:"smooth"});};
+  const screens={
+    home:<HomeScreen onNav={nav}/>,
+    about:<AboutScreen onNav={nav}/>,
+    topics:<TopicsScreen onNav={nav} initialSel={params.sel}/>,
+    test:<TestScreen onNav={nav}/>,
+    services:<ServicesScreen onNav={nav}/>,
+    booking:<BookingScreen onNav={nav}/>,
+    materials:<MaterialsScreen onNav={nav}/>,
+    testimonials:<TestimonialsScreen onNav={nav}/>,
+    ai:<AIScreen onNav={nav}/>,
+    checkin:<CheckinScreen onNav={nav} mood={params.mood}/>,
   };
-
-  const screens = {
-    home: <HomeScreen onNav={nav} />,
-    about: <AboutScreen onNav={nav} />,
-    topics: <TopicsScreen onNav={nav} />,
-    test: <TestScreen onNav={nav} />,
-    services: <ServicesScreen onNav={nav} />,
-    booking: <BookingScreen onNav={nav} />,
-    materials: <MaterialsScreen onNav={nav} />,
-    testimonials: <TestimonialsScreen onNav={nav} />,
-    ai: <AIScreen onNav={nav} />,
-    checkin: <CheckinScreen onNav={nav} mood={params.mood} />,
-  };
-
-  return (
+  return(
     <div className="app">
-      <div className="screen" ref={scrollRef}>
-        {screens[screen] || screens.home}
-      </div>
+      <div className="screen" ref={scrollRef}>{screens[screen]||screens.home}</div>
       <nav className="bottom-nav">
-        {NAV_ITEMS.map(({screen:s,icon,label})=>(
-          <button key={s} className={`nav-item ${screen===s?'active':''}`} onClick={()=>nav(s)}>
-            <span className="nav-icon">{icon}</span>
+        {NAV.map(({screen:s,icon,label})=>(
+          <button key={s} className={`nav-item ${screen===s?"active":""}`} onClick={()=>nav(s)}>
+            <div className="nav-dot">
+              <Icon name={icon} size={22} color={screen===s?"var(--blue)":"var(--text3)"}/>
+            </div>
             <span className="nav-label">{label}</span>
           </button>
         ))}
@@ -1001,7 +1289,7 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </script>
 </body>
 </html>
