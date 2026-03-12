@@ -193,7 +193,7 @@
     font-size: 16px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px;
   }
   .p-card-sub {
-    font-size: 12px; font-weight: 600; opacity: 0.7; display: flex; align-items: center; gap: 4px;
+    font-size: 12px; font-weight: 600; opacity: 0.7; display: flex; align-items: flex-start; gap: 6px; line-height: 1.4;
   }
 
   /* ── LIST CARDS ── */
@@ -320,6 +320,7 @@
   .page-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
   .divider { height: 1px; background: var(--border); margin: 20px 0; }
   .text-pre { white-space: pre-line; line-height: 1.6; font-size: 14px; color: var(--text-mut); font-weight: 500; }
+  
   .badge-green { background: var(--pastel-green); color: var(--pastel-green-t); padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
   .badge-blue { background: var(--pastel-blue); color: var(--pastel-blue-t); padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
   
@@ -618,12 +619,18 @@ function HomeScreen({onNav}) {
         <div className="p-card" style={{background:"var(--pastel-green)"}} onClick={()=>onNav("booking")}>
           <div className="p-card-icon" style={{color:"var(--pastel-green-t)"}}><Icon name="calendar" size={20}/></div>
           <div className="p-card-title" style={{color:"var(--pastel-green-t)"}}>Запис на сесію</div>
-          <div className="p-card-sub" style={{color:"var(--pastel-green-t)"}}><Icon name="video" size={14}/> Онлайн / Офлайн</div>
+          <div className="p-card-sub" style={{color:"var(--pastel-green-t)"}}>
+            <div style={{flexShrink:0, marginTop: 1}}><Icon name="video" size={14}/></div>
+            <div>Онлайн / Офлайн</div>
+          </div>
         </div>
         <div className="p-card" style={{background:"var(--pastel-purple)"}} onClick={()=>onNav("test")}>
           <div className="p-card-icon" style={{color:"var(--pastel-purple-t)"}}><Icon name="clipboard" size={20}/></div>
           <div className="p-card-title" style={{color:"var(--pastel-purple-t)"}}>Тест дня</div>
-          <div className="p-card-sub" style={{color:"var(--pastel-purple-t)"}}><Icon name="book" size={14}/> 5 запитань</div>
+          <div className="p-card-sub" style={{color:"var(--pastel-purple-t)"}}>
+            <div style={{flexShrink:0, marginTop: 1}}><Icon name="book" size={14}/></div>
+            <div>5 запитань</div>
+          </div>
         </div>
       </div>
 
