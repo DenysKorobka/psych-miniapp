@@ -53,24 +53,12 @@
   .icon-btn{width:42px;height:42px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh);color:var(--text);}
 
   /* HEADER BACK BTN */
-  .back-btn-circle{width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:var(--sh);flex-shrink:0;cursor:pointer;}
-
-  /* HERO CARD */
-  .hero{background:var(--primary);border-radius:var(--r);padding:28px 24px;margin-bottom:24px;position:relative;overflow:hidden;}
-  .hero-title{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.25;margin-bottom:8px;}
-  .hero-sub{font-size:13px;color:rgba(255,255,255,.6);font-weight:500;line-height:1.55;margin-bottom:20px;}
-
-  /* SECTION */
-  .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;margin-top:8px;}
-  .sec-title{font-size:18px;font-weight:800;letter-spacing:-.03em;color:var(--text);}
+  .back-btn-circle{width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:var(--sh);flex-shrink:0;cursor:pointer;color:var(--text);}
 
   /* CARDS */
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--sh);}
 
-  /* FEATURE GRID */
-  .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
-
-  /* LIST */
+  /* LIST ITEM */
   .list-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:var(--sh);transition:transform .12s;}
   .list-item:active{transform:scale(.98);}
   .li-body{flex:1;min-width:0;}
@@ -84,23 +72,25 @@
   .btn-primary{background:var(--primary);color:#fff;}
   .btn-accent{background:var(--accent);color:#fff;box-shadow:0 6px 20px rgba(14,165,233,.3);}
   .btn-secondary{background:var(--surface);color:var(--text);border:1.5px solid var(--border);box-shadow:var(--sh);}
-  .btn-ghost{background:transparent;color:var(--text-2);border:1.5px solid var(--border);}
   .mt{margin-top:12px;}
 
-  /* BADGE */
-  .badge{display:inline-flex;align-items:center;gap:4px;border-radius:var(--r-pill);padding:4px 10px;font-size:11px;font-weight:700;border:1px solid var(--border);background:var(--surface);}
-
-  /* INPUT */
+  /* INPUTS */
   .field-label{display:block;font-size:11px;font-weight:800;color:var(--text-2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;margin-top:16px;}
   .field{width:100%;padding:15px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font);font-size:15px;background:var(--surface-alt);color:var(--text);outline:none;transition:border .2s;}
   .field:focus{border-color:var(--text);background:var(--surface);}
   textarea.field{resize:none;}
 
-  /* PROGRESS */
-  .prog-wrap{height:5px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:28px;}
-  .prog-fill{height:100%;background:var(--text);border-radius:999px;transition:width .3s;}
+  /* CHAT */
+  .chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 76px);}
+  .chat-scroll{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:16px 0;}
+  .bubble{max-width:84%;padding:13px 17px;border-radius:18px;font-size:14px;line-height:1.6;font-weight:500;}
+  .b-bot{background:var(--surface);color:var(--text);border-bottom-left-radius:4px;box-shadow:var(--sh);border:1px solid var(--border);}
+  .b-user{background:var(--primary);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
+  .chat-bar{padding:10px 0;display:flex;gap:8px;}
+  .chat-input{flex:1;border:1.5px solid var(--border);border-radius:var(--r-pill);padding:0 18px;font-family:var(--font);font-size:15px;background:var(--surface);outline:none;height:48px;}
+  .send-btn{width:48px;height:48px;border-radius:50%;background:var(--primary);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
 
-  /* CALENDAR */
+  /* CALENDAR CELLS */
   .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
   .cal-nav-btn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);}
   .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
@@ -113,58 +103,38 @@
   .time-slot{padding:13px;text-align:center;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-weight:700;color:var(--text);background:var(--surface);cursor:pointer;font-family:var(--font);}
   .time-slot.sel{border-color:var(--text);background:var(--text);color:#fff;}
 
-  /* CHAT */
-  .chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 76px);}
-  .chat-scroll{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:16px 0;}
-  .bubble{max-width:84%;padding:13px 17px;border-radius:18px;font-size:14px;line-height:1.6;font-weight:500;}
-  .b-bot{background:var(--surface);color:var(--text);border-bottom-left-radius:4px;box-shadow:var(--sh);border:1px solid var(--border);}
-  .b-user{background:var(--primary);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
-  .chat-bar{padding:10px 0;display:flex;gap:8px;}
-  .chat-input{flex:1;border:1.5px solid var(--border);border-radius:var(--r-pill);padding:0 18px;font-family:var(--font);font-size:15px;background:var(--surface);outline:none;height:48px;}
-  .send-btn{width:48px;height:48px;border-radius:50%;background:var(--primary);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+  /* ANIMATIONS & MISC */
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--text);display:inline-block;animation:pulse 1.5s infinite;}
+  .red-dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:#EF4444;border:2px solid var(--surface);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .fade-in{animation:fadeUp .4s ease both;}
+  @keyframes blink{0%,100%{opacity:0}50%{opacity:1}}
+  .tdot{width:7px;height:7px;border-radius:50%;background:var(--text-3);display:inline-block;margin:0 2px;animation:blink 1.2s infinite;}
+  .tdot:nth-child(2){animation-delay:.2s} .tdot:nth-child(3){animation-delay:.4s}
+
+  .divider{height:1px;background:var(--border);margin:16px 0;}
+  .prog-wrap{height:5px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:28px;}
+  .prog-fill{height:100%;background:var(--text);border-radius:999px;transition:width .3s;}
+  .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;margin-top:8px;}
+  .sec-title{font-size:18px;font-weight:800;letter-spacing:-.03em;color:var(--text);}
+  .success-wrap{text-align:center;padding:48px 0 32px;}
 
   /* TABS */
   .tabs{display:flex;background:var(--surface-alt);border-radius:14px;padding:3px;margin-bottom:20px;border:1px solid var(--border);}
   .tab-btn{flex:1;padding:10px;border-radius:11px;font-size:13px;font-weight:700;border:none;background:transparent;color:var(--text-2);cursor:pointer;font-family:var(--font);transition:all .2s;}
   .tab-btn.on{background:var(--surface);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid var(--border);}
 
-  /* REVIEW */
   .review-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:12px;box-shadow:var(--sh);}
   .review-stars{display:flex;gap:3px;margin-bottom:12px;}
   .review-text{font-size:14px;color:var(--text);line-height:1.7;font-weight:500;margin-bottom:14px;}
   .review-author{display:flex;align-items:center;gap:10px;}
   .review-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--text);border:1px solid var(--border);}
-
-  /* PLAN CARD */
+  
   .plan-card{border-radius:var(--r);padding:20px;margin-bottom:12px;cursor:pointer;border:1px solid var(--border);transition:all .2s;background:var(--surface);}
   .plan-card.selected{border-color:var(--text);box-shadow:var(--sh2);}
   .plan-check{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto;}
   .plan-card.selected .plan-check{background:var(--text);border-color:var(--text);}
-
-  /* SUCCESS */
-  .success-wrap{text-align:center;padding:48px 0 32px;}
-
-  /* NOTIFICATION PULSE */
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--text);display:inline-block;animation:pulse 1.5s infinite;}
-  .red-dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:#EF4444;border:2px solid var(--surface);}
-
-  /* TYPING */
-  @keyframes blink{0%,100%{opacity:0}50%{opacity:1}}
-  .tdot{width:7px;height:7px;border-radius:50%;background:var(--text-3);display:inline-block;margin:0 2px;animation:blink 1.2s infinite;}
-  .tdot:nth-child(2){animation-delay:.2s}.tdot:nth-child(3){animation-delay:.4s}
-
-  /* FADE IN */
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .fade-in{animation:fadeUp .4s ease both;}
-
-  .divider{height:1px;background:var(--border);margin:16px 0;}
-
-  /* CONFIRM ROW */
-  .conf-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
-  .conf-row:last-child{border:none;}
-  .conf-lbl{font-size:10px;font-weight:800;color:var(--text-3);width:80px;flex-shrink:0;padding-top:2px;text-transform:uppercase;letter-spacing:.6px;}
-  .conf-val{font-size:14px;font-weight:600;color:var(--text);line-height:1.4;}
   </style>
 </head>
 <body>
@@ -173,26 +143,26 @@
 const {useState,useRef,useEffect,useCallback} = React;
 
 // --- НАЛАШТУВАННЯ АПІ ---
-const TG_BOT_TOKEN = "8668489494:AAHcs4bgEnvx5iDvmzp7qIKtTm_MRLkx3ec"; 
+const TG_BOT_TOKEN = "8643334892:AAGtmsf-JlULGVSx2GqNKeks5Orjv47yFjM"; 
 const TG_CHAT_ID = "-5200875067";   
 const apiKey = "AIzaSyAxP_IxU7MneBquLydQ2jQmFgT4ITBuSD0"; 
 
+// Санітаризація для Telegram HTML parse_mode
+const escapeHTML = (str) => {
+  if (!str) return "";
+  return str.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+};
+
 const sendTelegramMessage = async (text) => {
-  if (!TG_BOT_TOKEN || !TG_CHAT_ID) {
-    console.warn("Телеграм не налаштовано. Повідомлення:", text);
-    return;
-  }
+  if (!TG_BOT_TOKEN || !TG_CHAT_ID) return;
   try {
     await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: TG_CHAT_ID, text: text, parse_mode: 'HTML' })
     });
-  } catch (err) {
-    console.error("Помилка відправки в Телеграм:", err);
-  }
+  } catch (err) { console.error(err); }
 };
-// ----------------------------
 
 // ─────────────────────────────────────────
 //  ICONS
@@ -202,10 +172,8 @@ const IC = ({n,sz=20,c="currentColor", style={}}) => {
     home:<><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>,
     calendar:<><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></>,
     bot:<><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><circle cx="8.5" cy="16" r="1" fill="currentColor"/><circle cx="15.5" cy="16" r="1" fill="currentColor"/></>,
-    zap:<><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></>,
     users:<><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>,
     star:<><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></>,
-    chevron:<><polyline points="9 18 15 12 9 6"/></>,
     back:<><polyline points="15 18 9 12 15 6"/></>,
     check:<><polyline points="20 6 9 17 4 12"/></>,
     bell:<><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></>,
@@ -216,19 +184,19 @@ const IC = ({n,sz=20,c="currentColor", style={}}) => {
     phone:<><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.65 19a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.72 4.83 2 2 0 0 1 4.67 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 10.91a16 16 0 0 0 6 6z"/></>,
     trending:<><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></>,
     video:<><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/></>,
-    heart:<><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></>,
-    sparkle:<><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/><path d="M19 17v4"/><path d="M17 19h4"/></>,
-    x:<><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>,
-    user:<><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
     briefcase:<><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></>,
-    plus:<><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></>,
-    edit:<><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"/></>,
+    sparkle:<><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></>,
     arrow_up_right:<><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></>,
     activity: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>,
     scissors: <><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></>,
     book: <><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></>,
     coffee: <><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></>,
     smile: <><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></>,
+    chevron:<><polyline points="9 18 15 12 9 6"/></>,
+    user:<><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
+    heart:<><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></>,
+    zap:<><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></>,
+    edit:<><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"/></>
   };
   return <svg width={sz} height={sz} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>{paths[n]}</svg>;
 };
@@ -237,21 +205,21 @@ const IC = ({n,sz=20,c="currentColor", style={}}) => {
 //  DATA
 // ─────────────────────────────────────────
 const FEATURES = [
-  {id:"booking", icon:"calendar", title:"Онлайн запис", sub:"Клієнти записуються 24/7 без дзвінків"},
+  {id:"demo_booking", icon:"calendar", title:"Онлайн запис", sub:"Пройдіть шлях клієнта (Демо-запис)"},
   {id:"clients", icon:"users",    title:"База клієнтів", sub:"Вся інформація про клієнтів в одному місці"},
   {id:"notify",  icon:"bell",     title:"Авто-нагадування", sub:"За 24 год та за 1 год до запису"},
   {id:"payments",icon:"trending", title:"Статистика", sub:"Дохід, завантаженість, конверсія"},
-  {id:"content", icon:"gift",     title:"Контент та PDF", sub:"Матеріали для клієнтів прямо в боті"},
+  {id:"content", icon:"layers",   title:"Контент та PDF", sub:"Матеріали для клієнтів прямо в боті"},
   {id:"ai",      icon:"bot",      title:"AI Асистент", sub:"Відповідає клієнтам 24/7 без вас"},
 ];
 
 const USE_CASES = [
-  {id:"psy", icon:"smile", title:"Психологи та коучи", sub:"Запис, сесії, матеріали, нагадування", desc:"Звільніть свій ресурс для роботи з клієнтами, а не для переписок.", benefits:[{t:"Повна конфіденційність", d:"Клієнт записується сам, без зайвих питань у чаті."},{t:"Авто-відправка матеріалів", d:"PDF, тести чи медитації відправляються автоматично після сесії."},{t:"Нуль пропусків", d:"Нагадування в Telegram працюють краще за SMS."}]},
-  {id:"fit", icon:"activity", title:"Тренери та фітнес", sub:"Розклад тренувань, абонементи, прогрес", desc:"Спортивний розклад, який працює як годинник.", benefits:[{t:"Групові та соло тренування", d:"Зручний поділ на індивідуальні заняття та групи."},{t:"Облік абонементів", d:"Додаток сам нагадає клієнту, що залишилось 2 заняття."},{t:"Домашні завдання", d:"Відправка планів харчування або відео-тренувань."}]},
-  {id:"beauty", icon:"scissors", title:"Б'юті-майстри", sub:"Запис, портфоліо, акції, відгуки", desc:"Ваш салон краси у кишені клієнта.", benefits:[{t:"Запис 24/7", d:"Клієнти записуються ввечері, коли ви вже відпочиваєте."},{t:"Портфоліо робіт", d:"Покажіть свої найкращі роботи прямо в меню додатку."},{t:"Повернення клієнтів", d:"Автоматичне нагадування 'Час оновити манікюр' через 3 тижні."}]},
-  {id:"tutor", icon:"book", title:"Репетитори", sub:"Розклад, домашні завдання, матеріали", desc:"Автоматизація навчання та оплат.", benefits:[{t:"Синхронізація розкладу", d:"Студенти бачать лише вільні вікна."},{t:"Матеріали до уроку", d:"Автоматична відправка посилань на Zoom та конспектів."},{t:"Контроль оплат", d:"Відстеження хто оплатив заняття, а хто ні."}]},
-  {id:"med", icon:"heart", title:"Медицина та здоров'я", sub:"Запис, нагадування, результати", desc:"Турбота про пацієнтів з першого кліку.", benefits:[{t:"Зручний вибір послуг", d:"Аналізи, консультації, процедури — все по поличках."},{t:"Підготовка до візиту", d:"Автоматична розсилка правил підготовки до аналізів/процедур."},{t:"Збір відгуків", d:"Контроль якості після візиту."}]},
-  {id:"food", icon:"coffee", title:"Ресторани та кафе", sub:"Меню, бронювання, доставка, лояльність", desc:"Прямий канал продажів без комісій агрегаторів.", benefits:[{t:"Електронне меню", d:"Зручний вибір страв та оформлення замовлення."},{t:"Бронювання столиків", d:"Візуальна схема залу або просто вибір часу."},{t:"Програма лояльності", d:"Накопичення балів та акції для постійних гостей."}]},
+  {id:"psy", icon:"smile", title:"Психологи та коучи", sub:"Запис, сесії, матеріали, нагадування", desc:"Звільніть свій ресурс для роботи з клієнтами.", benefits:[{t:"Повна конфіденційність", d:"Клієнт записується сам, без зайвих питань у чаті."},{t:"Авто-відправка матеріалів", d:"PDF, тести чи медитації відправляються автоматично після сесії."},{t:"Нуль пропусків", d:"Нагадування в Telegram працюють краще за SMS."}]},
+  {id:"fit", icon:"activity", title:"Тренери та фітнес", sub:"Розклад тренувань, прогрес", desc:"Спортивний розклад, як годинник.", benefits:[{t:"Групові та соло тренування", d:"Зручний поділ на індивідуальні заняття та групи."},{t:"Облік абонементів", d:"Додаток сам нагадає клієнту, що залишилось 2 заняття."},{t:"Домашні завдання", d:"Відправка планів харчування або відео-тренувань."}]},
+  {id:"beauty", icon:"scissors", title:"Б'юті-майстри", sub:"Запис, портфоліо, відгуки", desc:"Ваш салон краси у кишені клієнта.", benefits:[{t:"Запис 24/7", d:"Клієнти записуються ввечері, коли ви вже відпочиваєте."},{t:"Портфоліо робіт", d:"Покажіть свої найкращі роботи прямо в меню додатку."},{t:"Повернення клієнтів", d:"Автоматичне нагадування 'Час оновити манікюр' через 3 тижні."}]},
+  {id:"tutor", icon:"book", title:"Репетитори", sub:"Розклад, матеріали", desc:"Автоматизація навчання та оплат.", benefits:[{t:"Синхронізація розкладу", d:"Студенти бачать лише вільні вікна."},{t:"Матеріали до уроку", d:"Автоматична відправка посилань на Zoom та конспектів."},{t:"Контроль оплат", d:"Відстеження хто оплатив заняття, а хто ні."}]},
+  {id:"med", icon:"heart", title:"Медицина та здоров'я", sub:"Запис, результати", desc:"Турбота про пацієнтів з першого кліку.", benefits:[{t:"Зручний вибір послуг", d:"Аналізи, консультації, процедури — все по поличках."},{t:"Підготовка до візиту", d:"Автоматична розсилка правил підготовки до аналізів/процедур."},{t:"Збір відгуків", d:"Контроль якості після візиту."}]},
+  {id:"food", icon:"coffee", title:"Ресторани та кафе", sub:"Меню, бронювання", desc:"Прямий канал продажів без комісій.", benefits:[{t:"Електронне меню", d:"Зручний вибір страв та оформлення замовлення."},{t:"Бронювання столиків", d:"Візуальна схема залу або просто вибір часу."},{t:"Програма лояльності", d:"Накопичення балів та акції для постійних гостей."}]},
 ];
 
 const REVIEWS = [
@@ -274,10 +242,10 @@ function saveBooking(b){const arr=getBookings();arr.push(b);localStorage.setItem
 const SCHEDULE = {1:["10:00","11:00","13:00","15:00","17:00"],2:["10:00","12:00","14:00","16:00"],3:["10:00","11:00","13:00","15:00","17:00"],4:["10:00","12:00","14:00"],5:["10:00","11:00","13:00","15:00"]};
 
 // ─────────────────────────────────────────
-//  УНІВЕРСАЛЬНИЙ ЗАГОЛОВОК З КНОПКОЮ НАЗАД
+//  REUSABLE HEADER
 // ─────────────────────────────────────────
 const Header = ({onBack, title, sub, icon, right}) => (
-  <div className="topbar" style={{paddingBottom: '20px'}}>
+  <div className="topbar">
     <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
       <div className="back-btn-circle" onClick={onBack}><IC n="back" sz={20} c="var(--text)"/></div>
       {icon && (
@@ -295,38 +263,20 @@ const Header = ({onBack, title, sub, icon, right}) => (
 );
 
 // ─────────────────────────────────────────
-//  HOME
+//  COMPONENTS & SCREENS
 // ─────────────────────────────────────────
 function HomeScreen({onNav}) {
-  const [counter, setCounter] = useState({hours:0,bookings:0,revenue:0});
-  
   const tg = window.Telegram?.WebApp;
   const user = tg?.initDataUnsafe?.user;
   const userName = user?.first_name || "Користувач";
   const userPhoto = user?.photo_url || "https://ui-avatars.com/api/?name=" + userName + "&background=E5E7EB&color=111827&size=200";
 
-  useEffect(()=>{
-    const t = setInterval(()=>{
-      setCounter(c=>({
-        hours: Math.min(c.hours+1, 47),
-        bookings: Math.min(c.bookings+3, 312),
-        revenue: Math.min(c.revenue+200, 28400),
-      }));
-    }, 30);
-    return()=>clearInterval(t);
-  },[]);
-
   return (
     <div className="fade-in">
-      {/* Кастомний Topbar для головної сторінки (без кнопки назад) */}
       <div className="topbar">
-        <div>
-          <div className="tb-title" style={{fontSize: '22px'}}>MiniApp Demo</div>
-        </div>
-        <div style={{display: 'flex', gap: '12px'}}>
-          <div className="icon-btn" style={{background: 'var(--surface)', border: 'none', boxShadow: 'none'}} onClick={()=>onNav("notify")}>
-            <div style={{position:"relative"}}><IC n="bell" sz={22} c="var(--text)"/><div className="red-dot"/></div>
-          </div>
+        <div className="tb-title" style={{fontSize: '22px'}}>MiniApp Demo</div>
+        <div className="icon-btn" style={{background: 'var(--surface)', border: 'none'}} onClick={()=>onNav("notify")}>
+          <div style={{position:"relative"}}><IC n="bell" sz={22} c="var(--text)"/><div className="red-dot"/></div>
         </div>
       </div>
 
@@ -334,43 +284,28 @@ function HomeScreen({onNav}) {
         <div style={{ width: '120px', height: '120px', borderRadius: '50%', overflow: 'hidden', position: 'relative', zIndex: 2, margin: '0 auto', border: '5px solid var(--bg)', boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}>
           <img src={userPhoto} alt="profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
-
         <div style={{
-          background: 'rgba(255, 255, 255, 0.45)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          borderRadius: '28px',
-          padding: '65px 20px 24px',
-          marginTop: '-60px',
-          position: 'relative',
-          zIndex: 1,
-          border: '1px solid rgba(255, 255, 255, 0.6)',
-          textAlign: 'center',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.04)'
+          background: 'rgba(255, 255, 255, 0.45)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+          borderRadius: '28px', padding: '65px 20px 24px', marginTop: '-60px', position: 'relative', zIndex: 1, border: '1px solid rgba(255, 255, 255, 0.6)', textAlign: 'center'
         }}>
           <div style={{display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.7)', borderRadius: '999px', padding: '4px 12px', fontSize: '11px', fontWeight: 800, marginBottom: '12px', border:'1px solid var(--border)'}}>
             <span className="pulse-dot"/> Демо-версія
           </div>
           <div style={{fontSize: '22px', fontWeight: 800, color: 'var(--text)', marginBottom: '8px', lineHeight: 1.2}}>Ваш бізнес на<br/>автопілоті в Telegram</div>
-          <div style={{fontSize: '13px', color: 'var(--text-2)', fontWeight: 500, lineHeight: 1.5, marginBottom: '20px'}}>Запис клієнтів, нагадування, база, AI-асистент — все в одному додатку.</div>
+          <div style={{fontSize: '13px', color: 'var(--text-2)', fontWeight: 500, lineHeight: 1.5}}>Запис клієнтів, нагадування, база, AI-асистент — все в одному додатку.</div>
         </div>
       </div>
 
-      <div className="sec-head">
-        <div className="sec-title">Що може ваш додаток</div>
-      </div>
-      
+      <div className="sec-head"><div className="sec-title">Що може ваш додаток</div></div>
       <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px'}}>
         {FEATURES.map(f=>(
-          <div key={f.id} onClick={()=>onNav("feature",{id:f.id})} style={{
-            background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '24px', padding: '20px 16px', cursor: 'pointer', position: 'relative', boxShadow: 'var(--sh)'
-          }}>
-            <div style={{position: 'absolute', top: '16px', right: '16px', color: 'var(--text)'}}>
-              <IC n={f.icon} sz={22} c="var(--text)"/>
-            </div>
-            <div style={{position: 'absolute', top: '16px', left: '16px', color: 'var(--text-3)'}}>
-              <IC n="arrow_up_right" sz={16} c="var(--text-3)"/>
-            </div>
+          <div key={f.id} onClick={()=>{
+            if(f.id === "demo_booking") onNav("booking");
+            else if(f.id === "clients") onNav("sessions");
+            else onNav("feature",{id:f.id});
+          }} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '24px', padding: '20px 16px', cursor: 'pointer', position: 'relative', boxShadow: 'var(--sh)' }}>
+            <div style={{position: 'absolute', top: '16px', right: '16px', color: 'var(--text)'}}><IC n={f.icon} sz={22} c="var(--text)"/></div>
+            <div style={{position: 'absolute', top: '16px', left: '16px', color: 'var(--text-3)'}}><IC n="arrow_up_right" sz={16} c="var(--text-3)"/></div>
             <div style={{marginTop: '36px'}}>
               <div style={{fontSize: '15px', fontWeight: 800, color: 'var(--text)', marginBottom: '4px'}}>{f.title}</div>
               <div style={{fontSize: '12px', color: 'var(--text-2)', fontWeight: 500, lineHeight: 1.4}}>{f.sub}</div>
@@ -379,24 +314,15 @@ function HomeScreen({onNav}) {
         ))}
       </div>
 
-      <div className="sec-head">
-        <div className="sec-title">Для кого</div>
-      </div>
-      
+      <div className="sec-head"><div className="sec-title">Для кого</div></div>
       <div style={{background:"var(--surface)", border:"1px solid var(--border)", borderRadius:"16px", padding:"14px 16px", marginBottom:"16px", display:"flex", alignItems:"center", gap:"12px", boxShadow:"var(--sh)"}}>
-        <div style={{width:36, height:36, borderRadius:10, background:"var(--bg)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0}}>
-          <IC n="sparkle" sz={20} c="var(--text)"/>
-        </div>
-        <div style={{fontSize:13, fontWeight:500, color:"var(--text)", lineHeight:1.4}}>
-          Мобільний додаток всередині чат-бота підходить <b>будь-якому бізнесу</b>, який хоче економити час та збільшити прибуток.
-        </div>
+        <div style={{width:36, height:36, borderRadius:10, background:"var(--bg)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0}}><IC n="sparkle" sz={20} c="var(--text)"/></div>
+        <div style={{fontSize:13, fontWeight:500, color:"var(--text)", lineHeight:1.4}}>Додаток підходить <b>будь-якому бізнесу</b>, який хоче економити час.</div>
       </div>
 
       <div style={{display: 'grid', gap: '12px', marginBottom: '24px'}}>
         {USE_CASES.map((u,i)=>(
-          <div key={i} onClick={()=>onNav("niche",{id:u.id})} style={{
-            background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '24px', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: '16px', cursor: 'pointer', boxShadow: 'var(--sh)'
-          }}>
+          <div key={i} onClick={()=>onNav("niche",{id:u.id})} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '24px', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: '16px', cursor: 'pointer', boxShadow: 'var(--sh)' }}>
             <div style={{color: 'var(--text)'}}><IC n={u.icon} sz={28} c="var(--text)"/></div>
             <div style={{flex: 1}}>
               <div style={{fontSize: '15px', fontWeight: 800}}>{u.title}</div>
@@ -406,32 +332,26 @@ function HomeScreen({onNav}) {
           </div>
         ))}
       </div>
-
     </div>
   );
 }
 
-// ─────────────────────────────────────────
-//  FEATURES LIST SCREEN
-// ─────────────────────────────────────────
 function FeaturesListScreen({onNav}) {
   return (
-    <div>
+    <div className="fade-in">
       <Header onBack={()=>onNav("home")} title="Можливості" sub="Функціонал вашого додатку" />
-      <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px'}}>
+      <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px'}}>
         {FEATURES.map(f=>(
-          <div key={f.id} className="fade-in" onClick={()=>onNav("feature",{id:f.id})} style={{
-            background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '24px', padding: '20px 16px', cursor: 'pointer', position: 'relative', boxShadow: 'var(--sh)'
-          }}>
-            <div style={{position: 'absolute', top: '16px', right: '16px', color: 'var(--text)'}}>
-              <IC n={f.icon} sz={22} c="var(--text)"/>
-            </div>
-            <div style={{position: 'absolute', top: '16px', left: '16px', color: 'var(--text-3)'}}>
-              <IC n="arrow_up_right" sz={16} c="var(--text-3)"/>
-            </div>
+          <div key={f.id} onClick={()=>{
+            if(f.id === "demo_booking") onNav("booking");
+            else if(f.id === "clients") onNav("sessions");
+            else onNav("feature",{id:f.id});
+          }} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '24px', padding: '20px 16px', cursor: 'pointer', position: 'relative', boxShadow: 'var(--sh)' }}>
+            <div style={{position: 'absolute', top: '16px', right: '16px', color: 'var(--text)'}}><IC n={f.icon} sz={22} c="var(--text)"/></div>
+            <div style={{position: 'absolute', top: '16px', left: '16px', color: 'var(--text-3)'}}><IC n="arrow_up_right" sz={16} c="var(--text-3)"/></div>
             <div style={{marginTop: '36px'}}>
-              <div style={{fontSize: '15px', fontWeight: 800, color: 'var(--text)', marginBottom: '4px'}}>{f.title}</div>
-              <div style={{fontSize: '12px', color: 'var(--text-2)', fontWeight: 500, lineHeight: 1.4}}>{f.sub}</div>
+              <div style={{fontSize: '15px', fontWeight: 800}}>{f.title}</div>
+              <div style={{fontSize: '12px', color: 'var(--text-2)', fontWeight: 500}}>{f.sub}</div>
             </div>
           </div>
         ))}
@@ -440,55 +360,22 @@ function FeaturesListScreen({onNav}) {
   );
 }
 
-// ─────────────────────────────────────────
-//  FEATURE DETAIL SCREEN
-// ─────────────────────────────────────────
 function FeatureScreen({onNav, params}) {
   const feat = FEATURES.find(f=>f.id===params.id) || FEATURES[0];
-  
   const details = {
-    booking:{
-      title:"Онлайн запис", wow:"Клієнти записуються о 2 ночі в суботу — без вашої участі.",
-      points:[ {i: "calendar", t: "Клієнт відкриває додаток і бачить вільні слоти"}, {i: "check", t: "Вибирає зручний час — без дзвінків і переписок"}, {i: "send", t: "Отримує підтвердження миттєво в Telegram"}, {i: "bell", t: "Отримує нагадування за 24 год та за 1 год"}, {i: "trending", t: "Ви бачите всі записи в зручному вигляді"} ],
-      result:"В середньому клієнти заощаджують 15 год/міс на координацію записів"
-    },
-    clients:{
-      title:"База клієнтів", wow:"Вся інформація про кожного клієнта в одному місці — без Excel.",
-      points:[ {i: "user", t: "Ім'я, контакт, Telegram — зберігається автоматично"}, {i: "edit", t: "Запит клієнта і нотатки після сесій"}, {i: "calendar", t: "Повна історія всіх візитів"}, {i: "send", t: "Швидкий зв'язок прямо з бази"}, {i: "trending", t: "Статистика по кожному клієнту"} ],
-      result:"Не треба вести записники та таблиці — все зберігається само"
-    },
-    notify:{
-      title:"Авто-нагадування", wow:"98% клієнтів приходять вчасно. Нуль пропущених сесій.",
-      points:[ {i: "bell", t: "Нагадування за 24 год до запису"}, {i: "clock", t: "Нагадування за 1 год до запису"}, {i: "check", t: "Клієнт підтверджує або скасовує одним кліком"}, {i: "send", t: "Все через Telegram — клієнт точно побачить"}, {i: "zap", t: "Звільнений слот одразу відкривається для інших"} ],
-      result:"Клієнти зі старим підходом: 3-5 пропусків/тиждень. Після додатку: 0-1"
-    },
-    payments:{
-      title:"Статистика", wow:"Ви точно знаєте: скільки заробили, хто ваші кращі клієнти, коли пік навантаження.",
-      points:[ {i: "trending", t: "Виручка за день, тиждень, місяць"}, {i: "calendar", t: "Завантаженість і вільні слоти"}, {i: "users", t: "Постійні vs нові клієнти"}, {i: "zap", t: "Динаміка зростання"}, {i: "star", t: "Рейтинг і відгуки"} ],
-      result:"Бізнес-рішення на основі даних, а не відчуттів"
-    },
-    content:{
-      title:"Контент", wow:"Клієнт отримує PDF, чек-лист або аудіо прямо в Telegram — безкоштовно для нього, без зусиль для вас.",
-      points:[ {i: "layers", t: "PDF-матеріали для клієнтів одним кліком"}, {i: "video", t: "Аудіо та відео у боті"}, {i: "check", t: "Чек-листи та домашні завдання"}, {i: "gift", t: "Безкоштовні матеріали як лід-магніт"}, {i: "send", t: "Автоматична відправка після сесії"} ],
-      result:"Клієнти відчувають турботу. Ви не витрачаєте час на пересилку."
-    },
-    ai:{
-      title:"AI Асистент", wow:"Клієнт о 23:00 питає про ціни — AI відповідає, поки ви спите.",
-      points:[ {i: "bot", t: "Відповідає на питання клієнтів 24/7"}, {i: "layers", t: "Розповідає про ваші послуги та ціни"}, {i: "calendar", t: "Допомагає підібрати зручний час"}, {i: "users", t: "Направляє до запису або менеджера"}, {i: "check", t: "Підтримує до 10 мов спілкування"} ],
-      result:"Ви не пропускаєте жодного потенційного клієнта — навіть вночі"
-    },
+    notify:{ title:"Авто-нагадування", wow:"98% клієнтів приходять вчасно. Нуль пропущених сесій.", points:[ {i: "bell", t: "Нагадування за 24 год до запису"}, {i: "clock", t: "Нагадування за 1 год до запису"}, {i: "check", t: "Клієнт підтверджує або скасовує одним кліком"}, {i: "send", t: "Все через Telegram — клієнт точно побачить"}, {i: "zap", t: "Звільнений слот одразу відкривається для інших"} ], result:"Клієнти зі старим підходом: 3-5 пропусків/тиждень. Після додатку: 0-1" },
+    payments:{ title:"Статистика", wow:"Ви точно знаєте: скільки заробили, хто ваші кращі клієнти, коли пік навантаження.", points:[ {i: "trending", t: "Виручка за день, тиждень, місяць"}, {i: "calendar", t: "Завантаженість і вільні слоти"}, {i: "users", t: "Постійні vs нові клієнти"}, {i: "zap", t: "Динаміка зростання"}, {i: "star", t: "Рейтинг і відгуки"} ], result:"Бізнес-рішення на основі даних, а не відчуттів" },
+    content:{ title:"Контент", wow:"Клієнт отримує PDF, чек-лист або аудіо прямо в Telegram — безкоштовно для нього, без зусиль для вас.", points:[ {i: "layers", t: "PDF-матеріали для клієнтів одним кліком"}, {i: "video", t: "Аудіо та відео у боті"}, {i: "check", t: "Чек-листи та домашні завдання"}, {i: "gift", t: "Безкоштовні матеріали як лід-магніт"}, {i: "send", t: "Автоматична відправка після сесії"} ], result:"Клієнти відчувають турботу. Ви не витрачаєте час на пересилку." },
+    ai:{ title:"AI Асистент", wow:"Клієнт о 23:00 питає про ціни — AI відповідає, поки ви спите.", points:[ {i: "bot", t: "Відповідає на питання клієнтів 24/7"}, {i: "layers", t: "Розповідає про ваші послуги та ціни"}, {i: "calendar", t: "Допомагає підібрати зручний час"}, {i: "users", t: "Направляє до запису або менеджера"}, {i: "check", t: "Підтримує до 10 мов спілкування"} ], result:"Ви не пропускаєте жодного потенційного клієнта — навіть вночі" }
   };
-  const d = details[feat.id] || details.booking;
-
+  const d = details[feat.id] || details.notify;
   return (
-    <div>
+    <div className="fade-in">
       <Header onBack={()=>onNav("home")} title={d.title} />
-      <div className="card" style={{padding:24,marginBottom:20}}>
-        <div style={{width:48,height:48,borderRadius:14,border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center",marginBottom:16}}>
-          <IC n={feat.icon} sz={24} c="var(--text)"/>
-        </div>
+      <div className="card" style={{padding:24}}>
+        <div style={{width:48,height:48,borderRadius:14,border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center",marginBottom:16}}><IC n={feat.icon} sz={24} c="var(--text)"/></div>
         <div style={{fontSize:11,fontWeight:800,color:'var(--text-3)',textTransform:"uppercase",letterSpacing:"1px",marginBottom:8}}>Wow-фактор</div>
-        <div style={{fontSize:16,fontWeight:700,color:'var(--text)',lineHeight:1.4}}>{d.wow}</div>
+        <div style={{fontSize:16,fontWeight:700,lineHeight:1.4}}>{d.wow}</div>
       </div>
       <div className="card">
         <div style={{fontSize:13,fontWeight:800,color:"var(--text-2)",marginBottom:12,textTransform:"uppercase",letterSpacing:".8px"}}>Як це працює</div>
@@ -499,58 +386,36 @@ function FeatureScreen({onNav, params}) {
           </div>
         ))}
       </div>
-      <div className="card" style={{background:"var(--surface-alt)",border:"none"}}>
-        <div style={{fontSize:11,fontWeight:800,color:"var(--text-2)",textTransform:"uppercase",letterSpacing:".8px",marginBottom:6}}>Результат</div>
-        <div style={{fontSize:15,fontWeight:700,color:"var(--text)",lineHeight:1.4}}>{d.result}</div>
-      </div>
-      <button className="btn btn-primary mt" onClick={()=>onNav("order")}>
-        Хочу цей функціонал
-      </button>
+      <div className="card" style={{background:"var(--surface-alt)",border:"none"}}><div style={{fontSize:15,fontWeight:700}}>{d.result}</div></div>
+      <button className="btn btn-primary mt" onClick={()=>onNav("order")}>Хочу цей функціонал</button>
     </div>
   );
 }
 
-// ─────────────────────────────────────────
-//  NICHE DETAIL SCREEN
-// ─────────────────────────────────────────
 function NicheScreen({onNav, params}) {
   const niche = USE_CASES.find(u=>u.id===params.id) || USE_CASES[0];
   return (
-    <div>
+    <div className="fade-in">
       <Header onBack={()=>onNav("home")} title={niche.title} />
-      <div className="card fade-in" style={{padding:"32px 24px", textAlign:"center", border:'none', background:'var(--surface)'}}>
-        <div style={{display: 'flex', justifyContent: 'center', marginBottom: 16}}>
-          <div style={{width:64,height:64,borderRadius:'50%',border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <IC n={niche.icon} sz={32} c="var(--text)"/>
+      <div className="card" style={{padding:"32px 24px", textAlign:"center", border:'none'}}>
+        <div style={{display: 'flex', justifyContent: 'center', marginBottom: 16}}><div style={{width:64,height:64,borderRadius:'50%',border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center"}}><IC n={niche.icon} sz={32} c="var(--text)"/></div></div>
+        <div style={{fontSize:18,fontWeight:800}}>{niche.desc}</div>
+      </div>
+      <div className="sec-head"><div className="sec-title">Переваги для вас</div></div>
+      {niche.benefits.map((b,i)=>(
+        <div key={i} className="list-item" style={{alignItems:"flex-start", padding:"18px 16px"}}>
+          <div style={{marginTop:2}}><IC n="check" sz={20} c="var(--text)"/></div>
+          <div className="li-body">
+            <div className="li-title" style={{fontSize:15}}>{b.t}</div>
+            <div className="li-sub" style={{whiteSpace:"normal", lineHeight:1.4, marginTop:4, fontSize:13}}>{b.d}</div>
           </div>
         </div>
-        <div style={{fontSize:20,fontWeight:800,lineHeight:1.4}}>{niche.desc}</div>
-      </div>
-
-      <div className="sec-head" style={{marginTop:24}}>
-        <div className="sec-title">Головні переваги для вас</div>
-      </div>
-      <div className="fade-in" style={{marginBottom: 20}}>
-        {niche.benefits.map((b,i)=>(
-          <div key={i} className="list-item" style={{alignItems:"flex-start", padding:"18px 16px"}}>
-            <div style={{marginTop:2}}><IC n="check" sz={20} c="var(--text)"/></div>
-            <div className="li-body">
-              <div className="li-title" style={{fontSize:15}}>{b.t}</div>
-              <div className="li-sub" style={{whiteSpace:"normal", lineHeight:1.4, marginTop:4, fontSize:13}}>{b.d}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <button className="btn btn-accent mt fade-in" onClick={()=>onNav("order")}>
-        <IC n="sparkle" sz={18} c="#fff"/> Замовити для своєї ніші
-      </button>
+      ))}
+      <button className="btn btn-accent mt" onClick={()=>onNav("order")}>Замовити для себе</button>
     </div>
   );
 }
 
-// ─────────────────────────────────────────
-//  DEMO BOOKING
-// ─────────────────────────────────────────
 function BookingScreen({onNav}) {
   const [step,setStep]=useState(0);
   const [data,setData]=useState({format:"",date:"",time:"",name:"",contact:"",request:""});
@@ -558,15 +423,10 @@ function BookingScreen({onNav}) {
 
   const confirm = async () => {
     setSending(true);
-    const tg = window.Telegram?.WebApp;
-    const tgUser = tg?.initDataUnsafe?.user;
-    const tgProfile = tgUser?.id ? `<a href="tg://user?id=${tgUser.id}">${tgUser.first_name}</a> ${tgUser.username ? '(@' + tgUser.username + ')' : ''}` : "Не визначено (відкрито в браузері)";
-    const msg = `📅 <b>Новий тестовий запис (Демо)</b>\n\n👤 <b>Ім'я:</b> ${data.name}\n📞 <b>Контакт:</b> ${data.contact}\n📱 <b>Telegram профіль:</b> ${tgProfile}\n📆 <b>Дата:</b> ${data.date} о ${data.time}\n💻 <b>Формат:</b> ${data.format}\n💬 <b>Запит:</b> ${data.request || "Немає"}`;
-    await sendTelegramMessage(msg);
-    
+    // Імітація відправки (щоб клієнт побачив лише візуалізацію)
     saveBooking({...data, id:Date.now(), status:"upcoming", created:new Date().toLocaleDateString("uk-UA")});
-    await new Promise(r=>setTimeout(r,800));
-    setSending(false);
+    await new Promise(r=>setTimeout(r,800)); 
+    setSending(false); 
     setStep(3);
   };
 
@@ -576,74 +436,66 @@ function BookingScreen({onNav}) {
         <IC n="check" sz={40} c="var(--text)"/>
       </div>
       <div style={{fontSize:24,fontWeight:800,letterSpacing:"-.03em",marginBottom:8}}>Запис підтверджено!</div>
-      <div style={{fontSize:15,color:"var(--text-2)",marginBottom:32,lineHeight:1.5,padding:"0 20px"}}>Це демо того, як працює автоматичний запис у вашому міні-додатку</div>
-      <div className="card" style={{textAlign:"left",marginBottom:20}}>
-        <div style={{fontSize:12,fontWeight:800,color:"var(--text-2)",textTransform:"uppercase",letterSpacing:".8px",marginBottom:14}}>Що відбувається далі у реальному додатку:</div>
-        {[
-          { icon: 'send', text: 'Клієнт отримує підтвердження в Telegram' },
-          { icon: 'bell', text: 'Нагадування за 24 год — автоматично' },
-          { icon: 'clock', text: 'Нагадування за 1 год — автоматично' },
-          { icon: 'users', text: 'Запис потрапляє в базу клієнтів' },
-          { icon: 'trending', text: 'Оновлюється статистика і аналітика' }
-        ].map((p,i)=>(
-          <div key={i} style={{fontSize:13,fontWeight:500,padding:"8px 0",borderBottom:i<4?"1px solid var(--border)":"none", display: 'flex', alignItems: 'center', gap: '10px'}}>
-            <IC n={p.icon} sz={16} c="var(--text)"/>
-            <span>{p.text}</span>
-          </div>
-        ))}
+      <div style={{fontSize:15,color:"var(--text-2)",marginBottom:24,lineHeight:1.5,padding:"0 20px"}}>
+        Це демо-версія. Заявка нікуди не відправлялась, але у реальному додатку ви (власник) миттєво отримаєте таке сповіщення:
       </div>
-      <div className="conf-row"><div className="conf-lbl">Дата</div><div className="conf-val">{data.date}</div></div>
-      <div className="conf-row"><div className="conf-lbl">Час</div><div className="conf-val">{data.time}</div></div>
-      <div className="conf-row" style={{borderBottom:"none"}}><div className="conf-lbl">Формат</div><div className="conf-val">{data.format}</div></div>
-      <button className="btn btn-accent mt" style={{marginTop:24}} onClick={()=>onNav("order")}><IC n="sparkle" sz={18} c="#fff"/> Хочу такий само</button>
-      <button className="btn btn-ghost mt" onClick={()=>onNav("home")}>На головну</button>
+
+      <div style={{textAlign: "left", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "16px", padding: "16px", margin: "0 20px 24px", boxShadow: "var(--sh)"}}>
+        <div style={{fontSize: 12, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: ".8px", marginBottom: 12, display: "flex", alignItems: "center", gap: "6px"}}>
+          <IC n="bell" sz={16} c="var(--accent)"/> Вам у Telegram / CRM
+        </div>
+        <div style={{fontSize: 14, lineHeight: 1.6, color: "var(--text)"}}>
+          📅 <b>Новий запис (Демо)</b><br/><br/>
+          👤 <b>Ім'я:</b> {data.name}<br/>
+          📞 <b>Контакт:</b> {data.contact}<br/>
+          📆 <b>Час:</b> {data.date} о {data.time}<br/>
+          💻 <b>Формат:</b> {data.format}<br/>
+          💬 <b>Запит:</b> {data.request || "Немає"}
+        </div>
+      </div>
+
+      <button className="btn btn-accent mt" style={{width: "calc(100% - 40px)", margin: "0 auto"}} onClick={()=>onNav("order")}>
+        Хочу такий запис собі
+      </button>
+      <button className="btn btn-ghost mt" style={{width: "calc(100% - 40px)", margin: "12px auto 0"}} onClick={()=>onNav("home")}>На головну</button>
     </div>
   );
 
   return (
-    <div>
+    <div className="fade-in">
       <Header onBack={()=>step===0?onNav("home"):setStep(step-1)} title="Демо запису" />
-      <div style={{border:"1px solid var(--border)",borderRadius:"var(--r-sm)",padding:"16px",marginBottom:20, display:"flex", flexDirection:"column", gap:12}}>
-        <div style={{fontSize:13,color:"var(--text)",fontWeight:600,display:"flex",gap:8,alignItems:"center"}}>
-          <IC n="sparkle" sz={16} c="var(--text)"/>
-          Це демо. Ваші клієнти записуватимуться так само
-        </div>
-        <button onClick={()=>onNav("feature", {id:"booking"})} style={{background:"var(--surface)", border:"1px solid var(--border)", padding:"8px 12px", borderRadius:10, fontSize:12, fontWeight:700, color:"var(--text)", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", gap:6, width:"100%"}}>
-          <IC n="bot" sz={16} c="var(--text)"/> Як влаштований онлайн-запис?
-        </button>
-      </div>
-
-      <div className="prog-wrap">
-        <div className="prog-fill" style={{width:`${step===0?25:step===1?55:85}%`}}/>
-      </div>
-
+      <div className="prog-wrap"><div className="prog-fill" style={{width:`${(step+1)*33}%`}}/></div>
+      
       {step===0 && (
-        <>
-          <div style={{fontSize:20,fontWeight:800,marginBottom:20}}>Оберіть формат зустрічі</div>
+        <div className="fade-in">
+          <div style={{border:"1px solid var(--border)",borderRadius:"var(--r-sm)",padding:"16px",marginBottom:20, display:"flex", flexDirection:"column", gap:12}}>
+            <div style={{fontSize:13,color:"var(--text)",fontWeight:600,display:"flex",gap:8,alignItems:"center"}}>
+              <IC n="sparkle" sz={16} c="var(--accent)"/>
+              Це демо. Ваші клієнти записуватимуться так само, обираючи формат, час та залишаючи контакти.
+            </div>
+          </div>
+          
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-            <div className="card" style={{cursor:"pointer",padding:24,display:"flex",flexDirection:"column",gap:12,alignItems:"center",textAlign:"center"}} onClick={()=>{setData({...data,format:"Онлайн"});setStep(1);}}>
+            <div className="card" onClick={()=>{setData({...data,format:"Онлайн"});setStep(1);}} style={{cursor:"pointer",padding:24,display:"flex",flexDirection:"column",gap:12,alignItems:"center",textAlign:"center"}}>
               <div style={{width:52,height:52,borderRadius:18,border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center"}}><IC n="video" sz={26} c="var(--text)"/></div>
               <div><div style={{fontSize:15,fontWeight:800}}>Онлайн</div><div style={{fontSize:12,color:"var(--text-2)",marginTop:4}}>Zoom / Meet</div></div>
             </div>
-            <div className="card" style={{cursor:"pointer",padding:24,display:"flex",flexDirection:"column",gap:12,alignItems:"center",textAlign:"center"}} onClick={()=>{setData({...data,format:"Офлайн"});setStep(1);}}>
+            <div className="card" onClick={()=>{setData({...data,format:"Офлайн"});setStep(1);}} style={{cursor:"pointer",padding:24,display:"flex",flexDirection:"column",gap:12,alignItems:"center",textAlign:"center"}}>
               <div style={{width:52,height:52,borderRadius:18,border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center"}}><IC n="briefcase" sz={26} c="var(--text)"/></div>
               <div><div style={{fontSize:15,fontWeight:800}}>Офлайн</div><div style={{fontSize:12,color:"var(--text-2)",marginTop:4}}>Ваш кабінет</div></div>
             </div>
           </div>
-        </>
+        </div>
       )}
-
+      
       {step===1 && (
-        <>
-          <div style={{fontSize:20,fontWeight:800,marginBottom:20}}>Оберіть дату і час</div>
-          <div className="card">
-            <CalPicker onSelect={(date,time)=>{setData({...data,date,time});setStep(2);}}/>
-          </div>
-        </>
+        <div className="card fade-in">
+          <CalPicker onSelect={(date,time)=>{setData({...data,date,time});setStep(2);}}/>
+        </div>
       )}
-
+      
       {step===2 && (
-        <>
+        <div className="fade-in">
           <div className="list-item" style={{marginBottom:20}}>
             <div style={{width:46,height:46,borderRadius:14,border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><IC n="calendar" sz={24} c="var(--text)"/></div>
             <div className="li-body">
@@ -651,16 +503,15 @@ function BookingScreen({onNav}) {
               <div className="li-sub">{data.format} · 50 хвилин</div>
             </div>
           </div>
+          
           <label className="field-label">Ваше ім'я</label>
-          <input className="field" autoFocus value={data.name} onChange={e=>setData({...data,name:e.target.value})} placeholder="Як до вас звертатися?"/>
-          <label className="field-label">Telegram або телефон</label>
-          <input className="field" value={data.contact} onChange={e=>setData({...data,contact:e.target.value})} placeholder="@username або +380..."/>
+          <input className="field" value={data.name} onChange={e=>setData({...data,name:e.target.value})} placeholder="Ім'я"/>
+          <label className="field-label">Контакт</label>
+          <input className="field" value={data.contact} onChange={e=>setData({...data,contact:e.target.value})} placeholder="@username або телефон"/>
           <label className="field-label">Ваш запит (необов'язково)</label>
-          <textarea className="field" rows={3} value={data.request} onChange={e=>setData({...data,request:e.target.value})} placeholder="Що хочете обговорити або попрацювати?"/>
-          <button className="btn btn-primary mt" style={{marginTop:20}} disabled={!data.name.trim()||!data.contact.trim()||sending} onClick={confirm}>
-            {sending?"Обробка...":"Підтвердити запис"}
-          </button>
-        </>
+          <textarea className="field" rows={2} value={data.request} onChange={e=>setData({...data,request:e.target.value})} placeholder="Що хочете обговорити?"/>
+          <button className="btn btn-primary mt" style={{marginTop:20}} disabled={!data.name||!data.contact||sending} onClick={confirm}>{sending?"Обробка...":"Підтвердити"}</button>
+        </div>
       )}
     </div>
   );
@@ -680,6 +531,7 @@ function CalPicker({onSelect}) {
   const isPast=d=>new Date(year,month,d)<new Date(today.getFullYear(),today.getMonth(),today.getDate());
   const getSlots=d=>{const dow=new Date(year,month,d).getDay()||7;return SCHEDULE[dow]||[];};
   const cells=[];for(let i=0;i<fd;i++)cells.push(null);for(let d=1;d<=dim;d++)cells.push(d);
+  
   return(
     <div>
       <div className="cal-nav">
@@ -698,22 +550,22 @@ function CalPicker({onSelect}) {
         })}
       </div>
       {selD&&(
-        <>
+        <div className="fade-in">
           <div style={{fontSize:12,fontWeight:800,color:"var(--text-2)",textTransform:"uppercase",letterSpacing:".8px",margin:"16px 0 8px"}}>Вільний час</div>
           <div className="time-grid">
             {getSlots(selD).map(t=>(
               <button key={t} className={`time-slot ${selT===t?"sel":""}`} onClick={()=>setSelT(t)}>{t}</button>
             ))}
           </div>
-          {selT&&<button className="btn btn-primary mt" style={{marginTop:16}} onClick={()=>onSelect(fmt(selD),selT)}>Продовжити</button>}
-        </>
+          {selT&&<button className="btn btn-primary mt fade-in" style={{marginTop:16}} onClick={()=>onSelect(fmt(selD),selT)}>Продовжити</button>}
+        </div>
       )}
     </div>
   );
 }
 
 // ─────────────────────────────────────────
-//  MY SESSIONS
+//  MY SESSIONS / CLIENT BASE SCREEN
 // ─────────────────────────────────────────
 function SessionsScreen({onNav}) {
   const [bookings] = useState(()=>getBookings());
@@ -722,7 +574,7 @@ function SessionsScreen({onNav}) {
   const list = tab===0 ? upcoming : bookings;
 
   return (
-    <div>
+    <div className="fade-in">
       <Header 
         onBack={()=>onNav("home")} 
         title="Клієнти" 
@@ -736,7 +588,7 @@ function SessionsScreen({onNav}) {
 
       <div style={{border:"1px solid var(--border)",borderRadius:"var(--r-sm)",padding:"12px 16px",marginBottom:20,fontSize:13,color:"var(--text)",fontWeight:600,display:"flex",gap:8,alignItems:"center"}}>
         <IC n="users" sz={16} c="var(--text)"/>
-        У вашому додатку тут буде вся база клієнтів з пошуком, фільтрами, нотатками
+        У вашому додатку тут буде вся база клієнтів з пошуком, фільтрами, нотатками.
       </div>
 
       <div className="tabs">
@@ -771,8 +623,8 @@ function SessionsScreen({onNav}) {
       )}
 
       {/* Демо клієнти */}
-      <div style={{fontSize:13,fontWeight:800,color:"var(--text-2)",textTransform:"uppercase",letterSpacing:".8px",marginBottom:12,marginTop:8}}>Демо клієнтів</div>
-      {[{name:"Юлія К.",sessions:12,last:"14.03.2026",status:"VIP"},{name:"Олексій М.",sessions:5,last:"11.03.2026",status:"Активний"},{name:"Анна С.",sessions:3,last:"05.03.2026",status:"Активний"}].map((c,i)=>(
+      <div style={{fontSize:13,fontWeight:800,color:"var(--text-2)",textTransform:"uppercase",letterSpacing:".8px",marginBottom:12,marginTop:24}}>Історія бази (Демо)</div>
+      {[{name:"Юлія К.",sessions:12,last:"14.03.2026",status:"VIP"},{name:"Олексій М.",sessions:5,last:"11.03.2026",status:"Активний"},{name:"Анна С.",sessions:3,last:"05.03.2026",status:"Новий"}].map((c,i)=>(
         <div key={i} className="list-item">
           <div style={{width:46,height:46,borderRadius:14,border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:18,fontWeight:800,color:'var(--text)'}}>{c.name[0]}</div>
           <div className="li-body">
@@ -786,12 +638,42 @@ function SessionsScreen({onNav}) {
   );
 }
 
-// ─────────────────────────────────────────
-//  NOTIFICATIONS DEMO
-// ─────────────────────────────────────────
+function ReviewsScreen({onNav}) {
+  return (
+    <div className="fade-in">
+      <Header onBack={()=>onNav("home")} title="Відгуки" />
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:24}}>
+        <div className="card" style={{textAlign:"center",padding:20}}>
+          <div style={{fontSize:32,fontWeight:800,letterSpacing:"-.04em",color:"var(--text)"}}>5.0</div>
+          <div style={{display:"flex",gap:2,justifyContent:"center",margin:"6px 0"}}>{[1,2,3,4,5].map(i=><IC key={i} n="star" sz={14} c="var(--text)"/>)}</div>
+          <div style={{fontSize:12,color:"var(--text-2)",fontWeight:600}}>Рейтинг</div>
+        </div>
+        <div className="card" style={{textAlign:"center",padding:20}}>
+          <div style={{fontSize:32,fontWeight:800,letterSpacing:"-.04em",color:"var(--text)"}}>47+</div>
+          <div style={{fontSize:12,color:"var(--text-2)",fontWeight:600,marginTop:20}}>Клієнтів</div>
+        </div>
+      </div>
+      {REVIEWS.map((r,i)=>(
+        <div key={i} className="review-card">
+          <div className="review-stars">{[1,2,3,4,5].map(j=><IC key={j} n="star" sz={14} c="var(--text)"/>)}</div>
+          <div className="review-text">{r.text}</div>
+          <div className="review-author">
+            <div className="review-avatar">{r.initial}</div>
+            <div>
+              <div style={{fontSize:14,fontWeight:700}}>{r.author}</div>
+              <div style={{fontSize:12,color:"var(--text-2)",marginTop:1}}>{r.role}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+      <button className="btn btn-accent mt" onClick={()=>onNav("order")}>Замовити додаток</button>
+    </div>
+  );
+}
+
 function NotifyScreen({onNav}) {
   return (
-    <div>
+    <div className="fade-in">
       <Header onBack={()=>onNav("home")} title="Нагадування" />
       <div style={{border:"1px solid var(--border)",borderRadius:"var(--r-sm)",padding:"14px 16px",marginBottom:20}}>
         <div style={{fontSize:13,fontWeight:800,color:"var(--text)",marginBottom:4,display:"flex",alignItems:"center",gap:6}}>
@@ -799,17 +681,15 @@ function NotifyScreen({onNav}) {
         </div>
         <div style={{fontSize:13,color:"var(--text)",fontWeight:500,lineHeight:1.5}}>Відправляються автоматично — без вашої участі. 98% клієнтів приходять вчасно.</div>
       </div>
-
       {[
-        {time:"Зараз", title:"Запис підтверджено", desc:"Ваш запис на 14 березня о 11:00 підтверджено. Чекаємо вас!", type:"confirm"},
-        {time:"Завтра 10:00", title:"Нагадування за 24 год", desc:"Нагадуємо: завтра, 14 березня о 11:00 — ваша сесія. Будемо чекати!", type:"remind"},
-        {time:"14.03 о 10:00", title:"Нагадування за 1 год", desc:"Через 1 годину ваша сесія о 11:00. Посилання: zoom.us/j/...", type:"remind"},
-        {time:"Після сесії", title:"Матеріали до сесії", desc:"Ваш персональний PDF-матеріал для роботи між сесіями.", type:"content"},
-        {time:"Після сесії", title:"Залиште відгук", desc:"Як пройшла сесія? Ваша думка важлива для нас.", type:"review"},
+        {time:"Зараз", title:"Запис підтверджено", desc:"Ваш запис на 14 березня о 11:00 підтверджено.", type:"check"},
+        {time:"Завтра 10:00", title:"Нагадування за 24 год", desc:"Нагадуємо: завтра о 11:00 ваша сесія.", type:"bell"},
+        {time:"14.03 о 10:00", title:"Нагадування за 1 год", desc:"Через 1 годину ваша сесія. Посилання: zoom...", type:"clock"},
+        {time:"Після сесії", title:"Матеріали до сесії", desc:"Ваш персональний матеріал для роботи.", type:"send"}
       ].map((n,i)=>(
         <div key={i} className="card" style={{display:"flex",gap:14,padding:16}}>
           <div style={{width:44,height:44,borderRadius:14,border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-            <IC n={n.type==="confirm"?"check":n.type==="remind"?"bell":n.type==="content"?"gift":"star"} sz={22} c="var(--text)"/>
+            <IC n={n.type} sz={22} c="var(--text)"/>
           </div>
           <div style={{flex:1}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
@@ -825,188 +705,54 @@ function NotifyScreen({onNav}) {
   );
 }
 
-// ─────────────────────────────────────────
-//  REVIEWS
-// ─────────────────────────────────────────
-function ReviewsScreen({onNav}) {
-  return (
-    <div>
-      <Header onBack={()=>onNav("home")} title="Відгуки" sub="Клієнти які вже замовили" />
-
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:24}}>
-        <div className="card" style={{textAlign:"center",padding:20}}>
-          <div style={{fontSize:32,fontWeight:800,letterSpacing:"-.04em",color:"var(--text)"}}>5.0</div>
-          <div style={{display:"flex",gap:2,justifyContent:"center",margin:"6px 0"}}>{[1,2,3,4,5].map(i=><IC key={i} n="star" sz={14} c="var(--text)"/>)}</div>
-          <div style={{fontSize:12,color:"var(--text-2)",fontWeight:600}}>Рейтинг</div>
-        </div>
-        <div className="card" style={{textAlign:"center",padding:20}}>
-          <div style={{fontSize:32,fontWeight:800,letterSpacing:"-.04em",color:"var(--text)"}}>47+</div>
-          <div style={{fontSize:12,color:"var(--text-2)",fontWeight:600,marginTop:20}}>Клієнтів</div>
-        </div>
-      </div>
-
-      {REVIEWS.map((r,i)=>(
-        <div key={i} className="review-card">
-          <div className="review-stars">{[1,2,3,4,5].map(j=><IC key={j} n="star" sz={14} c="var(--text)"/>)}</div>
-          <div className="review-text">{r.text}</div>
-          <div className="review-author">
-            <div className="review-avatar">{r.initial}</div>
-            <div>
-              <div style={{fontSize:14,fontWeight:700}}>{r.author}</div>
-              <div style={{fontSize:12,color:"var(--text-2)",marginTop:1}}>{r.role}</div>
-            </div>
-          </div>
-        </div>
-      ))}
-      <button className="btn btn-accent mt" onClick={()=>onNav("order")}>
-        <IC n="sparkle" sz={18} c="#fff"/> Замовити свій додаток
-      </button>
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────
-//  AI CHAT (CLAUDE INTEGRATION)
-// ─────────────────────────────────────────
-const AI_ANSWERS = {
-  default: "Чудове питання!\n\nМіні-додаток у Telegram — це ваш особистий бізнес-інструмент де клієнти можуть записатись, отримати матеріали, поставити питання — все без дзвінків і переписок.\n\nГоловне що він дає — **автоматизацію рутини**: нагадування, підтвердження, база клієнтів — все відбувається само.",
-  price: "**Вартість розробки:**\n\n• Starter (запис + нагадування) — від 8 000 ₴\n• Pro (+ AI + контент + аналітика) — від 14 000 ₴\n• Custom — індивідуально\n\nОкупність у більшості клієнтів — 2-4 тижні завдяки зменшенню пропусків та збільшенню записів.\n\nХочете дізнатись точну ціну? Залиште заявку — я розрахую індивідуально.",
-  time: "**Терміни розробки:**\n\n• Starter — 5-7 робочих днів\n• Pro — 10-14 робочих днів\n• Custom — обговорюється\n\nПочинаємо одразу після оформлення заявки та технічного опросу.",
-  features: "**Що входить у додаток:**\n\n• Онлайн запис 24/7\n• Нагадування за 24 год та 1 год\n• База клієнтів\n• Матеріали для клієнтів\n• AI-асистент\n• Статистика та аналітика\n\nФункціонал підбирається індивідуально під ваш бізнес.",
-  who: "**Хто замовляє:**\n\nМіні-додаток підійде будь-якому спеціалісту який працює з людьми:\n\n• Психологи та коучи\n• Тренери та фітнес\n• Б'юті-майстри\n• Репетитори\n• Лікарі та нутриціологи\n• Ресторани та кафе\n\nЯкщо у вас є клієнти — міні-додаток заощадить вам час.",
-  economy: "**Скільки часу економить:**\n\nВ середньому по нашим клієнтам:\n\n• 15-20 год/міс на координацію записів\n• 3-5 год/міс на переписку з питаннями\n• 2-3 год/міс на нагадування\n\nРазом: **20-28 год/міс** — це майже цілий робочий тиждень!\n\nПлюс зникають пропуски клієнтів (у середньому -4 пропуски на місяць).",
-  zapys: "**Як залишити заявку:**\n\n1. Натисніть кнопку «Замовити додаток» в меню\n2. Заповніть коротку форму (2 хвилини)\n3. Я зв'яжусь з вами протягом кількох годин\n4. Проведемо короткий дзвінок\n5. Починаємо розробку!\n\nАбо напишіть прямо — і я вам відповім особисто.",
-};
-
-function getAIResponse(msg) {
-  const m = msg.toLowerCase();
-  if(m.includes("ціна")||m.includes("кошт")||m.includes("скільки")||m.includes("гроши")||m.includes("грн")||m.includes("ціни")) return AI_ANSWERS.price;
-  if(m.includes("час")||m.includes("термін")||m.includes("скіл")||m.includes("коли")||m.includes("довго")) return AI_ANSWERS.time;
-  if(m.includes("функц")||m.includes("що вміє")||m.includes("можливост")||m.includes("що є")||m.includes("що є")) return AI_ANSWERS.features;
-  if(m.includes("кому")||m.includes("для кого")||m.includes("підійде")||m.includes("ваш")||m.includes("фітнес")||m.includes("психол")||m.includes("тренер")) return AI_ANSWERS.who;
-  if(m.includes("економ")||m.includes("час")||m.includes("час")||m.includes("автом")||m.includes("рутин")||m.includes("скільки")||m.includes("вигод")) return AI_ANSWERS.economy;
-  if(m.includes("заявк")||m.includes("замовит")||m.includes("хочу")||m.includes("як")||m.includes("оформ")) return AI_ANSWERS.zapys;
-  return AI_ANSWERS.default;
-}
-
 function AiScreen({onNav}) {
-  const [msgs,setMsgs]=useState([
-    {role:"bot",text:"Привіт! Я AI-асистент, який допоможе розповісти про Telegram Mini App для вашого бізнесу.\n\nПитайте про що хочете:\n• Скільки коштує?\n• Які функції?\n• Для кого підходить?\n• Як замовити?\n\nАбо просто напишіть своє запитання!"}
-  ]);
-  const [input,setInput]=useState("");
-  const [loading,setLoading]=useState(false);
-  const endRef=useRef(null);
+  const [msgs,setMsgs]=useState([{role:"bot",text:"Привіт! Я AI-асистент. Чим можу допомогти?"}]);
+  const [input,setInput]=useState(""); const [loading,setLoading]=useState(false);
+  const endRef=useRef(null); useEffect(()=>endRef.current?.scrollIntoView({behavior:"smooth"}),[msgs,loading]);
   const quickQ=["Скільки коштує?","Які функції?","Як зекономити час?","Як замовити?"];
 
-  useEffect(()=>{endRef.current?.scrollIntoView({behavior:"smooth"});},[msgs,loading]);
-
   const send = async (text) => {
-    const txt = (text || input).trim();
-    if (!txt || loading) return;
-    
-    setInput("");
-    const newMsgs = [...msgs, { role: "user", text: txt }];
-    setMsgs(newMsgs);
-    setLoading(true);
-
+    const txt = (text || input).trim(); if (!txt || loading) return;
+    setInput(""); setMsgs([...msgs, {role:"user", text:txt}]); setLoading(true);
     try {
-      // Підготовка повідомлень у форматі Gemini
-      const apiMessages = newMsgs.slice(1).map(m => ({
-        role: m.role === "bot" ? "model" : "user",
-        parts: [{ text: m.text }]
-      }));
-
-      let response;
-      let delay = 1000;
-      
-      // Механізм повторних спроб (якщо мережа моргнула або сервер зайнятий)
-      for (let i = 0; i < 5; i++) {
-        try {
-          response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              systemInstruction: {
-                parts: [{ text: "Ти привітний та професійний AI-асистент для Telegram Mini App (демо-версія додатку для запису клієнтів). Ти консультуєш людей щодо функціоналу, цін та можливостей розробки такого додатку для їхнього бізнесу (фітнес, б'юті, психологи тощо). Спілкуйся виключно українською мовою. Відповідай лаконічно, з використанням емодзі. Форматуй важливий текст за допомогою **жирного шрифту**." }]
-              },
-              contents: apiMessages
-            })
-          });
-          if (response.ok) break;
-        } catch (e) {
-          if (i === 4) throw e;
-        }
-        if (i < 4) {
-          await new Promise(r => setTimeout(r, delay));
-          delay *= 2;
+      const apiMsgs = [];
+      const history = msgs.concat({role:"user", text:txt}).slice(1);
+      for (const m of history) {
+        const role = m.role === "bot" ? "model" : "user";
+        if (apiMsgs.length > 0 && apiMsgs[apiMsgs.length - 1].role === role) {
+          apiMsgs[apiMsgs.length - 1].parts[0].text += "\n\n" + m.text;
+        } else {
+          apiMsgs.push({ role, parts: [{ text: m.text }] });
         }
       }
-
-      const data = await response?.json();
-      
-      if (!response?.ok) {
-        throw new Error(data?.error?.message || "Помилка API: " + response?.status);
-      }
-      
-      const replyText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (replyText) {
-        setMsgs([...newMsgs, { role: "bot", text: replyText }]);
-      } else {
-        throw new Error("Отримано порожню відповідь від API");
-      }
-    } catch (error) {
-      console.warn("Gemini API тимчасово недоступний. Використовуємо резервні демо-відповіді.", error);
-      await new Promise(r => setTimeout(r, 600));
-      const fallbackReply = getAIResponse(txt);
-      setMsgs([...newMsgs, { role: "bot", text: fallbackReply }]);
-    } finally {
-      setLoading(false);
-    }
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+        method: "POST", headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ contents: apiMsgs, systemInstruction: {parts:[{text: "Ти асистент для Telegram Mini App. Відповідай українською, лаконічно, з емодзі. Форматуй текст **жирним**."}]} })
+      });
+      const data = await res.json();
+      const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Вибачте, виникла помилка.";
+      setMsgs(prev=>[...prev, {role:"bot", text:reply}]);
+    } catch (e) { setMsgs(prev=>[...prev, {role:"bot", text:"Спробуйте пізніше."}]); }
+    finally { setLoading(false); }
   };
 
   return (
-    <div className="chat-wrap">
-      <Header 
-        onBack={()=>onNav("home")} 
-        title="AI Асистент" 
-        icon="bot"
-        sub={<span style={{display:"flex",alignItems:"center",gap:4}}><span className="pulse-dot" style={{width:6,height:6}}/> Онлайн</span>} 
-        right={
-          <button onClick={()=>onNav("order")} className="btn btn-accent" style={{width:"auto",padding:"8px 14px",fontSize:12}}>
-            Замовити
-          </button>
-        }
-      />
-
-      <div style={{background:"var(--surface-alt)", padding:"12px 16px", borderRadius:"var(--r-sm)", border:"1px solid var(--border)", display:"flex", gap:"12px", alignItems:"center", flexShrink:0, margin:"0 0 16px 0"}}>
-        <div style={{width:32, height:32, borderRadius:10, background:"var(--surface)", border:"1px solid var(--border)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0}}>
-          <IC n="bot" sz={18} c="var(--text)"/>
-        </div>
-        <div style={{fontSize:13, fontWeight:500, color:"var(--text)", lineHeight:1.4}}>
-          Такий самий розумний помічник може бути вбудований у <b>вашому додатку</b> для відповідей клієнтам 24/7.
-        </div>
-      </div>
-
-      <div className="chat-scroll">
+    <div className="chat-wrap fade-in">
+      <Header onBack={()=>onNav("home")} title="AI Асистент" sub="Онлайн 24/7" icon="bot" />
+      <div style={{background:"var(--surface-alt)", padding:12, borderRadius:12, margin:"0 16px 16px", fontSize:13, border: "1px solid var(--border)"}}>Такий помічник може бути вбудований у ваш власний додаток.</div>
+      <div className="chat-scroll" style={{padding:"0 16px 16px"}}>
         {msgs.map((m,i)=>(
           <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start"}}>
             <div className={`bubble ${m.role==="bot"?"b-bot":"b-user"}`} style={{whiteSpace:"pre-line"}}>
-              {m.text.split(/(\*\*.*?\*\*)/g).map((part, idx) => 
-                part.startsWith('**') && part.endsWith('**') ? <b key={idx}>{part.slice(2, -2)}</b> : part
-              )}
+              {m.text.split(/(\*\*.*?\*\*)/g).map((part, idx) => part.startsWith('**') ? <b key={idx}>{part.slice(2,-2)}</b> : part)}
             </div>
           </div>
         ))}
-        {loading&&(
-          <div style={{display:"flex"}}>
-            <div className="bubble b-bot"><span className="tdot"/><span className="tdot"/><span className="tdot"/></div>
-          </div>
-        )}
+        {loading && <div className="bubble b-bot"><span className="tdot"/><span className="tdot"/><span className="tdot"/></div>}
         <div ref={endRef}/>
       </div>
-
-      {/* Quick questions */}
-      <div style={{display:"flex",gap:8,overflowX:"auto",padding:"8px 0",scrollbarWidth:"none"}}>
+      
+      <div style={{display:"flex",gap:8,overflowX:"auto",padding:"8px 16px",scrollbarWidth:"none", flexShrink:0}}>
         {quickQ.map((q,i)=>(
           <button key={i} onClick={()=>send(q)} style={{flexShrink:0,padding:"7px 12px",border:"1px solid var(--border)",borderRadius:"999px",background:"var(--surface)",fontSize:12,fontWeight:700,color:"var(--text)",cursor:"pointer",fontFamily:"var(--font)"}}>
             {q}
@@ -1014,190 +760,108 @@ function AiScreen({onNav}) {
         ))}
       </div>
 
-      <div className="chat-bar">
-        <input className="chat-input" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Написати питання..."/>
+      <div className="chat-bar" style={{padding:"10px 16px"}}>
+        <input className="chat-input" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Питання..." />
         <button className="send-btn" onClick={()=>send()} disabled={!input.trim()||loading}><IC n="send" sz={18} c="#fff"/></button>
       </div>
     </div>
   );
 }
 
-// ─────────────────────────────────────────
-//  ORDER SCREEN
-// ─────────────────────────────────────────
 function OrderScreen({onNav}) {
-  const [step,setStep]=useState(0);
+  const [form,setForm]=useState({name:"",telegram:"",business:""});
   const [plan,setPlan]=useState("pro");
-  const [form,setForm]=useState({name:"",telegram:"",business:"",comment:""});
-  const [sending,setSending]=useState(false);
+  const [sending,setSending]=useState(false); const [done,setDone]=useState(false);
 
   const submit = async () => {
     setSending(true);
-    const tg = window.Telegram?.WebApp;
-    const tgUser = tg?.initDataUnsafe?.user;
-    const tgProfile = tgUser?.id ? `<a href="tg://user?id=${tgUser.id}">${tgUser.first_name}</a> ${tgUser.username ? '(@' + tgUser.username + ')' : ''}` : "Не визначено (відкрито в браузері)";
+    const tg = window.Telegram?.WebApp; const u = tg?.initDataUnsafe?.user;
+    const tgProfile = u?.id ? `<a href="tg://user?id=${u.id}">${escapeHTML(u.first_name)}</a>` : "Браузер";
     const planName = PLANS.find(p=>p.id===plan)?.name || plan;
-    const msg = `🚀 <b>Нова заявка на додаток!</b>\n\n👤 <b>Ім'я:</b> ${form.name}\n✈️ <b>Telegram (введено):</b> ${form.telegram}\n📱 <b>Telegram профіль:</b> ${tgProfile}\n💼 <b>Бізнес:</b> ${form.business}\n📦 <b>Тариф:</b> ${planName}\n💬 <b>Коментар:</b> ${form.comment || "Немає"}`;
+    const msg = `🚀 <b>НОВА ЗАЯВКА НА ДОДАТОК</b>\n\n👤 Ім'я: ${escapeHTML(form.name)}\n📞 Телеграм: ${escapeHTML(form.telegram)}\n💼 Бізнес: ${escapeHTML(form.business)}\n📦 Тариф: ${planName}\n📱 Профіль: ${tgProfile}`;
     await sendTelegramMessage(msg);
-    
-    await new Promise(r=>setTimeout(r,800));
-    setSending(false);
-    setStep(2);
+    await new Promise(r=>setTimeout(r,800)); setSending(false); setDone(true);
   };
 
-  if(step===2) return (
-    <div className="success-wrap fade-in">
-      <div style={{width:80,height:80,borderRadius:24,border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 24px"}}>
-        <IC n="check" sz={40} c="var(--text)"/>
+  if (done) return (
+    <div className="fade-in" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100vh - 100px)', padding: '0 24px', textAlign: 'center'}}>
+      <div style={{width: 72, height: 72, borderRadius: '24px', border: '1px solid var(--border)', background: 'var(--surface)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--sh)'}}>
+        <IC n="check" sz={36} c="var(--text)"/>
       </div>
-      <div style={{fontSize:24,fontWeight:800,letterSpacing:"-.03em",marginBottom:8}}>Заявку отримано!</div>
-      <div style={{fontSize:15,color:"var(--text-2)",marginBottom:32,lineHeight:1.5,padding:"0 20px"}}>
-        Я зв'яжусь з вами у Telegram протягом кількох годин. Готуйтесь — ваш бізнес скоро стане значно простішим!
+      <div style={{fontSize: 24, fontWeight: 800, letterSpacing: '-.03em', color: 'var(--text)', marginBottom: 8}}>Дякуємо!</div>
+      <div style={{fontSize: 15, color: 'var(--text-2)', lineHeight: 1.5, marginBottom: 32}}>
+        Ми отримали вашу заявку і скоро зв'яжемось з вами.
       </div>
-      <div className="card" style={{textAlign:"left",marginBottom:20}}>
-        <div style={{fontSize:12,fontWeight:800,color:"var(--text-2)",textTransform:"uppercase",letterSpacing:".8px",marginBottom:12}}>Що далі:</div>
-        {[
-          { icon: 'phone', text: 'Короткий дзвінок для уточнення деталей' },
-          { icon: 'layers', text: 'Технічне завдання та дизайн-бриф' },
-          { icon: 'zap', text: 'Розробка (5-14 днів залежно від тарифу)' },
-          { icon: 'check', text: 'Тестування та запуск вашого додатка' }
-        ].map((p,i)=>(
-          <div key={i} style={{fontSize:13,fontWeight:500,padding:"8px 0",borderBottom:i<3?"1px solid var(--border)":"none",display:"flex",alignItems: 'center', gap:"10px"}}>
-            <IC n={p.icon} sz={16} c="var(--text)"/>
-            <span>{p.text}</span>
-          </div>
-        ))}
-      </div>
-      <button className="btn btn-primary" onClick={()=>onNav("home")}>На головну</button>
+      <button className="btn btn-primary" style={{width: '100%'}} onClick={()=>onNav("home")}>На головну</button>
     </div>
   );
 
   return (
-    <div>
-      <Header onBack={()=>step===0?onNav("home"):setStep(0)} title="Замовити додаток" />
-
-      {step===0 && (
-        <>
-          <div style={{fontSize:13,fontWeight:700,color:"var(--text-2)",marginBottom:20,lineHeight:1.6}}>
-            Оберіть тариф або напишіть у формі нижче — я підберу оптимальне рішення для вашого бізнесу.
+    <div className="fade-in">
+      <Header onBack={()=>onNav("home")} title="Замовити додаток" />
+      
+      <div style={{fontSize:13,fontWeight:700,color:"var(--text-2)",marginBottom:20,lineHeight:1.6}}>
+        Оберіть тариф або напишіть у формі нижче — я підберу оптимальне рішення для вашого бізнесу.
+      </div>
+      {PLANS.map(p=>(
+        <div key={p.id} className={`plan-card ${plan===p.id?"selected":""}`} onClick={()=>setPlan(p.id)}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+            {p.hot && <span style={{border:'1px solid var(--text)',color:'var(--text)',fontSize:10,fontWeight:800,padding:"3px 8px",borderRadius:"999px"}}>ПОПУЛЯРНЕ</span>}
+            <div style={{fontSize:17,fontWeight:800,color:'var(--text)',flex:1}}>{p.name}</div>
+            <div className="plan-check">{plan===p.id && <IC n="check" sz={12} c="#fff"/>}</div>
           </div>
-          {PLANS.map(p=>(
-            <div key={p.id} className={`plan-card ${plan===p.id?"selected":""}`} onClick={()=>setPlan(p.id)}>
-              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
-                {p.hot && <span style={{border:'1px solid var(--text)',color:'var(--text)',fontSize:10,fontWeight:800,padding:"3px 8px",borderRadius:"999px"}}>ПОПУЛЯРНЕ</span>}
-                <div style={{fontSize:17,fontWeight:800,color:'var(--text)',flex:1}}>{p.name}</div>
-                <div className="plan-check">{plan===p.id && <IC n="check" sz={12} c="#fff"/>}</div>
-              </div>
-              <div style={{fontSize:22,fontWeight:800,color:'var(--text)',letterSpacing:"-.03em",marginBottom:6}}>{p.price}</div>
-              <div style={{fontSize:13,color:'var(--text-2)',fontWeight:500,marginBottom:12}}>{p.desc}</div>
-              {p.features.map((f,i)=>(
-                <div key={i} style={{fontSize:13,fontWeight:500,color:'var(--text-2)',display:"flex",gap:6,alignItems:"center",paddingTop:4}}>
-                  <IC n="check" sz={14} c="var(--text)"/>{f}
-                </div>
-              ))}
+          <div style={{fontSize:22,fontWeight:800,color:'var(--text)',letterSpacing:"-.03em",marginBottom:6}}>{p.price}</div>
+          <div style={{fontSize:13,color:'var(--text-2)',fontWeight:500,marginBottom:12}}>{p.desc}</div>
+          {p.features.map((f,i)=>(
+            <div key={i} style={{fontSize:13,fontWeight:500,color:'var(--text-2)',display:"flex",gap:6,alignItems:"center",paddingTop:4}}>
+              <IC n="check" sz={14} c="var(--text)"/>{f}
             </div>
           ))}
-          <button className="btn btn-accent mt" style={{marginTop:20}} onClick={()=>setStep(1)}>
-            Продовжити →
-          </button>
-        </>
-      )}
+        </div>
+      ))}
 
-      {step===1 && (
-        <>
-          <div className="card" style={{background:"var(--surface-alt)",border:"none",marginBottom:20}}>
-            <div style={{fontSize:12,fontWeight:800,color:"var(--text-2)",textTransform:"uppercase",letterSpacing:".8px",marginBottom:4}}>Обраний тариф</div>
-            <div style={{fontSize:16,fontWeight:800}}>{PLANS.find(p=>p.id===plan)?.name} · {PLANS.find(p=>p.id===plan)?.price}</div>
-          </div>
-
-          <label className="field-label">Ваше ім'я</label>
-          <input className="field" autoFocus value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Як до вас звертатися?"/>
-
-          <label className="field-label">Telegram для зв'язку</label>
-          <input className="field" value={form.telegram} onChange={e=>setForm({...form,telegram:e.target.value})} placeholder="@username"/>
-
-          <label className="field-label">Ваш бізнес / діяльність</label>
-          <input className="field" value={form.business} onChange={e=>setForm({...form,business:e.target.value})} placeholder="Психолог / Тренер / Майстер..."/>
-
-          <label className="field-label">Коментар (необов'язково)</label>
-          <textarea className="field" rows={3} value={form.comment} onChange={e=>setForm({...form,comment:e.target.value})} placeholder="Особливі побажання або питання"/>
-
-          <button className="btn btn-accent mt" style={{marginTop:20}} disabled={!form.name.trim()||!form.telegram.trim()||sending} onClick={submit}>
-            {sending?"Відправляємо...":"Надіслати заявку"}
-          </button>
-          <div style={{fontSize:12,color:"var(--text-3)",textAlign:"center",marginTop:12,fontWeight:500}}>
-            Я зв'яжусь з вами протягом кількох годин
-          </div>
-        </>
-      )}
+      <label className="field-label">Ваше ім'я</label>
+      <input className="field" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Ім'я"/>
+      <label className="field-label">Telegram для зв'язку</label>
+      <input className="field" value={form.telegram} onChange={e=>setForm({...form,telegram:e.target.value})} placeholder="@username"/>
+      <label className="field-label">Ваша ніша</label>
+      <input className="field" value={form.business} onChange={e=>setForm({...form,business:e.target.value})} placeholder="Бізнес"/>
+      
+      <button className="btn btn-accent mt" style={{marginTop: 20}} disabled={!form.name||!form.telegram||sending} onClick={submit}>{sending?"Відправка...":"Замовити"}</button>
     </div>
   );
 }
 
 // ─────────────────────────────────────────
-//  NAV + APP
+//  MAIN APP
 // ─────────────────────────────────────────
-const NAV_LEFT = [
-  {screen:"home", icon:"home", label:"Головна"},
-  {screen:"features_list", icon:"layers", label:"Можливості"}
-];
-const NAV_RIGHT = [
-  {screen:"reviews", icon:"star", label:"Відгуки"},
-  {screen:"ai", icon:"bot", label:"AI-чат"}
-];
-
 function App() {
-  const [screen,setScreen]=useState("home");
-  const [params,setParams]=useState({});
-  const scrollRef=useRef(null);
-
-  const nav = (s,p={}) => {
-    setScreen(s);
-    setParams(p);
-    scrollRef.current?.scrollTo({top:0,behavior:"smooth"});
-  };
+  const [screen,setScreen]=useState("home"); const [params,setParams]=useState({});
+  const nav = (s,p={}) => { setScreen(s); setParams(p); };
 
   const screens = {
-    home:          <HomeScreen         onNav={nav}/>,
+    home: <HomeScreen onNav={nav}/>,
     features_list: <FeaturesListScreen onNav={nav}/>,
-    feature:       <FeatureScreen      onNav={nav} params={params}/>,
-    niche:         <NicheScreen        onNav={nav} params={params}/>,
-    booking:       <BookingScreen      onNav={nav}/>,
-    sessions:      <SessionsScreen     onNav={nav}/>,
-    notify:        <NotifyScreen       onNav={nav}/>,
-    reviews:       <ReviewsScreen      onNav={nav}/>,
-    ai:            <AiScreen           onNav={nav}/>,
-    order:         <OrderScreen        onNav={nav}/>,
+    feature: <FeatureScreen onNav={nav} params={params}/>,
+    niche: <NicheScreen onNav={nav} params={params}/>,
+    booking: <BookingScreen onNav={nav}/>,
+    sessions: <SessionsScreen onNav={nav}/>,
+    reviews: <ReviewsScreen onNav={nav}/>,
+    ai: <AiScreen onNav={nav}/>,
+    order: <OrderScreen onNav={nav}/>,
+    notify: <NotifyScreen onNav={nav}/>
   };
-
-  const mainScreens = ["home","features_list","reviews","ai","order"];
 
   return (
     <div className="app">
-      <div className="screen" ref={scrollRef}>
-        {screens[screen] || screens.home}
-      </div>
-      {mainScreens.includes(screen) && (
+      <div className="screen">{screens[screen] || screens.home}</div>
+      {["home","features_list","reviews","ai","booking"].includes(screen) && (
         <nav className="bottom-nav">
-          {NAV_LEFT.map((item)=>(
-            <button key={item.screen} className={`nav-item ${screen===item.screen?"active":""}`} onClick={()=>nav(item.screen)}>
-              <div className="nav-icon-wrap"><IC n={item.icon} sz={24} c="currentColor"/></div>
-              <span className="nav-label">{item.label}</span>
-            </button>
-          ))}
-          
-          <div className="nav-center-wrap">
-            <button className="nav-center-btn" onClick={()=>nav("order")}>
-              <IC n="sparkle" sz={26} c="#fff"/>
-            </button>
-          </div>
-
-          {NAV_RIGHT.map((item)=>(
-            <button key={item.screen} className={`nav-item ${screen===item.screen?"active":""}`} onClick={()=>nav(item.screen)}>
-              <div className="nav-icon-wrap"><IC n={item.icon} sz={24} c="currentColor"/></div>
-              <span className="nav-label">{item.label}</span>
-            </button>
-          ))}
+          <button className={`nav-item ${screen==="home"?"active":""}`} onClick={()=>nav("home")}><IC n="home" sz={24}/><span className="nav-label">Головна</span></button>
+          <button className={`nav-item ${screen==="booking"?"active":""}`} onClick={()=>nav("booking")}><IC n="calendar" sz={24}/><span className="nav-label">Запис</span></button>
+          <div className="nav-center-wrap"><button className="nav-center-btn" onClick={()=>nav("order")}><IC n="sparkle" sz={26} c="#fff"/></button></div>
+          <button className={`nav-item ${screen==="reviews"?"active":""}`} onClick={()=>nav("reviews")}><IC n="star" sz={24}/><span className="nav-label">Відгуки</span></button>
+          <button className={`nav-item ${screen==="ai"?"active":""}`} onClick={()=>nav("ai")}><IC n="bot" sz={24}/><span className="nav-label">AI-чат</span></button>
         </nav>
       )}
     </div>
