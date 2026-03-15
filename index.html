@@ -51,8 +51,6 @@
   .tb-title{font-size:26px;font-weight:800;letter-spacing:-.04em;line-height:1.1;color:var(--text);}
   .tb-sub{font-size:13px;color:var(--text-2);font-weight:500;margin-top:3px;}
   .icon-btn{width:42px;height:42px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh);color:var(--text);}
-
-  /* HEADER BACK BTN */
   .back-btn-circle{width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:var(--sh);flex-shrink:0;cursor:pointer;color:var(--text);}
 
   /* CARDS */
@@ -103,7 +101,7 @@
   .time-slot{padding:13px;text-align:center;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-weight:700;color:var(--text);background:var(--surface);cursor:pointer;font-family:var(--font);}
   .time-slot.sel{border-color:var(--text);background:var(--text);color:#fff;}
 
-  /* ANIMATIONS & MISC */
+  /* ANIMATIONS & SUCCESS */
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--text);display:inline-block;animation:pulse 1.5s infinite;}
   .red-dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:#EF4444;border:2px solid var(--surface);}
@@ -118,7 +116,11 @@
   .prog-fill{height:100%;background:var(--text);border-radius:999px;transition:width .3s;}
   .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;margin-top:8px;}
   .sec-title{font-size:18px;font-weight:800;letter-spacing:-.03em;color:var(--text);}
-  .success-wrap{text-align:center;padding:48px 0 32px;}
+  
+  /* MINIMALIST SUCCESS */
+  .success-wrap-min{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 120px);padding:0 24px;text-align:center;}
+  .success-title-min{font-size:24px;font-weight:800;letter-spacing:-.03em;color:var(--text);margin-bottom:8px;}
+  .success-sub-min{font-size:15px;color:var(--text-2);line-height:1.6;font-weight:500;margin-bottom:40px;}
 
   /* TABS */
   .tabs{display:flex;background:var(--surface-alt);border-radius:14px;padding:3px;margin-bottom:20px;border:1px solid var(--border);}
@@ -143,9 +145,9 @@
 const {useState,useRef,useEffect,useCallback} = React;
 
 // --- НАЛАШТУВАННЯ АПІ ---
-const TG_BOT_TOKEN = "8643334892:AAGtmsf-JlULGVSx2GqNKeks5Orjv47yFjM"; 
+const TG_BOT_TOKEN = "8643334892:AAGxpcUAt--_QXx7qzJ910a2LeBWkSN1xSc"; 
 const TG_CHAT_ID = "-5200875067";   
-const apiKey = "AIzaSyAxP_IxU7MneBquLydQ2jQmFgT4ITBuSD0"; 
+const apiKey = ""; 
 
 // Санітаризація для Telegram HTML parse_mode
 const escapeHTML = (str) => {
@@ -196,7 +198,9 @@ const IC = ({n,sz=20,c="currentColor", style={}}) => {
     user:<><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
     heart:<><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></>,
     zap:<><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></>,
-    edit:<><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"/></>
+    edit:<><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"/></>,
+    plus:<><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></>,
+    info:<><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></>
   };
   return <svg width={sz} height={sz} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>{paths[n]}</svg>;
 };
@@ -214,12 +218,12 @@ const FEATURES = [
 ];
 
 const USE_CASES = [
-  {id:"psy", icon:"smile", title:"Психологи та коучи", sub:"Запис, сесії, матеріали, нагадування", desc:"Звільніть свій ресурс для роботи з клієнтами.", benefits:[{t:"Повна конфіденційність", d:"Клієнт записується сам, без зайвих питань у чаті."},{t:"Авто-відправка матеріалів", d:"PDF, тести чи медитації відправляються автоматично після сесії."},{t:"Нуль пропусків", d:"Нагадування в Telegram працюють краще за SMS."}]},
-  {id:"fit", icon:"activity", title:"Тренери та фітнес", sub:"Розклад тренувань, прогрес", desc:"Спортивний розклад, як годинник.", benefits:[{t:"Групові та соло тренування", d:"Зручний поділ на індивідуальні заняття та групи."},{t:"Облік абонементів", d:"Додаток сам нагадає клієнту, що залишилось 2 заняття."},{t:"Домашні завдання", d:"Відправка планів харчування або відео-тренувань."}]},
-  {id:"beauty", icon:"scissors", title:"Б'юті-майстри", sub:"Запис, портфоліо, відгуки", desc:"Ваш салон краси у кишені клієнта.", benefits:[{t:"Запис 24/7", d:"Клієнти записуються ввечері, коли ви вже відпочиваєте."},{t:"Портфоліо робіт", d:"Покажіть свої найкращі роботи прямо в меню додатку."},{t:"Повернення клієнтів", d:"Автоматичне нагадування 'Час оновити манікюр' через 3 тижні."}]},
-  {id:"tutor", icon:"book", title:"Репетитори", sub:"Розклад, матеріали", desc:"Автоматизація навчання та оплат.", benefits:[{t:"Синхронізація розкладу", d:"Студенти бачать лише вільні вікна."},{t:"Матеріали до уроку", d:"Автоматична відправка посилань на Zoom та конспектів."},{t:"Контроль оплат", d:"Відстеження хто оплатив заняття, а хто ні."}]},
-  {id:"med", icon:"heart", title:"Медицина та здоров'я", sub:"Запис, результати", desc:"Турбота про пацієнтів з першого кліку.", benefits:[{t:"Зручний вибір послуг", d:"Аналізи, консультації, процедури — все по поличках."},{t:"Підготовка до візиту", d:"Автоматична розсилка правил підготовки до аналізів/процедур."},{t:"Збір відгуків", d:"Контроль якості після візиту."}]},
-  {id:"food", icon:"coffee", title:"Ресторани та кафе", sub:"Меню, бронювання", desc:"Прямий канал продажів без комісій.", benefits:[{t:"Електронне меню", d:"Зручний вибір страв та оформлення замовлення."},{t:"Бронювання столиків", d:"Візуальна схема залу або просто вибір часу."},{t:"Програма лояльності", d:"Накопичення балів та акції для постійних гостей."}]},
+  {id:"psy", icon:"smile", title:"Психологи та коучи", sub:"Запис, сесії, матеріали, нагадування", desc:"Звільніть свій ресурс для роботи з клієнтами."},
+  {id:"fit", icon:"activity", title:"Тренери та фітнес", sub:"Розклад тренувань, абонементи, прогрес", desc:"Спортивний розклад, як годинник."},
+  {id:"beauty", icon:"scissors", title:"Б'юті-майстри", sub:"Запис, портфоліо, відгуки", desc:"Ваш салон краси у кишені клієнта."},
+  {id:"tutor", icon:"book", title:"Репетитори", sub:"Розклад, матеріали", desc:"Автоматизація навчання та оплат."},
+  {id:"med", icon:"heart", title:"Медицина та здоров'я", sub:"Запис, результати", desc:"Турбота про пацієнтів з першого кліку."},
+  {id:"food", icon:"coffee", title:"Ресторани та кафе", sub:"Меню, бронювання", desc:"Прямий канал продажів без комісій."},
 ];
 
 const REVIEWS = [
@@ -431,12 +435,12 @@ function BookingScreen({onNav}) {
   };
 
   if(step===3) return (
-    <div className="success-wrap fade-in">
+    <div className="success-wrap-min fade-in">
       <div style={{width:80,height:80,borderRadius:24,border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 24px"}}>
         <IC n="check" sz={40} c="var(--text)"/>
       </div>
-      <div style={{fontSize:24,fontWeight:800,letterSpacing:"-.03em",marginBottom:8}}>Запис підтверджено!</div>
-      <div style={{fontSize:15,color:"var(--text-2)",marginBottom:24,lineHeight:1.5,padding:"0 20px"}}>
+      <div className="success-title-min">Запис підтверджено!</div>
+      <div className="success-sub-min">
         Це демо-версія. Заявка нікуди не відправлялась, але у реальному додатку ви (власник) миттєво отримаєте таке сповіщення:
       </div>
 
@@ -457,7 +461,7 @@ function BookingScreen({onNav}) {
       <button className="btn btn-accent mt" style={{width: "calc(100% - 40px)", margin: "0 auto"}} onClick={()=>onNav("order")}>
         Хочу такий запис собі
       </button>
-      <button className="btn btn-ghost mt" style={{width: "calc(100% - 40px)", margin: "12px auto 0"}} onClick={()=>onNav("home")}>На головну</button>
+      <button className="btn btn-ghost mt" style={{width: "calc(100% - 40px)", margin: "12px auto 0", padding: "17px", border: "none", borderRadius: "var(--r-pill)", background: "transparent", color: "var(--text-2)", fontWeight: "700", cursor: "pointer"}} onClick={()=>onNav("home")}>На головну</button>
     </div>
   );
 
@@ -470,7 +474,7 @@ function BookingScreen({onNav}) {
         <div className="fade-in">
           <div style={{border:"1px solid var(--border)",borderRadius:"var(--r-sm)",padding:"16px",marginBottom:20, display:"flex", flexDirection:"column", gap:12}}>
             <div style={{fontSize:13,color:"var(--text)",fontWeight:600,display:"flex",gap:8,alignItems:"center"}}>
-              <IC n="sparkle" sz={16} c="var(--accent)"/>
+              <IC n="info" sz={18} c="var(--text)"/>
               Це демо. Ваші клієнти записуватимуться так само, обираючи формат, час та залишаючи контакти.
             </div>
           </div>
@@ -610,7 +614,7 @@ function SessionsScreen({onNav}) {
           <div key={b.id} className="card" style={{padding:18}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
               <div style={{fontWeight:800,fontSize:15}}>{b.date} о {b.time}</div>
-              <span className="badge"><IC n="check" sz={12} c="var(--text)"/> Підтверджено</span>
+              <span className="badge" style={{fontSize: 10, padding: '4px 8px', borderRadius: '8px', border: '1px solid var(--border)'}}><IC n="check" sz={12} c="var(--text)"/> Підтверджено</span>
             </div>
             <div style={{fontSize:13,color:"var(--text-2)",fontWeight:500,marginBottom:12}}>Формат: {b.format}</div>
             {b.name && <div style={{fontSize:13,color:"var(--text)",fontWeight:600, display: 'flex', alignItems: 'center', gap: '6px'}}><IC n="user" sz={14} c="var(--text-3)"/> {b.name}</div>}
@@ -628,10 +632,10 @@ function SessionsScreen({onNav}) {
         <div key={i} className="list-item">
           <div style={{width:46,height:46,borderRadius:14,border:'1px solid var(--border)',display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:18,fontWeight:800,color:'var(--text)'}}>{c.name[0]}</div>
           <div className="li-body">
-            <div className="li-title">{c.name}</div>
+            <div className="li-title">{c.name} <IC n="edit" sz={12} c="var(--text-3)" style={{marginLeft:6}}/></div>
             <div className="li-sub">{c.sessions} сесій · Остання: {c.last}</div>
           </div>
-          <span className="badge" style={{color:'var(--text)'}}>{c.status}</span>
+          <span className="badge" style={{color:'var(--text)', fontSize: 10, padding: '4px 8px', borderRadius: '8px', border: '1px solid var(--border)'}}>{c.status}</span>
         </div>
       ))}
     </div>
@@ -715,23 +719,16 @@ function AiScreen({onNav}) {
     const txt = (text || input).trim(); if (!txt || loading) return;
     setInput(""); setMsgs([...msgs, {role:"user", text:txt}]); setLoading(true);
     try {
-      const apiMsgs = [];
-      const history = msgs.concat({role:"user", text:txt}).slice(1);
-      for (const m of history) {
-        const role = m.role === "bot" ? "model" : "user";
-        if (apiMsgs.length > 0 && apiMsgs[apiMsgs.length - 1].role === role) {
-          apiMsgs[apiMsgs.length - 1].parts[0].text += "\n\n" + m.text;
-        } else {
-          apiMsgs.push({ role, parts: [{ text: m.text }] });
-        }
-      }
+      const apiMsgs = msgs.concat({role:"user", text:txt}).map(m => ({
+          role: m.role === "bot" ? "model" : "user",
+          parts: [{ text: m.text }]
+      }));
       const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
         method: "POST", headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({ contents: apiMsgs, systemInstruction: {parts:[{text: "Ти асистент для Telegram Mini App. Відповідай українською, лаконічно, з емодзі. Форматуй текст **жирним**."}]} })
+        body: JSON.stringify({ contents: apiMsgs, systemInstruction: {parts:[{text: "Ти асистент для Telegram Mini App. Відповідай українською, лаконічно. КАТЕГОРИЧНО заборонено використовувати будь-які емодзі. Використовуй тільки звичайний текст."}]} })
       });
       const data = await res.json();
-      const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Вибачте, виникла помилка.";
-      setMsgs(prev=>[...prev, {role:"bot", text:reply}]);
+      setMsgs(prev=>[...prev, {role:"bot", text:data?.candidates?.[0]?.content?.parts?.[0]?.text || "Вибачте, виникла помилка."}]);
     } catch (e) { setMsgs(prev=>[...prev, {role:"bot", text:"Спробуйте пізніше."}]); }
     finally { setLoading(false); }
   };
@@ -771,97 +768,105 @@ function AiScreen({onNav}) {
 function OrderScreen({onNav}) {
   const [form,setForm]=useState({name:"",telegram:"",business:""});
   const [plan,setPlan]=useState("pro");
-  const [sending,setSending]=useState(false); const [done,setDone]=useState(false);
+  const [sending,setSending]=useState(false); 
+  const [done,setDone]=useState(false);
 
   const submit = async () => {
     setSending(true);
-    const tg = window.Telegram?.WebApp; const u = tg?.initDataUnsafe?.user;
-    const tgProfile = u?.id ? `<a href="tg://user?id=${u.id}">${escapeHTML(u.first_name)}</a>` : "Браузер";
-    const planName = PLANS.find(p=>p.id===plan)?.name || plan;
-    const msg = `🚀 <b>НОВА ЗАЯВКА НА ДОДАТОК</b>\n\n👤 Ім'я: ${escapeHTML(form.name)}\n📞 Телеграм: ${escapeHTML(form.telegram)}\n💼 Бізнес: ${escapeHTML(form.business)}\n📦 Тариф: ${planName}\n📱 Профіль: ${tgProfile}`;
-    await sendTelegramMessage(msg);
-    await new Promise(r=>setTimeout(r,800)); setSending(false); setDone(true);
+    
+    const tg = window.Telegram?.WebApp;
+    const u = tg?.initDataUnsafe?.user;
+    
+    let tgProfile = "Браузер (не в Telegram)";
+    if (u) {
+      if (u.username) {
+        tgProfile = `@${u.username}`;
+      } else {
+        tgProfile = `<a href="tg://user?id=${u.id}">${escapeHTML(u.first_name)}</a>`;
+      }
+    }
+
+    const planName = PLANS.find(p => p.id === plan)?.name || "Pro";
+    
+    const msg = `🚀 <b>НОВА ЗАЯВКА НА ДОДАТОК</b>\n\n` +
+                `👤 <b>Ім'я:</b> ${escapeHTML(form.name)}\n` +
+                `📞 <b>Введений контакт:</b> ${escapeHTML(form.telegram)}\n` +
+                `💼 <b>Бізнес:</b> ${escapeHTML(form.business)}\n` +
+                `📦 <b>Тариф:</b> ${planName}\n` +
+                `📱 <b>Телеграм юзер:</b> ${tgProfile}`;
+
+    await sendTelegramMessage(msg); 
+    setSending(false);
+    setDone(true);
   };
 
   if (done) return (
-    <div className="fade-in" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100vh - 100px)', padding: '0 24px', textAlign: 'center'}}>
-      <div style={{width: 72, height: 72, borderRadius: '24px', border: '1px solid var(--border)', background: 'var(--surface)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--sh)'}}>
+    <div className="success-wrap-min fade-in">
+      <div style={{width: 72, height: 72, borderRadius: '24px', border: '1.5px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--sh)'}}>
         <IC n="check" sz={36} c="var(--text)"/>
       </div>
-      <div style={{fontSize: 24, fontWeight: 800, letterSpacing: '-.03em', color: 'var(--text)', marginBottom: 8}}>Дякуємо!</div>
-      <div style={{fontSize: 15, color: 'var(--text-2)', lineHeight: 1.5, marginBottom: 32}}>
-        Ми отримали вашу заявку і скоро зв'яжемось з вами.
-      </div>
+      <div className="success-title-min">Дякуємо!</div>
+      <div className="success-sub-min"> Ми отримали вашу заявку і скоро зв'яжемось з вами.</div>
       <button className="btn btn-primary" style={{width: '100%'}} onClick={()=>onNav("home")}>На головну</button>
     </div>
   );
 
   return (
     <div className="fade-in">
-      <Header onBack={()=>onNav("home")} title="Замовити додаток" />
-      
-      <div style={{fontSize:13,fontWeight:700,color:"var(--text-2)",marginBottom:20,lineHeight:1.6}}>
-        Оберіть тариф або напишіть у формі нижче — я підберу оптимальне рішення для вашого бізнесу.
-      </div>
-      {PLANS.map(p=>(
-        <div key={p.id} className={`plan-card ${plan===p.id?"selected":""}`} onClick={()=>setPlan(p.id)}>
-          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
-            {p.hot && <span style={{border:'1px solid var(--text)',color:'var(--text)',fontSize:10,fontWeight:800,padding:"3px 8px",borderRadius:"999px"}}>ПОПУЛЯРНЕ</span>}
-            <div style={{fontSize:17,fontWeight:800,color:'var(--text)',flex:1}}>{p.name}</div>
-            <div className="plan-check">{plan===p.id && <IC n="check" sz={12} c="#fff"/>}</div>
-          </div>
-          <div style={{fontSize:22,fontWeight:800,color:'var(--text)',letterSpacing:"-.03em",marginBottom:6}}>{p.price}</div>
-          <div style={{fontSize:13,color:'var(--text-2)',fontWeight:500,marginBottom:12}}>{p.desc}</div>
-          {p.features.map((f,i)=>(
-            <div key={i} style={{fontSize:13,fontWeight:500,color:'var(--text-2)',display:"flex",gap:6,alignItems:"center",paddingTop:4}}>
-              <IC n="check" sz={14} c="var(--text)"/>{f}
+      <Header onBack={()=>onNav("home")} title="Замовити" />
+      <div style={{marginBottom: 20}}>
+        {PLANS.map(p=>(
+          <div key={p.id} className={`plan-card ${plan===p.id?"selected":""}`} onClick={()=>setPlan(p.id)}>
+            <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+              {p.hot && <span style={{border:'1px solid var(--text)',color:'var(--text)',fontSize:10,fontWeight:800,padding:"3px 8px",borderRadius:"999px"}}>ПОПУЛЯРНЕ</span>}
+              <div style={{fontSize:17,fontWeight:800,color:'var(--text)',flex:1}}>{p.name}</div>
+              <div className="plan-check">{plan===p.id && <IC n="check" sz={12} c="#fff"/>}</div>
             </div>
-          ))}
-        </div>
-      ))}
-
-      <label className="field-label">Ваше ім'я</label>
-      <input className="field" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Ім'я"/>
-      <label className="field-label">Telegram для зв'язку</label>
-      <input className="field" value={form.telegram} onChange={e=>setForm({...form,telegram:e.target.value})} placeholder="@username"/>
-      <label className="field-label">Ваша ніша</label>
-      <input className="field" value={form.business} onChange={e=>setForm({...form,business:e.target.value})} placeholder="Бізнес"/>
-      
+            <div style={{fontSize:22,fontWeight:800,color:'var(--text)',marginBottom:6}}>{p.price}</div>
+            <div style={{fontSize:13,color:'var(--text-2)',fontWeight:500,marginBottom:12}}>{p.desc}</div>
+            {p.features.map((f,i)=>(
+              <div key={i} style={{fontSize:13,fontWeight:500,color:'var(--text-2)',display:"flex",gap:6,alignItems:"center",paddingTop:4}}>
+                <IC n="check" sz={14} c="var(--text)"/>{f}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <label className="field-label">Ваше ім'я</label><input className="field" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Ім'я"/>
+      <label className="field-label">Telegram</label><input className="field" value={form.telegram} onChange={e=>setForm({...form,telegram:e.target.value})} placeholder="@username"/>
+      <label className="field-label">Ваша ніша</label><input className="field" value={form.business} onChange={e=>setForm({...form,business:e.target.value})} placeholder="Бізнес"/>
       <button className="btn btn-accent mt" style={{marginTop: 20}} disabled={!form.name||!form.telegram||sending} onClick={submit}>{sending?"Відправка...":"Замовити"}</button>
     </div>
   );
 }
 
-// ─────────────────────────────────────────
-//  MAIN APP
-// ─────────────────────────────────────────
 function App() {
   const [screen,setScreen]=useState("home"); const [params,setParams]=useState({});
-  const nav = (s,p={}) => { setScreen(s); setParams(p); };
+  const nav = (s,p={}) => { setScreen(s); setParams(p); window.scrollTo(0,0); };
 
   const screens = {
     home: <HomeScreen onNav={nav}/>,
-    features_list: <FeaturesListScreen onNav={nav}/>,
-    feature: <FeatureScreen onNav={nav} params={params}/>,
-    niche: <NicheScreen onNav={nav} params={params}/>,
     booking: <BookingScreen onNav={nav}/>,
-    sessions: <SessionsScreen onNav={nav}/>,
-    reviews: <ReviewsScreen onNav={nav}/>,
     ai: <AiScreen onNav={nav}/>,
     order: <OrderScreen onNav={nav}/>,
-    notify: <NotifyScreen onNav={nav}/>
+    sessions: <SessionsScreen onNav={nav}/>,
+    notify: <NotifyScreen onNav={nav}/>,
+    reviews: <ReviewsScreen onNav={nav}/>,
+    features_list: <FeaturesListScreen onNav={nav}/>,
+    feature: <FeatureScreen onNav={nav} params={params}/>,
+    niche: <NicheScreen onNav={nav} params={params}/>
   };
 
   return (
     <div className="app">
       <div className="screen">{screens[screen] || screens.home}</div>
-      {["home","features_list","reviews","ai","booking"].includes(screen) && (
+      {["home","booking","ai","order", "reviews", "features_list"].includes(screen) && (
         <nav className="bottom-nav">
           <button className={`nav-item ${screen==="home"?"active":""}`} onClick={()=>nav("home")}><IC n="home" sz={24}/><span className="nav-label">Головна</span></button>
           <button className={`nav-item ${screen==="booking"?"active":""}`} onClick={()=>nav("booking")}><IC n="calendar" sz={24}/><span className="nav-label">Запис</span></button>
           <div className="nav-center-wrap"><button className="nav-center-btn" onClick={()=>nav("order")}><IC n="sparkle" sz={26} c="#fff"/></button></div>
-          <button className={`nav-item ${screen==="reviews"?"active":""}`} onClick={()=>nav("reviews")}><IC n="star" sz={24}/><span className="nav-label">Відгуки</span></button>
           <button className={`nav-item ${screen==="ai"?"active":""}`} onClick={()=>nav("ai")}><IC n="bot" sz={24}/><span className="nav-label">AI-чат</span></button>
+          <button className={`nav-item ${screen==="reviews"?"active":""}`} onClick={()=>nav("reviews")}><IC n="star" sz={24}/><span className="nav-label">Відгуки</span></button>
         </nav>
       )}
     </div>
