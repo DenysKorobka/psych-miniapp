@@ -28,15 +28,22 @@
     --sh2:0 8px 32px rgba(0,0,0,.10);
     --font:'Plus Jakarta Sans',-apple-system,sans-serif;
     --r:20px;--r-sm:14px;--r-pill:999px;
+    --app-height: 100vh; /* Динамічна висота для адаптації клавіатури */
   }
 
-  html,body,#root{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  /* Жорстко фіксуємо скрол на рівні body, щоб не було скачків всієї сторінки */
+  html,body,#root{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow:hidden;}
 
-  .app{max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background: radial-gradient(circle at 50% 0%, #E0F2FE 0%, var(--bg) 50%); position:relative;}
-  .screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 20px 100px;-webkit-overflow-scrolling:touch;}
+  .app{max-width:430px;margin:0 auto;height:var(--app-height);display:flex;flex-direction:column;background: radial-gradient(circle at 50% 0%, #E0F2FE 0%, var(--bg) 50%); position:relative;overflow:hidden;}
+  
+  /* Контейнер сторінки, який сам адаптує свій розмір */
+  .screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 20px 90px;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;transition:padding 0.3s ease;}
+  .screen.kb-open{padding-bottom:20px;} /* Забираємо нижній відступ, коли відкрита клавіатура */
 
   /* NAV */
-  .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--surface);border-top:1px solid var(--border);border-radius:24px 24px 0 0;display:flex;align-items:flex-end;justify-content:space-between;height:70px;padding:0 12px;padding-bottom:env(safe-area-inset-bottom);z-index:100;box-shadow:0 -4px 24px rgba(0,0,0,.04);}
+  .bottom-nav{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--surface);border-top:1px solid var(--border);border-radius:24px 24px 0 0;display:flex;align-items:flex-end;justify-content:space-between;height:70px;padding:0 12px;padding-bottom:env(safe-area-inset-bottom);z-index:100;box-shadow:0 -4px 24px rgba(0,0,0,.04);transition:transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);}
+  .bottom-nav.hidden{transform:translate(-50%, 150%);} /* Ховаємо меню під екран */
+  
   .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;background:none;border:none;cursor:pointer;color:var(--text-3);font-family:var(--font);padding-bottom:12px;height:100%;transition:color .15s;}
   .nav-item.active{color:var(--accent);}
   .nav-icon-wrap{width:28px;height:28px;display:flex;align-items:center;justify-content:center;margin-bottom:2px;transition:transform .2s;}
@@ -79,7 +86,7 @@
   textarea.field{resize:none;}
 
   /* CHAT */
-  .chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 76px);}
+  .chat-wrap{display:flex;flex-direction:column;flex:1;min-height:0;} /* Тягнеться на всю висоту екрану */
   .chat-scroll{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:16px 0;}
   .bubble{max-width:84%;padding:13px 17px;border-radius:18px;font-size:14px;line-height:1.6;font-weight:500;}
   .b-bot{background:var(--surface);color:var(--text);border-bottom-left-radius:4px;box-shadow:var(--sh);border:1px solid var(--border);}
@@ -118,7 +125,7 @@
   .sec-title{font-size:18px;font-weight:800;letter-spacing:-.03em;color:var(--text);}
   
   /* MINIMALIST SUCCESS */
-  .success-wrap-min{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 120px);padding:0 24px;text-align:center;}
+  .success-wrap-min{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:0 24px;text-align:center;}
   .success-title-min{font-size:24px;font-weight:800;letter-spacing:-.03em;color:var(--text);margin-bottom:8px;}
   .success-sub-min{font-size:15px;color:var(--text-2);line-height:1.6;font-weight:500;margin-bottom:40px;}
 
@@ -223,7 +230,7 @@ const USE_CASES = [
   {id:"beauty", icon:"scissors", title:"Б'юті-майстри", sub:"Запис, портфоліо, відгуки", desc:"Ваш салон краси у кишені клієнта.", benefits:[{t:"Запис 24/7", d:"Клієнти записуються ввечері, коли ви вже відпочиваєте."},{t:"Портфоліо робіт", d:"Покажіть свої найкращі роботи прямо в меню додатку."},{t:"Повернення клієнтів", d:"Автоматичне нагадування 'Час оновити манікюр' через 3 тижні."}]},
   {id:"tutor", icon:"book", title:"Репетитори", sub:"Розклад, матеріали", desc:"Автоматизація навчання та оплат.", benefits:[{t:"Синхронізація розкладу", d:"Студенти бачать лише вільні вікна."},{t:"Матеріали до уроку", d:"Автоматична відправка посилань на Zoom та конспектів."},{t:"Контроль оплат", d:"Відстеження хто оплатив заняття, а хто ні."}]},
   {id:"med", icon:"heart", title:"Медицина та здоров'я", sub:"Запис, результати", desc:"Турбота про пацієнтів з першого кліку.", benefits:[{t:"Зручний вибір послуг", d:"Аналізи, консультації, процедури — все по поличках."},{t:"Підготовка до візиту", d:"Автоматична розсилка правил підготовки до аналізів/процедур."},{t:"Збір відгуків", d:"Контроль якості після візиту."}]},
-  {id:"food", icon:"coffee", title:"Ресторани та кафе", sub:"Меню, бронювання", desc:"Прямий канал продажів без комісій.", benefits:[{t:"Електронне меню", d:"Зручний вибір страв та оформлення замовлення."},{t:"Бронювання столиків", d:"Візуальна схема залу або просто вибір часу."},{t:"Програма лояльності", d:"Накопичення балів та акції для постійних гостей."}]},
+  {id:"food", icon:"coffee", title:"Ресторани та кафе", sub:"Меню, бронювання", desc:"Прямий канал продажів без комісій.", benefits:[{t:"Електрон меню", d:"Зручний вибір страв та оформлення замовлення."},{t:"Бронювання столиків", d:"Візуальна схема залу або просто вибір часу."},{t:"Програма лояльності", d:"Накопичення балів та акції для постійних гостей."}]},
 ];
 
 const REVIEWS = [
@@ -288,12 +295,10 @@ function HomeScreen({onNav}) {
       <div style={{ position: 'relative', marginTop: '10px', marginBottom: '32px' }}>
         <div style={{ width: '120px', height: '120px', borderRadius: '50%', overflow: 'hidden', position: 'relative', zIndex: 2, margin: '0 auto', border: '5px solid var(--bg)', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', background: 'var(--surface)' }}>
           
-          {/* Запасна літера на задньому фоні */}
           <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '48px', fontWeight: '800', color: 'var(--text)' }}>
             {initial}
           </div>
 
-          {/* Фото з Telegram (з налаштуванням referrerPolicy для обходу блокування на iOS) */}
           {user?.photo_url && !imgError && (
             <img 
               src={user.photo_url} 
@@ -444,7 +449,6 @@ function BookingScreen({onNav}) {
 
   const confirm = async () => {
     setSending(true);
-    // Імітація відправки (щоб клієнт побачив лише візуалізацію)
     saveBooking({...data, id:Date.now(), status:"upcoming", created:new Date().toLocaleDateString("uk-UA")});
     await new Promise(r=>setTimeout(r,800)); 
     setSending(false); 
@@ -762,7 +766,7 @@ function AiScreen({onNav}) {
   return (
     <div className="chat-wrap fade-in">
       <Header onBack={()=>onNav("home")} title="AI Асистент" sub="Онлайн 24/7" icon="bot" />
-      <div style={{background:"var(--surface-alt)", padding:12, borderRadius:12, margin:"0 16px 16px", fontSize:13, border: "1px solid var(--border)"}}>Такий помічник може бути вбудований у ваш власний додаток.</div>
+      <div style={{background:"var(--surface-alt)", padding:12, borderRadius:12, margin:"0 16px 16px", fontSize:13, border: "1px solid var(--border)", flexShrink:0}}>Такий помічник може бути вбудований у ваш власний додаток.</div>
       <div className="chat-scroll" style={{padding:"0 16px 16px"}}>
         {msgs.map((m,i)=>(
           <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start"}}>
@@ -783,7 +787,7 @@ function AiScreen({onNav}) {
         ))}
       </div>
 
-      <div className="chat-bar" style={{padding:"10px 16px"}}>
+      <div className="chat-bar" style={{padding:"10px 16px", flexShrink:0}}>
         <input className="chat-input" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Питання..." />
         <button className="send-btn" onClick={()=>send()} disabled={!input.trim()||loading}><IC n="send" sz={18} c="#fff"/></button>
       </div>
@@ -868,7 +872,65 @@ function OrderScreen({onNav}) {
 
 function App() {
   const [screen,setScreen]=useState("home"); const [params,setParams]=useState({});
+  const [isKbOpen, setIsKbOpen] = useState(false);
+
   const nav = (s,p={}) => { setScreen(s); setParams(p); window.scrollTo(0,0); };
+
+  // Глобальний обробник для клавіатури і динамічної висоти
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.expand(); // Відкриваємо на весь екран при старті
+    }
+
+    const updateHeight = () => {
+      // Підлаштовуємо висоту під доступне вікно (актуально, коли клавіатура зменшує екран)
+      if (tg && tg.viewportHeight) {
+        document.documentElement.style.setProperty('--app-height', `${tg.viewportHeight}px`);
+      } else if (window.visualViewport) {
+        document.documentElement.style.setProperty('--app-height', `${window.visualViewport.height}px`);
+      } else {
+        document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+      }
+    };
+
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', updateHeight);
+    if (tg) tg.onEvent('viewportChanged', updateHeight);
+
+    // Автоматичне приховування меню та плавний скрол при натисканні на поля вводу
+    const handleFocusIn = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        setIsKbOpen(true);
+        setTimeout(() => {
+          // Чат-поле залишаємо знизу, інші поля центруємо
+          if (e.target.classList.contains('chat-input')) {
+            e.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } else {
+            e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 150);
+      }
+    };
+    
+    const handleFocusOut = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        setIsKbOpen(false);
+      }
+    };
+
+    window.addEventListener('focusin', handleFocusIn);
+    window.addEventListener('focusout', handleFocusOut);
+
+    return () => {
+      window.removeEventListener('resize', updateHeight);
+      if (window.visualViewport) window.visualViewport.removeEventListener('resize', updateHeight);
+      if (tg) tg.offEvent('viewportChanged', updateHeight);
+      window.removeEventListener('focusin', handleFocusIn);
+      window.removeEventListener('focusout', handleFocusOut);
+    };
+  }, []);
 
   const screens = {
     home: <HomeScreen onNav={nav}/>,
@@ -885,9 +947,11 @@ function App() {
 
   return (
     <div className="app">
-      <div className="screen">{screens[screen] || screens.home}</div>
+      <div className={`screen ${isKbOpen ? 'kb-open' : ''}`}>
+        {screens[screen] || screens.home}
+      </div>
       {["home","booking","ai","order", "reviews", "features_list"].includes(screen) && (
-        <nav className="bottom-nav">
+        <nav className={`bottom-nav ${isKbOpen ? 'hidden' : ''}`}>
           <button className={`nav-item ${screen==="home"?"active":""}`} onClick={()=>nav("home")}><IC n="home" sz={24}/><span className="nav-label">Головна</span></button>
           <button className={`nav-item ${screen==="booking"?"active":""}`} onClick={()=>nav("booking")}><IC n="calendar" sz={24}/><span className="nav-label">Запис</span></button>
           <div className="nav-center-wrap"><button className="nav-center-btn" onClick={()=>nav("order")}><IC n="sparkle" sz={26} c="#fff"/></button></div>
